@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="EscapeDBUsage.Views.ConnectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EscapeDBUsage.Views"
+             
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="300" Height="420" Width="420"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             >
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="48" Margin="10,10,0,0" VerticalAlignment="Top" Width="48" Source="/EscapeDBUsage;component/Images/connect.png"/>
+        <Label Content="Server Name:" HorizontalAlignment="Left" Margin="10,63,0,0" VerticalAlignment="Top" Width="170"/>
+        <TextBox IsEnabled="{Binding IsEnabled}" Padding="2" Height="23" Margin="185,63,10,0" TextWrapping="Wrap" Text="{Binding DbConnection.ServerName}" VerticalAlignment="Top"/>
+        <Label Content="Connection to Database" Margin="63,10,10,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Login:" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Width="170"/>
+        <TextBox IsEnabled="{Binding IsEnabled}" Padding="2" Height="23" Margin="185,91,10,0" TextWrapping="Wrap" Text="{Binding DbConnection.Login}" VerticalAlignment="Top"/>
+        <Label Content="Password:" HorizontalAlignment="Left" Margin="10,122,0,0" VerticalAlignment="Top" Width="170"/>
+        <Label Content="Database:" HorizontalAlignment="Left" Margin="10,184,0,0" VerticalAlignment="Top" Width="64"/>
+        <PasswordBox IsEnabled="{Binding IsEnabled}" Name="Password" Margin="185,127,10,0" VerticalAlignment="Top" PasswordChar="·">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PasswordChanged">
+                    <i:InvokeCommandAction Command="{Binding PasswordChanged}" CommandParameter="{Binding ElementName=Password}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </PasswordBox>
+        <ComboBox IsEnabled="{Binding IsConnected}" Margin="79,184,10,0" VerticalAlignment="Top" ItemsSource="{Binding Databases}" SelectedItem="{Binding SelectedDatabase, Mode=TwoWay}" FontWeight="Bold"/>
+        <Button IsEnabled="{Binding IsEnabled}" Content="Connect" Margin="0,150,10,0" VerticalAlignment="Top" Height="29" HorizontalAlignment="Right" Width="122" Command="{Binding Connect}" Background="#FF467A44" IsDefault="True"/>
+        <Button IsEnabled="{Binding IsConnected}" Content="OK" Margin="0,0,137,10" VerticalAlignment="Bottom" Height="29" HorizontalAlignment="Right" Width="122" Command="{Binding Ok}" Background="#FF79AE54" IsCancel="True"/>
+        <Button Content="Cancel" Margin="0,0,10,10" VerticalAlignment="Bottom" Height="29" HorizontalAlignment="Right" Width="122" IsCancel="True" Command="{Binding Cancel}"/>
+        <Label Content="Message:" HorizontalAlignment="Left" Margin="10,215,0,0" VerticalAlignment="Top" Width="64"/>
+        <TextBlock Margin="79,215,10,44" Padding="6" TextWrapping="Wrap" Text="{Binding Message}" FontWeight="Bold" Foreground="{Binding Error, Converter={StaticResource ErrorToColor}}"/>
+        <ProgressBar IsIndeterminate="{Binding IsConnecting}" BorderThickness="0" Background="Transparent" Height="10" Margin="10,169,137,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</UserControl>

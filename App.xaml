@@ -1,0 +1,68 @@
+﻿<Application x:Class="EscapeDBUsage.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:EscapeDBUsage"
+             xmlns:converters="clr-namespace:EscapeDBUsage.Converters"
+             xmlns:behaviours="clr-namespace:EscapeDBUsage.Behaviours"
+             >
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/Accents/Green.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/Colors/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <converters:BoolToVisibilityConverter x:Key="VisibilityConverter" />
+            <converters:XxxImageSourceConverter x:Key="ImageFromSourceConverter" />
+            <converters:ErrorToColorConverter x:Key="ErrorToColor" />
+            <converters:PercentageConverter x:Key="PercentageConverter" />
+
+            <!--Icons-->
+            <BitmapImage UriSource="/Images/sprints.png" x:Key="i-sprint" />
+            <BitmapImage UriSource="/Images/load.png" x:Key="i-load" />
+            <BitmapImage UriSource="/Images/save.png" x:Key="i-save" />
+            <BitmapImage UriSource="/Images/log.png" x:Key="i-log" />
+            <BitmapImage UriSource="/Images/folder.png" x:Key="i-folder" />
+            <BitmapImage UriSource="/Images/expand-all.png" x:Key="i-expand" />
+            <BitmapImage UriSource="/Images/collapse-all.png" x:Key="i-collapse" />
+            <BitmapImage UriSource="/Images/excel.png" x:Key="i-excel" />
+            <BitmapImage UriSource="/Images/erase.png" x:Key="i-erase" />
+            <BitmapImage UriSource="/Images/refresh.png" x:Key="i-refresh" />
+            <BitmapImage UriSource="/Images/connect.png" x:Key="i-connect" />
+            <BitmapImage UriSource="/Images/load-db-schema.png" x:Key="i-load-db-schema" />
+            <BitmapImage UriSource="/Images/db-structure-expand-all.png" x:Key="i-schema-expand" />
+            <BitmapImage UriSource="/Images/db-structure-collapse-all.png" x:Key="i-schema-collapse" />
+            <BitmapImage UriSource="/Images/zoom-in.png" x:Key="i-zoom-in" />
+            <BitmapImage UriSource="/Images/zoom-out.png" x:Key="i-zoom-out" />
+            
+            <Style TargetType="{x:Type Window}" x:Key="ModalWindow">
+                <Setter Property="ResizeMode" Value="NoResize" />
+                <Setter Property="WindowStyle" Value="ToolWindow" />
+                <!--<Style.Triggers>
+                    <DataTrigger Binding="{Binding CloseSignal}" Value="True">
+                        <Setter Property="behaviours:WindowCloseBehaviour.Close" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ShowSignal}" Value="True">
+                        <Setter Property="behaviours:WindowShowBehaviour.Show" Value="True" />
+                    </DataTrigger>
+                </Style.Triggers>-->
+            </Style>
+
+            <Style BasedOn="{StaticResource ModalWindow}" TargetType="{x:Type Window}" x:Key="ConnectWindow">
+                <Setter Property="Width" Value="460" />
+                <Setter Property="Height" Value="460" />
+            </Style>
+
+
+            <Style BasedOn="{StaticResource ModalWindow}" TargetType="{x:Type Window}" x:Key="AddTablesAndColumnsWindow">
+                <Setter Property="Width" Value="1024" />
+                <Setter Property="Height" Value="720" />
+                <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+            </Style>
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>

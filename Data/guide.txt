@@ -1,0 +1,461 @@
+#Location - Location refers to depots, breweries and other logistics sites.  Please note that breweries must have 2 locations; one for the production plant, and one for the depot.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record
+Name - a short unique code to identify the location (usually the SAP plant code)
+Description - a longer more descriptive name for the location
+Short Code - the short description for the plant 
+Location Type - describes the type of location: BREW - brewery (production part of the brewery), BDEP - wet depot (depot part of the brewery), DEP - dry depot, EXTW - external or buffer warehouse
+Country - short code to identify the country referred to. Not currently used
+Max Fixed Inventory Fulls [Pallet cubes] - the number of standard full-size pallets (called pallet cubes) that can be stored in the warehouse.
+Max Fixed Inventory Empties [Pallet cubes] - the number of standard full-size pallets (called pallet cubes) that can be stored in the yard - this is for empty containers only.
+Max Fixed Inventory Cellars[Hl] - total volume of liquid that can be stored in cellars (FV, SV and BBT)
+Max Inventory FV [Hl] - this is the maximum volume of liquid that can be stored in the FV cellar (assuming all combi vessels are configured as FVs)
+Max Inventory SV [Hl] - this is the maximum volume of liquid that can be stored in the SV cellar (assuming all combi vessels are configured as SVs)
+Max Inventory FVSV [Hl] - this is the maximum volume of liquid that can be stored in the FV and SV cellars.
+Max Inventory BBT [Hl] - this is the maximum volume of liquid that can be stored in the bright beer tanks
+Throughput [Hl/wk] - this value represents warehouse handling capacity and is a simple value to show how much volume of sales, interdepot in and out, and deliveries a site can handle (in Hl per week)
+Cellars - a short unique code to identify the cellars at this site (if needed, otherwise empty)
+Stock Location - the Name of the location where production output is placed (usually the wet depot associated with this brewery)
+Holding Cost Factor - this value is no longer used and can be left blank.
+
+#Ferment Beer - Ferment beer is the term used to describe beer in Cellars and covers fermenting (FV) beer and maturing (SV) beer.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Name - a short unique code to identify the ferment beer (usually the SAP material number).
+Description - a longer more descriptive name for the beer.
+Short Code - the short description for the material.
+Brand - the brand name of the beer.
+<Brewhouse name and location> - the remaining columns show each of the brewhouses that have been configured in the system.  Placing a ‘y’ in the column adds a record in the Brewhouse Process table as well as the ferment beer at location table , while a blank cell will result in the deletion of the record in the Brewhouse Process table, if it exists.  Be careful when using this function as you can potentially make a mess of the Brewhouse Process data!  If you have added a value, be sure to go to the Brewhouse Process table afterwards to finish populating the record.
+
+#Bright Beer - This is beer that has been filtered and is ready for packaging.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Name - a short unique code to identify the bright beer (usually the SAP material number).
+Description - a longer more descriptive name for the beer.
+Short Code - the short description for the material.
+Brand - the brand name of the beer.
+<Filter name and location> - the remaining columns show each of the filters that have been configured in the system.  Placing a ‘y’ in the column adds a record in the Filter Process table, while a blank cell will result in the deletion of the record in the Filter Process table, if it exists.  Be careful when using this function as you can potentially make a mess of the Filter Process data!  If you have added a value, be sure to go to the Filter Process table afterwards to finish populating the record.
+
+#Yeast - While yeast is not actively planned in the system, it is used to constrain the ramp-up of brewing.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Name - a short unique code to identify the yeast (usually the SAP material number).
+Description - a longer more descriptive name for the yeast.
+Short Code - the short description for the material.
+
+#SKU - Finished goods (including tank beer)
+Active -  ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record..
+Name - a short unique code to identify the SKU (usually the SAP material number).
+Description - a longer more descriptive name for the SKU.
+Short Code - the short description for the material.
+Brand - the brand name of the beer.
+Pack - a short code used to describe the pack.  This is free text, so ensure the format is consistent across all SKUs. Used for reporting.
+Pack Type - a short code used to describe the pack type, usually KEG, CAN, NRB, RG or PET.  This is free text, so ensure the format is consistent across all SKUs. Used for reporting.
+Configuration - additional free text to describe the SKU pack configuration.
+Variant - additional free text to describe the SKU format.
+Core SKU - if this is a promotional SKU, then this is the code of the SKU that this is a variant of.  If this is a base/standard SKU then this would be the same as the SKU code.  (Used with the substitution functionality).
+CEB/Keg - if this is a returnable SKU, then this is the code of the CEB (crate full of empty bottles) or keg used.  This is used to define the empty container that comes back from the trade, and could be different to the container ion the BOM.
+Crate - if this is a returnable bottle SKU, then this is the code of the crate used.  Again, it defines the empty crate that would come back from the trade.
+Pallet - the code of the pallet used.
+HL per Pallet [Hl] - volume of beer in Hl on each pallet.
+Cases per Hl - number of cases in Hl.
+Standard Cost - standard cost of this SKU, used as a basis for calculation of other values. (This is the average of the SKU at Location Std Cost value)
+Weight per Pallet [kg] - weight of each SKU per pallet
+Stacking Height - number of pallets that can be stacked during transportation 
+Pallets per Truck - number of pallets that can be transported on a standard inter-depot truck.
+Min Cover [days] - the default stock standard (in days of forward cover) for this SKU.
+Min Cover [weeks] - the default stock standard (in days of forward cover) for this.
+Max Age [days] - the default maximum stock age (in days) for this SKU.
+Market - Type of market, DOM - domestic, EXP - Export, IMP - Import
+Promo - Promotion yes or no 
+<Packline name and location> - the remaining columns show each of the packaging lines that have been configured in the system.  Placing a value in the column adds a record in the Packaging Process table with the value as packaging rate in Hl/hr, while a blank cell will result in the deletion of the record in the Packaging Process table, if it exists.  Be careful when using this function as you can potentially make a mess of the Packaging Process data!  If you have added a value, be sure to go to the Packaging Process table afterwards to finish populating the record. You cannot change the rate from this screen, since there may be multiple process records with different valid periods and different rates.  The value is only used when adding records, since there may be multiple process records with different valid periods and different rates.	
+
+#Other Product - These are returnable containers (bottles, crates, CEBs and Kegs)
+Active -  ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Name - a short unique code to identify the SKU (usually the SAP material number).
+Description - a longer more descriptive name for the SKU.
+Short Code - the short description for the material.
+Pack - a short code used to describe the pack.  This is free text, so ensure the format is consistent as for the SKUs. Used for reporting.
+Pallet - type of pallet used for this container.
+HL per Pallet [Hl] - volume of beer in Hl on each pallet
+Cases per HL - number of cases in Hl.
+Pallets per Load [PAL] - number of pallets that can be transported on a standard inter-depot truck
+Stacking Height - number of pallets that can be stacked during transportation 
+<Other line name and location> - the remaining columns show each of the injection lines that have been configured in the system.  Placing a ‘y’ in the column adds a record in the Other Process table, while a blank cell will result in the deletion of the record in the Other Process table, if it exists.  Be careful when using this function as you can potentially make a mess of the Other Process data!  If you have added a value, be sure to go to the Other Process table afterwards to finish populating the record.		
+
+#Product Substitution - This is used to configure if an SKU can be sold to satisfy demand of a different SKU.  This is primarily used for promotional SKUs but can be used in other instances EG, if a different color crate is used.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+From Product - the SKU that can be sold as another.
+To Product - the SKU that is being substituted.
+Validity	from - the date from which this substitution can take place.
+Validity to - the date to which this substitution can take place.
+Cost - the penalty cost to be used by AP for this substitution.  If not populated, AP will use a default value.
+
+#Product Group - You can group products and add minimum production runs and frequencies.  This can be used to group small products (particularly exports where there is just a label change) together and ensure they can be produced together to optimize changeovers.  This functionality should be used judiciously as it can increase solve times dramatically.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Product group - a short unique code to identify Product Group
+Description - detailed description of this group
+Min Volume [HL] - minimum total volume to be produced per week for all products in this group
+Max Volume [HL] - maximum total volume to be produced per week for all products in this group
+Cycle Period [wks] - minimum number of weeks between production runs for this group
+
+#FB at Brewery - Location specific data for ferment beer is maintained here.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Product -  the long description of the product (used for easy identification only and not saved).
+Product Code - the code of the ferment beer.
+Location -  the long description of the location (used for easy identification only and not saved).
+Location Code - the location code of the brewery.
+Weekly Holding Cost - a penalty cost representing the cost per week per HL to keep this in storage.
+Std Cost - currently not used.
+Max Inventory [Hl] - an absolute HL value used to constrain stock.  This is not normally used and is therefore set to 99999.
+Min Inventory [Hl] - an absolute HL value used to ensure a minimum level of stock.  This is not normally used and is therefore set to 0.
+Min Cover [days] - the minimum numbers of days of production required to be held in stock.
+Max Age [days] - the maximum number of days this beer can be held in cellars when it is ready.
+Liquid Production Leadtime [days] - total cellars process time (FV + SV).
+FV Production Leadtime [days] - number of days spent in FV.
+SV Production Leadtime [days] - numbers of days spent in SV.
+Std Dilution - currently not used.
+
+#BB at Brewery - Location specific data for bright beer is maintained here.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record
+Product -  the long description of the product (used for easy identification only and not saved).
+Product Code - the code of the bright beer.
+Location -  the long description of the location (used for easy identification only and not saved).
+Location Code - the location code of the brewery.
+Weekly Holding Cost - a penalty cost representing the cost per week per HL to keep this in storage.
+Std Cost - currently not used.
+Max Inventory [Hl] - an absolute HL value used to constrain stock.  This is not normally used and is therefore set to 99999.
+Min Inventory [Hl] - an absolute HL value used to ensure a minimum level of stock.  This is not normally used and is therefore set to 0.
+Min Cover [days] - the minimum numbers of days of production required to be held in stock.
+Max Age [days] - the maximum number of days this beer can be held in cellars when it is ready.
+
+#Yeast at Brewery - Location specific data for yeast beer is maintained here.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Product - the code of the yeast.
+Location - the location code of the brewery.
+Initial propagation batch - how much beer can be brewed in a week when starting from nothing, i.e. from an initial propagation of yeast.
+Rampup factor - how much brewing can increase by from one week to the next in percentage.
+	
+#SKU at Location - Location specific data for finished goods is maintained here.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Product -  the long description of the product (used for easy identification only and not saved).
+Product Code - the code of the SKU.
+Location -  the long description of the location (used for easy identification only and not saved).
+Location Code - the location code of the depot.
+Bulkfactor - the number of pallet spaces that one pallet of this product consumes at this depot.  E.g. for a half height pallet which allows storage of twice as many pallets, this value would be 0.5.  If warehouse capacity is defined using pallets stacked 3 high, and this SKU can only be stacked 2 high then the bulk factor would be 1.5
+Weekly Holding Cost - a penalty cost representing the cost per week per HL to keep this in storage.
+Std Cost - currently not used.
+Max Inventory [Hl] - an absolute HL value used to constrain stock.  This is not normally used and is therefore set to 99999.
+Min Inventory [Hl] - an absolute HL value used to ensure a minimum level of stock.  This is not normally used and is therefore set to 0.
+Min Cover Internal [days] - the minimum numbers of days of interdepot required to be held in stock.
+Min Cover External [days] - the minimum numbers of days of sales required to be held in stock.
+Max Age [days] - the maximum permitted age of this SKU
+Quarantine Leadtime [days] - the number of days this SKU is to be held in quarantine at this location.
+Preferred source - the brewery that should (under optimal conditions) supply this SKU to this location.  This is used for brewery stock planning in the packaging planners.
+Min Cover External [weeks] - this is the stock standard used by the weekly planning system, and includes cycle stock.
+											
+#Other Product at Location - Location specific data for containers is maintained here.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Product - the code of the SKU.
+Location - the location code of the depot.
+Bulkfactor - the number of pallet spaces that one pallet of this product consumes at this depot.  E.g. for a half height pallet which allows storage of twice as many pallets, this value would be 0.5.  If warehouse capacity is defined using pallets stacked 3 high, and this SKU can only be stacked 2 high then the bulk factor would be 1.5.
+Weekly Holding Cost - a penalty cost representing the cost per week per HL to keep this in storage.
+Std Cost - currently not used.
+Max Inventory [Hl] - an absolute HL value used to constrain stock.  This is not normally used and is therefore set to 99999.
+Min Inventory [Hl] - an absolute HL value used to ensure a minimum level of stock.  This is not normally used and is therefore set to 0.
+Min Cover Internal [days] - the minimum numbers of days of interdepot required to be held in stock.
+Min Cover External [days] - the minimum numbers of days of production required to be held in stock.
+Max Age [days] - not used.
+
+#Brewhouse - This defines the brewhouses in use
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Brewhouse - the name of the brewhouse.
+Location - the location code of the brewery.
+Full Description - a longer more descriptive name for the brewhouse.
+Operating Efficiency [%]	 - the operating efficiency of the brewhouse.
+Capacity [hrs] - the factory hours per week available for brewing.
+Overtime Capacity [hrs] - the number of overtime hours per week available.
+Regular Cost - the regular cost per hour to operate this brewhouse.
+Overtime Cost - the cost per hour to work overtime.
+	
+#Filter - This defines the filters in use
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Filter - the name of the filter.
+Location - the location code of the brewery.
+Full Description - a longer more descriptive name for the filter.
+Operating Efficiency [%]	 - the operating efficiency of the filter.
+Capacity [hrs] - the factory hours per week available for filtration.
+Overtime Capacity [hrs] - the number of overtime hours available per week.
+Regular Cost - the regular cost per hour to operate this filter.
+Overtime Cost - the cost per hour to work overtime.
+
+#Packaging Line - This defines the packaging lines in use.  This should include resources for re-packing SKUs, which should be configured as packaging lines with shift configurations.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Line - the name of the packaging line.
+Location - the location code of the brewery.
+Full Description - a longer more descriptive name for the packaging line.
+Operating Efficiency [%]	 - the operating efficiency of the line.
+Max Capacity [hrs] - the maximum number of hours per week that this line can operate.
+Regular Cost - the regular cost per hour to operate this line.
+Overtime Cost - the cost per hour to work overtime.
+Stock Location - the Name of the location where production output is placed.
+Startup - Duration of line startup in hrs, used for scheduling only
+Line Fill - Duration of line fill in hrs, used for scheduling only
+M&C - Duration of regular M & C in hrs, used for scheduling only
+Default M & C day - day in week when regular M & C usually takes place, used for scheduling only
+Machine Efficiency - used for scheduling only
+Shutdown - Duration of shutdown in hrs, used for scheduling only
+Sterilization Length [hr] - length of the line sterilization 
+Sterilization Frequency [hr] - frequency of the line sterilization 
+
+#Other Line - Other lines primarily refer to container injection facilities, where glass and crates are brought together to form CEBs.  This can be used to represent manual (off-line) injection or in-line injection.  In the latter case the capacity will be representative, and not 100% accurate.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Production Resource - the name of the resource.
+Location - the location code of the brewery/depot.
+Full Description - a longer more descriptive name for the resource.
+Operating Efficiency [%]	 - the operating efficiency of the resource.
+Capacity [hrs] - the factory hours per week available for injection.
+Overtime Capacity [hrs] - the number of overtime hours available per week.
+Regular Cost - the regular cost per hour to operate this resource.
+Overtime Cost - the cost per hour to work overtime.
+
+#Shift Configuration - In the AP model, packaging line manpower is modeled as a separate entity to the line itself, and is therefore specified separately.  This is primarily to accommodate the option of shared shifts between lines.  The AP model determines a proposed shift plan using these values.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Name - the name of the shift configuration.
+Full Description - a longer more descriptive name for the shift configuration.
+Capacity Regular [hrs] - the number of regular production hours per week that this shift adds.
+Capacity Overtime [hrs] - the number of overtime hours per week that this shift adds.  This can be negative to ensure that the total number is correct.
+Fixed Cost - the cost per week to employ this shift.
+M & C [hrs] - the number of maintenance and cleaning hours required per week.
+Manual nr of shifts MIN - the minimum number of shifts required per week.
+Manual nr of shifts MAX - the maximum number of shifts allowed per week.
+<Packline name and location> - the remaining columns show each of the packaging lines that have been configured in the system.  Placing a ‘y’ value in the column links a shift configuration to a packaging line.
+		
+#Brewhouse Process - This describes the parameters of the production of wort in a brewhouse, as well as the process through cellars.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Product -  the long description of the product (used for easy identification only and not saved).
+Product Code - the code of the ferment beer.
+Location -  the long description of the location (used for easy identification only and not saved).
+Brewhouse at Location - Identification of brewhouse.
+Location Code - the location code of the depot.
+Brewhouse - the code of the brewhouse.
+Version - there can be multiple versions of a process (identified by a number) but there can only be one process active at a time.
+Valid from - the start date from which this process is active.
+Valid to - the end date until which this process is valid.
+Production Leadtime (rounded) [days] - the cellars process rounded to a whole week value.  When the fermentation and maturation duration is not a round week value, AP makes part of the beer available for filtration in one week and part in the following week.  For large volume products this is correct, however for small volume products we require a value rounded to the nearest full week dependent on whether the brand is usually brewed at the start of the week or at the end of the week.  This will ensure the full batch is available in one week rather than being split across two weeks.
+Production Rate [Hl/hr] - the rate at which (high gravity) beer that can be brewed.  Determined as brewlength/cycle time.
+Min Batch Size [Hl] - the volume that is brewed in one batch.  Can be the brewlength, or the vessel size.
+Production Unit Cost - cost per Hl to brew this beer.
+Efficiency Adjustment [%] - in the event that this brand has a negative impact on efficiency, an adjustment can be entered here.  This value will usually be 100%
+Brew Length [HL] - brew length in Hl.
+
+#BP Component - Brewhouse process component describes the BOM and is generally limited to the yeast component.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Brewhouse Process -  unique id of brewhouse process.
+Location code - the code of the location.
+Location -  the long description of the location (used for easy identification only and not saved).
+Brewhouse - Identification of brewhouse.
+Product Code - code of the product.
+Product Description -  the long description of the product.
+Version - the version number of the brewhouse process.
+Component - unique id of the material.
+Component Inflow - the number of Hl required to produce 1Hl of Ferment beer.
+Component Type - type of component (in this case only YST).
+Component Short Code -short description of the material.
+
+#Filter Process - This describes the process parameters of the filtration of beer to produce bright beer.  The system can accommodate the blending of multiple beers to produce an additional beer, with components and quantities defined here.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Product -  the long description of the product (used for easy identification only and not saved).
+Product Code - the code of the bright beer.
+Location - the long description of the location (used for easy identification only and not saved).
+Filter at Location - identify filter at location.
+Location Code - the location code of the depot.
+Filter - the code of the filter.
+Version - there can be multiple versions of a process (identified by a number) but there can only be one process active at a time.
+Valid from - the start date from which this process is active.
+Valid to - the end date until which this process is valid.
+Production Rate [Hl/hr] - the rate at which (high gravity) beer is filtered.
+Min Batch Size [Hl] - the minimum volume that can be filtered in one batch.
+Production Unit Cost - cost per Hl to filter this beer.
+Machine Efficiency [%] - in the event that this beer has a negative impact on efficiency, an adjustment can be entered here.  This value will usually be 100%.
+
+#FP Component - Filter process component describes the BOM.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Filter Process -  unique id of filter process.
+Location code - the code of the location.
+Location -  the long description of the location (used for easy identification only and not saved).
+Filter - Identification of filter.
+Product Code - code of the product.
+Product Description -  the longer description of the product.
+Version - the version number of the filter process.
+Component - unique id of the component.
+Component Inflow - the number of Hl required to produce 1Hl of product.
+Component Type - type of component (usually FERB or BB).
+Component Short Code - component short description.
+
+#Packaging Process - This describes the process parameters of the packaging of beer.  The system can accommodate the production of one way SKUS, returnable SKUs and SKUs that are re-packed from other finished goods with the components and quantities defined here.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Product -  the long description of the product (used for easy identification only and not saved).
+Product Code - the code of the SKU.
+Location - the long description of the location (used for easy identification only and not saved).
+Line at Location - Identify Line at location.
+Location Code - the location code of the depot.
+Line - the code of the packaging line.
+Version - there can be multiple versions of a process (identified by a number) but there can only be one process active at a time.
+Valid from - the start date from which this process is active.
+Valid to - the end date until which this process is valid.
+Base quantity [Hl] -no longer used.
+Production Leadtime (rounded) [days] - number of days spent in process (usually 0).
+Production Rate [Hl/hr] - the rate in Hl/hr at which the SKU is packaged.
+Min Batch Size [Hl] - the minimum volume that can be packaged in one batch.
+Production Unit Cost - cost per Hl to filter this beer.
+Efficiency Adjustment [%] - in the event that this beer has a negative impact on efficiency, an adjustment can be entered here.  This value will usually be 100%
+Secondary resource - this is the code of a secondary line, used if production on this line uses a part of the other line, thereby blocking production on that line.  Blank if not required.
+Product group - used to identify if this process is part of a product group (blank if not).
+Sanitation Length [hr] - length of the sanitation 
+Sanitation Frequency [hr] - frequency of the sanitation 
+
+#PP Component - Packaging process component describes the BOM.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Packaging Process  -  unique id of packaging process.
+Location code - the code of the location.
+Location -  the long description of the location (used for easy identification only and not saved).
+Line - identification of line.
+Product Code - code of the product.
+Product Description -  the longer description of the product.
+Version - version number of the process.
+Component - unique id of the component (usually empties or bright beer).
+Component Inflow - the number of Hl required to produce 1Hl of product (not that this value can be negative, eg if empty crates are created during the process).
+Component Type - type of component (usually EMP or BB).
+Component Short Code - component short description.
+
+#Other Process - This describes the parameters of the processes for combining bottles and empty crates to produce CEBs.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Product -  the code of the SKU.
+Other Line - identify other line at location.
+Location -  the location code of the depot.
+Production resource - the code of the production resource.
+Version - there can be multiple versions of a process (identified by a number) but there can only be one process active at a time.
+Valid from - the start date from which this process is active.
+Valid to - the end date until which this process is valid.
+Base quantity [Hl] -no longer used.
+Production Rate [Hl/hr] - the rate in Hl/hr at which the CEBs are created.
+Min Batch Size [Hl] - the minimum volume that can be packaged.
+Production Unit Cost - cost per Hl of producing the CEB.
+Efficiency Adjustment [%] - in the event that this material has a negative impact on efficiency, an adjustment can be entered here.  This value will usually be 100%.
+
+#OP Component - Other process component describes the BOM.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Packaging Process -  unique id of filter process.
+Location code - the code of the location.
+Location -  the long description of the location (used for easy identification only and not saved).
+Resource - Identification of other line.
+Product Code - code of the product.
+Product Description -  the longer description of the product.
+Version - version number of the other process.
+Component - unique id of the component  usually empties).
+Component Inflow - the number of Hl required to produce 1Hl of product (usually 1).
+Component Type - type of component (usually EMP).
+Component Short Code - component short description.
+
+#Demand Point - The AP models have separated customer demand from the depot to allow the ability to service customer demand from multiple depots or to allow the use of flexible sourcing.  The demand point is used to represent a group of customers, in a particular geographic area or with particular behavior, such as direct delivery.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Name - a short unique code to identify the demand point.
+Description - a longer more descriptive name for the demand point.
+Market - can be DOM(domestic), EXP(export when using IRG portal), EX (export without using IRG portal)
+Type - ID (indirect - demand point is sourced by depot replenishment) or DD (direct - sourced directly from brewery)
+<Depot name> - the remaining columns show the configured depots and external warehouses in the system and is used when auto-populating the Demand Supply Allocation data.  Placing a value in the column adds records in the Demand Supply Allocation table with the value as supply in currency/Hl, while a blank cell will result in the deletion of the record in the Supply Allocation Table, if they exist.  		
+
+#Demand Allocation - This covers parameters describing SKUs at a demand point.  Records are created here when other objects are saved, so it is important to maintain this table to add missing data in the new records.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Product - the code of the SKU.
+Demand Point - the code of the demand point.
+Min Service Level [%] - no longer used.
+Unit Cost of Lost Sale (Default) -  a penalty cost incurred when AP is unable to meet demand.
+Backlog Penalty - the cost per Hl of carrying lost sales backlog (a value of 1 is usually used).
+Use Backlog - whether backlog should be used (1) or not (0).
+Lead Time [Days] - only orders and not forecast will be used within the leadtime in the system, valid date is rounded to last whole week in case this number is negative, otherwise is not rounded.
+								
+#Demand Supply Allocation - This is what links a demand allocation record to an SKU at location record, and is maintained automatically.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Product - the code of the SKU.
+Demand Point - the code of the demand point.
+Location - the code of the location supplying this demand point.
+Leadtime [days] - the leadtime to perform this secondary distribution leg, this should be set to 0 days.
+Unit Cost - the cost per Hl.
+					
+#Supplier - A supplier can supply Ferment Beer or Bright Beer (in tankers), Finished Goods or new Containers for injection.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Supplier - the code of the supplier.
+Description - a longer more descriptive name for the supplier.
+Max purchase qty - the maximum quantity this supplier can supply (in Hl).
+
+#FB Supplier Allocation - Parameters specific to the delivery of ferment beer to a location.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Supplier - the code of the supplier.
+Product - the code of the ferment beer.
+Location - the code of the location where this product is delivered.
+Purchase Leadtime - the leadtime in days required.
+Min Purchase Quantity [Hl] - the minimum quantity per week that can be purchased.
+Max Purchase Quantity [Hl] - the maximum quantity per week that can be purchased.
+Purchase Unit Cost - the cost per Hl.
+
+#BB Supplier Allocation - Parameters specific to the delivery of bright beer to a location.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Supplier - the code of the supplier.
+Product - the code of the bright beer.
+Location - the code of the location where this product is delivered.
+Purchase Leadtime - the leadtime in days required.
+Min Purchase Quantity [Hl] - the minimum quantity per week that can be purchased.
+Max Purchase Quantity [Hl] - the maximum quantity per week that can be purchased.
+Purchase Unit Cost - the cost per Hl.
+
+#SKU Supplier Allocation - Parameters specific to the delivery of finished goods to a location.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Supplier - the code of the supplier.
+Product - the code of the SKU.
+Location - the code of the location where this product is delivered.
+Purchase Leadtime - the leadtime in days required.
+Min Purchase Quantity [Hl] - the minimum quantity per week that can be purchased.
+Max Purchase Quantity [Hl] - the maximum quantity per week that can be purchased.
+Purchase Unit Cost - the cost per Hl.
+
+#Other Prod Supplier Allocation - Parameters specific to the delivery of ferment beer to a location.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Supplier - the code of the supplier.
+Product - the code of the container.
+Location - the code of the location where this product is delivered.
+Purchase Leadtime - the leadtime in days required.
+Min Purchase Quantity [Hl] - the minimum quantity per week that can be purchased. 
+Max Purchase Quantity [Hl] - the maximum quantity per week that can be purchased.
+Purchase Unit Cost - the cost per Hl.
+
+#Route Matrix - This is the primary method for maintaining route details.  All depot Locations (including external warehouses) are listed across the top and down the side of the page. With “From” locations i.e. Sources being across the top and “To” i.e. destinations being down the side of the page. Each block has two cells; the type of route - ‘I’ for inter-brewery balancing and ‘t’ for inter-depot, the cost of a load on this route. When this data is saved it creates or deletes records or updates the costs of existing records in the Route table.  Be sure to go to the Route sheet after to add additional data.
+
+#Route - More detailed parameters for routes, or transport lanes.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Source - the code of the source depot.
+Destination - the code of the destination depot.
+Transport mode - the type of transport route, IBB - Inter-brewery balancing, Truck - Inter-depot, Tank - tankering.
+Cost - the cost per load along this route, as above.
+Min Transfer Quantity [Hl] - minimum volume (in Hl per week) that can be moved on this route.
+Max Transfer Quantity [Hl] - maximum volume (in Hl per week) that can be moved on this route.
+Transport Leadtime [days] -  the time (in days) this route takes.
+Has Return route? - used to configure if a route is an “Outbound” route and that the route in the opposite direction is a “Return” route.   This means that a route with the “Has return route?” flag set to 1 will be planned as normal, but the volume on the “Return” route (i.e. the opposite direction) will have volume constrained.  ,It is critical not to define both routes (i.e. A to B and B to A) as having returns routes, as this will force AP to plan exactly the same volume in both directions, always  For routes between breweries, only one should be configured as having a return route (the dominant one), or (preferably) neither so that movements can be freely planned by AP.  
+
+#Transfer - SKU specific parameters along a route.
+Active - ‘y’ active, ‘ ’(null) inactive, ‘d’ to delete the record.
+Source - the code of the source depot.
+Destination - the code of the destination depot.
+Transport mode - the type of transport route, IBB - Inter-brewery balancing, Truck - Inter-depot, Tank - tankering.
+Product	 - the code of the SKU or container.
+Cost - the cost per Hl to move this product along this route.
+Leadtime [days] -  the time (in days) this route takes.
+Is Empty - indicates if it is a route for empties - set 1 otherwise 0.
+	
+#IN <> CORE - This function is used to align master-data in the ISP database with the latest version in the iHub. This alignment can be done, by record, by table or total.  Selecting the table in the list at the top of the page displays all records and fields where there are differences in the lower half of the screen.  Selecting a row/s allows the user to align the selected row/s (with the Balance Selected button).  The Balance Table button aligns all records in the selected table, while the Balance All Tables button will align all master-data.  Use this function with caution, as it will overwrite all edits that you have made to the master-data! Masterdata Integrity Check The integrity check attempts to identify potential missing masterdata which could cause issues.  The drop down list is used to select the object and any possible errors are shown below.  Note, this is note a definitive list but merely shows potential errors.  It is important to investigate any records displayed.
+Demand Point x SKU - Demand Point x SKU in Forecast with no corresponding demand supply allocation.  
+Demand supply allocation - Demand supply allocation records with no transfer supplying the location and no pack process or sku supply at the location.
+SKU at Location	- SKU at Location with no outbound transfer or demand supply allocation and is not used in repacking process.
+Stock Location -	Stock location missing in Location.
+Filtration process - Filtration process with no brew-house process for ferment beer components at same location.
+Pack process components - Pack process components with no bright beer in filtration processes at same location.
+SKU in Forecast	- SKU in forecast with no production process or SKU supplier allocation.  Can’t produce or buy the SKU.
+Production Process - Production process with no filtration process for bright beer process at same location.
+Filter process components -Filter process components with no ferment beer in BP components at same location.

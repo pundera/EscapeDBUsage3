@@ -1,0 +1,199 @@
+﻿<UserControl x:Class="EscapeDBUsage.Views.AddTablesAndColumnsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EscapeDBUsage.Views"
+             
+             xmlns:prism="http://prismlibrary.com/"         
+             xmlns:nodes="clr-namespace:EscapeDBUsage.UIClasses.DatabaseSchema"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="870">
+    <UserControl.Resources>
+        <!-- DB SCHEMA -->
+        <HierarchicalDataTemplate x:Key="TreeTemplateDatabaseSchema" DataType="{x:Type nodes:NodeDbSchemaTable}" ItemsSource="{Binding Columns}">
+            <HierarchicalDataTemplate.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </HierarchicalDataTemplate.ItemContainerStyle>
+            <StackPanel Orientation="Horizontal" Margin="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0">
+                    <CheckBox Margin="6" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Image Height="16" Margin="1" Source="\Images\table.png"/>
+                    <TextBlock Foreground="DarkGreen" FontSize="15" FontWeight="Bold" Margin="1" TextAlignment="Left" Text="{Binding Path=Name}" Width="440" TextWrapping="Wrap"/>
+                </StackPanel>
+            </StackPanel>
+            <HierarchicalDataTemplate.ItemTemplate>
+                <DataTemplate DataType="{x:Type nodes:NodeDbSchemaColumn}" >
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock FontSize="12.4" Foreground="Black" FontWeight="Bold" Margin="0" Padding="0" TextAlignment="Left" Text="{Binding Path=Name}" Width="180" TextWrapping="Wrap"/>
+                            <Label Margin="1" Padding="0" Content="{Binding DataType}" Width="80" />
+                            <Label Margin="1" Padding="0" Content="{Binding Length}" Width="40" />
+                            <CheckBox IsEnabled="False" Width="90" Margin="1,2" IsChecked="{Binding IsIdentity}" Content="Primary key" />
+                            <CheckBox IsEnabled="False" Width="80" Margin="1,2" IsChecked="{Binding IsNullable}" Content="Nullable" />
+                            <CheckBox IsEnabled="False" Width="80" Margin="1,2" IsChecked="{Binding IsComputed}" Content="Computed" />
+                            <Label Margin="1" Padding="0" Content="Default:" />
+                            <Label Margin="1" Padding="0" Content="{Binding DefaultValue}" />
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </HierarchicalDataTemplate.ItemTemplate>
+        </HierarchicalDataTemplate>
+        <!-- END of DB SCHEMA -->
+
+    </UserControl.Resources>
+    <Grid Background="Ivory">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <GroupBox Header=" Fulltext [INCLUDE] ">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="54" Content="Table:"/>
+                            <TextBox Margin="6,4" Width="100" Text="{Binding ViewModel.SchemaTableFulltext, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="54" Content="Column:"/>
+                            <TextBox Margin="6,4" Width="100" Text="{Binding ViewModel.SchemaColumnFulltext, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button Width="30" Margin="0,36,0,2" Command="{Binding ViewModel.EraseSchemaFulltext}" Background="Transparent" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Height="24" Source="/EscapeDBUsage;component/Images/erase.png" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header=" Fulltext [EXCLUDE] ">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="54" Content="Table:"/>
+                            <TextBox Margin="6,4" Width="100" Text="{Binding ViewModel.SchemaTableFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="54" Content="Column:"/>
+                            <TextBox Margin="6,4" Width="100" Text="{Binding ViewModel.SchemaColumnFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button Width="30" Margin="0,36,0,2" Command="{Binding ViewModel.EraseSchemaFulltextExclude}" Background="Transparent" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Height="24" Source="/EscapeDBUsage;component/Images/erase.png" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- FILTERs -->
+            <GroupBox>
+                <GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Padding="0" Content=" Filters [COLUMNs]"/>
+                        <CheckBox Margin="4,2,4,0" IsChecked="{Binding ViewModel.HasFilters, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    
+                </GroupBox.Header>
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox IsThreeState="True" IsChecked="{Binding ViewModel.IsPrimaryKeyFilter, UpdateSourceTrigger=PropertyChanged}" Content="is Primary Key"/>
+                        <CheckBox IsThreeState="True" IsChecked="{Binding ViewModel.IsNullableFilter, UpdateSourceTrigger=PropertyChanged}" Content="is Nullable"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox IsThreeState="True" IsChecked="{Binding ViewModel.IsComputedFilter, UpdateSourceTrigger=PropertyChanged}" Content="is Computed"/>
+                        <CheckBox IsThreeState="True" IsChecked="{Binding ViewModel.HasDefaultFilter, UpdateSourceTrigger=PropertyChanged}" Content="has Default"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header=" Tree View [ALL nodes] ">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="80" Margin="2,2" Command="{Binding ViewModel.ExpandAll}" Background="Transparent" >
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Expand"/>
+                                <Image Height="16" Width="16" Source="/EscapeDBUsage;component/Images/db-structure-expand-all.png" Stretch="Fill"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Width="80" Margin="2,2" Command="{Binding ViewModel.CollapseAll}" Background="Transparent" >
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Collapse"/>
+                                <Image Height="16" Width="16" Source="/EscapeDBUsage;component/Images/db-structure-collapse-all.png" Stretch="Fill"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="80" Margin="2,2" Command="{Binding ViewModel.CheckAll}" Background="Transparent" >
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Check"/>
+                                <Image Height="16" Width="16" Source="/EscapeDBUsage;component/Images/check-all.png" Stretch="Fill"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Width="80" Margin="2,2" Command="{Binding ViewModel.UncheckAll}" Background="Transparent" >
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Uncheck"/>
+                                <Image Height="16" Width="16" Source="/EscapeDBUsage;component/Images/uncheck-all.png" Stretch="Fill"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header=" Zoom ">
+                <StackPanel Orientation="Vertical">
+                    <!-- This Slider controls the zoom level -->
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Width="170"  Margin="2,6,2,10" Orientation="Horizontal" Minimum="0.25" Maximum="4.0" LargeChange="0.25" SmallChange="0.1"  Value="{Binding ViewModel.ZoomFactor}" />
+                        <Label Width="40" Content="{Binding ViewModel.ZoomFactor, Converter={StaticResource PercentageConverter}}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Width="80" Margin="2,2" Command="{Binding ViewModel.ZoomIn}" Background="Transparent">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Zoom In"/>
+                                <Image Width="16" Height="16" Source="/EscapeDBUsage;component/Images/zoom-in.png" />
+                            </StackPanel>
+                        </Button>
+                        <Button Width="90" Margin="2,2" Command="{Binding ViewModel.ZoomOut}" Background="Transparent">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Zoom Out"/>
+                                <Image Width="16" Height="16" Source="/EscapeDBUsage;component/Images/zoom-out.png" />
+                            </StackPanel>
+                        </Button>
+                        <Button Width="30" Margin="2,2" Command="{Binding ViewModel.ZoomDefault}" Background="Transparent">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="26" Height="24" Source="/EscapeDBUsage;component/Images/erase.png" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <TreeView Background="Ivory" Grid.Row="1" BorderThickness="0,1,0,1" ItemTemplate="{StaticResource ResourceKey=TreeTemplateDatabaseSchema}" ItemsSource="{Binding Notification.SelectedSprint.DbSchemaTables}" Margin="0,10,0,50" >
+            <TreeView.LayoutTransform>
+                <!-- This ScaleTransform implements the zooming and is bound the Value of the ZoomSlider -->
+                <ScaleTransform ScaleX="{Binding ViewModel.ZoomFactor}" ScaleY="{Binding ViewModel.ZoomFactor}" />
+            </TreeView.LayoutTransform>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
+        <Button Command="{Binding Cancel}" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,10,10" Grid.Row="1" VerticalAlignment="Bottom" Height="30" Width="100" IsCancel="True"/>
+        <Button Command="{Binding Ok}" Content="OK" HorizontalAlignment="Right" Margin="0,0,120,10" Grid.Row="1" VerticalAlignment="Bottom" Height="30" Width="100" Background="#FF468737" IsDefault="True"/>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,135 @@
+﻿<ribbon:RibbonWindow x:Class="EscapeDBUsage.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:ribbon="urn:fluent-ribbon"             
+        
+        xmlns:views="clr-namespace:EscapeDBUsage.Views"             
+             
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"             
+                     
+        prism:ViewModelLocator.AutoWireViewModel="True"
+                     
+                     
+        Title="{Binding Title}" Height="700" Width="900" Icon="/EscapeDBUsage;component/Images/hearts.ico" TitleForeground="#FF033A19" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/EscapeDBUsage;component/Images/xxl-background2.png" Stretch="None"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ribbon:Ribbon Grid.Row="0">
+            <ribbon:RibbonTabItem Header="Data">
+                <ribbon:RibbonGroupBox Header="Sprints">
+                    <ribbon:Button Margin="4,0" Header="Load" Icon="{StaticResource i-load}" LargeIcon="{StaticResource i-load}"  Command="{Binding MainViewModel.Load}">
+                    </ribbon:Button>
+                    <ribbon:ComboBox Padding="2" Height="86" Margin="4,0,4,13" Header="Sprint:" Width="180" ItemsSource="{Binding MainViewModel.Sprints}" SelectedItem="{Binding MainViewModel.SelectedSprint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="False" >
+                        <ribbon:ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="CornerRadius" Value="8"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <Label Padding="0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Padding="2" Content="{Binding Number}" />
+                                        </StackPanel>
+                                    </Label>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Padding="2" Content="{Binding Name}" />
+                                        <Label Padding="2" Content="ver.: "/>
+                                        <Label Padding="2" Content="{Binding Version}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ribbon:ComboBox.ItemTemplate>
+                    </ribbon:ComboBox>
+                    <ribbon:Button Margin="4,0" Header="Save" Icon="{StaticResource i-save}" LargeIcon="{StaticResource i-save}"  Command="{Binding MainViewModel.Save}" OverridesDefaultStyle="True">
+                    </ribbon:Button>
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Result of an Operation... and LOG">
+                    <Grid Margin="4,10">
+                        <Image Width="240" Height="40" Source="{Binding MainViewModel.SuccessImageSource, Converter={StaticResource ResourceKey=ImageFromSourceConverter}}" />
+                    </Grid>
+                    <ribbon:Button Header="Show Log" Icon="{StaticResource i-log}" LargeIcon="{StaticResource i-log}" Command="{Binding MainViewModel.ShowLog}"/>
+                    <ribbon:Button Header="Show Data Folder" Icon="{StaticResource i-folder}" LargeIcon="{StaticResource i-folder}" Command="{Binding MainViewModel.ShowDataFolder}"/>
+                </ribbon:RibbonGroupBox>
+            </ribbon:RibbonTabItem>
+            <ribbon:RibbonTabItem Header="Tree View">
+                <ribbon:RibbonGroupBox Header="Nodes Manipulation">
+                    <ribbon:Button Header="Expand All" Command="{Binding MainViewModel.ExpandAll}" LargeIcon="{StaticResource i-expand}" Icon="{StaticResource i-expand}"/>
+                    <ribbon:Button Header="Collapse All" Command="{Binding MainViewModel.CollapseAll}" LargeIcon="{StaticResource i-collapse}" Icon="{StaticResource i-collapse}"/>
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Adding">
+                    <ribbon:Button Header="Add Excel" Command="{Binding MainViewModel.AddExcel}" LargeIcon="{StaticResource i-excel}" Icon="{StaticResource i-excel}" />
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Fulltext">
+                    <ribbon:TextBox Margin="6" Header="Column Name:" Text="{Binding MainViewModel.FullTextColumnName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220"/>
+                    <ribbon:TextBox Margin="6" Header="Column Description:" Text="{Binding MainViewModel.FullTextColumnDescription, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220"/>
+                    <ribbon:Button  Margin="4,0" Header="Reset filter!" LargeIcon="{StaticResource i-erase}" Icon="{StaticResource i-erase}" Command="{Binding MainViewModel.EraseFulltext}" />
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Descriptions in Tree Views">
+                    <ribbon:CheckBox Header="Show descriptions" Height="Auto" Width="Auto" IsChecked="{Binding MainViewModel.AreDescsShown, Mode=TwoWay}"/>
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Specific (other) Tree Views">
+                    <ribbon:Button Header="Create specific tree views..." Height="Auto" Width="Auto" Command="{Binding MainViewModel.Refresh}" Icon="{StaticResource i-refresh}" LargeIcon="{StaticResource i-refresh}"/>
+                </ribbon:RibbonGroupBox>            
+            </ribbon:RibbonTabItem>
+            <ribbon:RibbonTabItem Header="DB Structure" Visibility="{Binding DatabaseSchemaViewModel.IsDbSchemaTabVisible, Converter={StaticResource VisibilityConverter}}">
+                <ribbon:RibbonGroupBox Header="Connect to DB">
+                    <ribbon:Button Header="Connect" Command="{Binding Connect}" LargeIcon="{StaticResource i-connect}" Icon="{StaticResource i-connect}">
+                        <i:Interaction.Triggers>
+                        <prism:InteractionRequestTrigger SourceObject="{Binding ConnectRequest}">
+                                <prism:PopupWindowAction IsModal="True" WindowStyle="{StaticResource ConnectWindow}" >
+                                <prism:PopupWindowAction.WindowContent>
+                                    <views:ConnectView />
+                                </prism:PopupWindowAction.WindowContent>
+                            </prism:PopupWindowAction>
+                        </prism:InteractionRequestTrigger>
+                        </i:Interaction.Triggers>
+                    </ribbon:Button>
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="DB Schema">
+                    <ribbon:Button IsEnabled="{Binding IsConnected}" Header="Load DB Schema into Selected Sprint" Command="{Binding LoadDbSchema}" LargeIcon="{StaticResource i-load-db-schema}" Icon="{StaticResource i-load-db-schema}" />
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Fulltext [INCLUDE]">
+                    <ribbon:TextBox Margin="6" Header="Table:" Width="220" Text="{Binding DatabaseSchemaViewModel.SchemaTableFulltext, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:TextBox Margin="6"  Header="Column:" Width="218" Text="{Binding DatabaseSchemaViewModel.SchemaColumnFulltext, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:Button Margin="4,0"  Header="Erase" Command="{Binding DatabaseSchemaViewModel.EraseSchemaFulltext}" LargeIcon="{StaticResource i-erase}" Icon="{StaticResource i-erase}" />
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Fulltext [EXCLUDE]">
+                    <ribbon:TextBox Margin="6" Header="Table:" Width="220" Text="{Binding DatabaseSchemaViewModel.SchemaTableFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:TextBox Margin="6"  Header="Column:" Width="218" Text="{Binding DatabaseSchemaViewModel.SchemaColumnFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:Button Margin="4,0"  Header="Erase" Command="{Binding DatabaseSchemaViewModel.EraseSchemaFulltextExclude}" LargeIcon="{StaticResource i-erase}" Icon="{StaticResource i-erase}" />
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Filters">
+                    <ribbon:CheckBox Header="use filters!"/>
+                    <ribbon:CheckBox Margin="10,0,0,0" Header="is Primary Key" />
+                    <ribbon:CheckBox Margin="10,0,0,0" Header="is Nullable" />
+                    <ribbon:CheckBox Margin="10,0,0,0" Header="is Computed" />
+                    <ribbon:CheckBox Margin="10,0,0,0" Header="has Default" />
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Tree View Manipulation">
+                    <ribbon:Button Header="Expand All" Command="{Binding DatabaseSchemaViewModel.ExpandAll}" LargeIcon="{StaticResource i-schema-expand}" Icon="{StaticResource i-schema-expand}" />
+                    <ribbon:Button Header="Collapse All" Command="{Binding DatabaseSchemaViewModel.CollapseAll}" LargeIcon="{StaticResource i-schema-collapse}" Icon="{StaticResource i-schema-collapse}" />
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Zoom">
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Width="100"  Margin="2,6,2,10" Orientation="Horizontal" Minimum="0.25" Maximum="4.0" LargeChange="0.25" SmallChange="0.1"  Value="{Binding DatabaseSchemaViewModel.ZoomFactor}" />
+                        <Label Width="40" Content="{Binding DatabaseSchemaViewModel.ZoomFactor, Converter={StaticResource PercentageConverter}}"/>
+                    </StackPanel>
+                    <ribbon:Button Header="Zoom In" Command="{Binding DatabaseSchemaViewModel.ZoomIn}" LargeIcon="{StaticResource i-zoom-in}" Icon="{StaticResource i-zoom-in}" />
+                    <ribbon:Button Header="Zoom Out" Command="{Binding DatabaseSchemaViewModel.ZoomOut}" LargeIcon="{StaticResource i-zoom-out}" Icon="{StaticResource i-zoom-out}" />
+                    <ribbon:Button Header="100%" Command="{Binding DatabaseSchemaViewModel.ZoomDefault}" LargeIcon="{StaticResource i-erase}" Icon="{StaticResource i-erase}" />
+                </ribbon:RibbonGroupBox>
+            </ribbon:RibbonTabItem>
+        </ribbon:Ribbon>
+        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="ContentRegion" >
+        </ContentControl>
+    </Grid>
+</ribbon:RibbonWindow>

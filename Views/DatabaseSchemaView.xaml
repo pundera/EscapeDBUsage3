@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="EscapeDBUsage.Views.DatabaseSchemaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EscapeDBUsage.Views"
+             
+             xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+             
+             xmlns:prism="http://prismlibrary.com/"         
+             xmlns:nodes="clr-namespace:EscapeDBUsage.UIClasses.DatabaseSchema"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <!-- DB SCHEMA -->
+        <HierarchicalDataTemplate x:Key="TreeTemplateDatabaseSchema" DataType="{x:Type nodes:NodeDbSchemaTable}" ItemsSource="{Binding Columns}">
+            <HierarchicalDataTemplate.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </HierarchicalDataTemplate.ItemContainerStyle>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Height="24" Margin="2" Source="\Images\table.png"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Margin="2" TextAlignment="Left" Text="{Binding Path=Name}" Width="240" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <HierarchicalDataTemplate.ItemTemplate>
+                <DataTemplate DataType="{x:Type nodes:NodeDbSchemaColumn}" >
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Height="24" Margin="2" Source="\Images\column.png"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <TextBlock Margin="2" TextAlignment="Left" Text="{Binding Path=Name}" Width="180" TextWrapping="Wrap"/>
+                                <Label Margin="2" Content="{Binding DataType}" Width="80" />
+                                <Label Margin="2" Content="{Binding Length}" Width="40" />
+                                <CheckBox IsEnabled="False" Width="90" Margin="2,6" IsChecked="{Binding IsIdentity}" Content="Primary key" />
+                                <CheckBox IsEnabled="False" Width="80" Margin="2,6" IsChecked="{Binding IsNullable}" Content="Nullable" />
+                                <CheckBox IsEnabled="False" Width="80" Margin="2,6" IsChecked="{Binding IsComputed}" Content="Computed" />
+                                <Label Margin="2" Content="Default:" />
+                                <Label Margin="2" Content="{Binding DefaultValue}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </HierarchicalDataTemplate.ItemTemplate>
+        </HierarchicalDataTemplate>
+        <!-- END of DB SCHEMA -->
+        
+    </UserControl.Resources>
+    <Grid>
+        <TreeView ItemTemplate="{StaticResource ResourceKey=TreeTemplateDatabaseSchema}" ItemsSource="{Binding SelectedSprint.DbSchemaTables}" Margin="0,0,0,0" >
+            <TreeView.LayoutTransform>
+                <!-- This ScaleTransform implements the zooming and is bound the Value of the ZoomSlider -->
+                <ScaleTransform ScaleX="{Binding ZoomFactor}" ScaleY="{Binding ZoomFactor}" />
+            </TreeView.LayoutTransform>
+            <TreeView.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="8" />
+                </Style>
+            </TreeView.Resources>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
+
+    </Grid>
+</UserControl>

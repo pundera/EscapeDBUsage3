@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="EscapeDBUsage.Views.ExcelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EscapeDBUsage.Views"
+             mc:Ignorable="d" 
+             Height="140" d:DesignWidth="300">
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="64" Margin="10,10,0,0" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/excel.png"/>
+        <Label Content="Name" HorizontalAlignment="Left" Margin="11,79,0,0" VerticalAlignment="Top"/>
+        <TextBox Padding="2" Height="23" Margin="58,79,62,0" TextWrapping="Wrap" Text="{Binding SelectedExcel.Name, Mode=TwoWay}" VerticalAlignment="Top"/>
+        <Label Content="Description" HorizontalAlignment="Left" Margin="11,107,0,0" VerticalAlignment="Top"/>
+        <TextBox Padding="2" Height="23" Margin="81,107,62,0" TextWrapping="Wrap" Text="{Binding SelectedExcel.Description, Mode=TwoWay}" VerticalAlignment="Top"/>
+
+    </Grid>
+</UserControl>

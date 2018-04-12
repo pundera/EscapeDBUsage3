@@ -1,0 +1,18 @@
+﻿{
+  "root": [
+    {
+      "name": "MasterData",
+      "nodes": [
+        {
+          "name": "Location",
+          "nodes": [
+            {
+              "name": "Location",
+              "nodes": [ ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
