@@ -209,7 +209,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Grid.Column="0"  Width="24" Source="/EscapeDBUsage;component/Images/excel.png"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" Width="312"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" Width="278"/>
                     <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
                         <Button Margin="2" Padding="2" Command="{Binding AddTab}" Background="Transparent">
                             <Button.ToolTip>
@@ -271,7 +271,7 @@
                             <Image Grid.Row="0" Grid.Column="0" Source="\Images\tab.png" Width="24"/>
                             <TextBlock Grid.Row="0" Grid.Column="1" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" Width="252"/>
                             <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
-                                <Button Margin="2" Padding="2" Command="{Binding AddTable}" Background="Transparent">
+                                <Button Visibility="Collapsed" Margin="2" Padding="2" Command="{Binding AddTable}" Background="Transparent">
                                     <Button.ToolTip>
                                         <ToolTip>
                                             <StackPanel>
@@ -352,7 +352,7 @@
                                     <Image Grid.Row="0" Grid.Column="0" Source="\Images\table.png" Width="24"/>
                                     <TextBlock Grid.Row="0" Grid.Column="1" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" Width="232"/>
                                     <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
-                                        <Button Margin="2" Padding="2" Command="{Binding AddColumn}" Background="Transparent">
+                                        <Button Visibility="Collapsed" Margin="2" Padding="2" Command="{Binding AddColumn}" Background="Transparent">
                                             <Button.ToolTip>
                                                 <ToolTip>
                                                     <StackPanel>
@@ -427,7 +427,7 @@
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Grid.Column="0" Source="\Images\column.png" Width="24"/>
-                                            <TextBlock Grid.Row="0" Grid.Column="1" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" Width="280"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="1" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" Width="248"/>
                                             <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
                                                 <Button Margin="2" Padding="2" Command="{Binding Remove}" Background="Transparent">
                                                     <Button.ToolTip>
@@ -443,7 +443,7 @@
                                                     </StackPanel>
                                                 </Button>
                                             </StackPanel>
-                                            <TextBlock Visibility="{Binding AreDescsShown, Converter={StaticResource ResourceKey=VisibilityConverter}}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="2" Text="{Binding Path=Description}" TextWrapping="Wrap" Width="330" FontWeight="Light"/>
+                                            <TextBlock Visibility="{Binding AreDescsShown, Converter={StaticResource ResourceKey=VisibilityConverter}}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="2" Text="{Binding Path=Description}" TextWrapping="Wrap" Width="320" FontWeight="Light"/>
                                         </Grid>
                                     </StackPanel>
                                 </DataTemplate>
@@ -663,7 +663,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" MinWidth="220" />
-                            <ColumnDefinition Width="4*" MinWidth="220" />
+                            <ColumnDefinition Width="4*" MinWidth="500" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -672,8 +672,8 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="0" Grid.RowSpan="5">
-                            <TreeView Background="Transparent" ItemTemplate="{StaticResource ResourceKey=TreeTemplateExcel}" ItemsSource="{Binding NodesExcel}" Margin="0,0,4,0" Width="Auto" >
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Margin="0,5,8,5">
+                            <TreeView Background="Transparent" ItemTemplate="{StaticResource ResourceKey=TreeTemplateExcel}" ItemsSource="{Binding NodesExcel}" Margin="0,0,2,0" Width="Auto" >
                                 <TreeView.Resources>
                                     <Style TargetType="{x:Type Border}">
                                         <Setter Property="CornerRadius" Value="8" />
@@ -682,7 +682,7 @@
                             </TreeView>
                         </ScrollViewer>
 
-                        <GridSplitter Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" Margin="0,5,-6,5" Width="8" Background="#20006400"/>
+                        <GridSplitter Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Margin="0,5,-6,5" Width="8" Background="#20006400"/>
 
                         <!-- NODE EDIT -->
 
