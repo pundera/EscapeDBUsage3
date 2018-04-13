@@ -39,48 +39,11 @@
     <ApplicationIcon>Images\hearts.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Fluent, Version=6.1.0.233, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fluent.Ribbon.6.1.0.233\lib\net45\Fluent.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Prism.Autofac.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Autofac.6.3.0\lib\net45\Prism.Autofac.Wpf.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -103,8 +66,6 @@
     <Compile Include="Classes\Database.cs" />
     <Compile Include="Classes\DbConnection.cs" />
     <Compile Include="Classes\FulltextValue.cs" />
-    <Compile Include="Confirmations\AddTablesAndColumnsConfirmation.cs" />
-    <Compile Include="Confirmations\ConnectConfirmation.cs" />
     <Compile Include="Converters\ErrorToColorConverter.cs" />
     <Compile Include="Converters\ImageSourceConverter.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
@@ -121,6 +82,7 @@
     <Compile Include="ModelClasses\DbSchema\SchemaDbColumn.cs" />
     <Compile Include="ModelClasses\DbSchema\SchemaDbTable.cs" />
     <Compile Include="Notifications\AddTablesAndColumnsNotification.cs" />
+    <Compile Include="Notifications\ConnectNotification.cs" />
     <Compile Include="UIClasses\DatabaseSchema\NodeDbSchemaBase.cs" />
     <Compile Include="UIClasses\DatabaseSchema\NodeDbSchemaColumn.cs" />
     <Compile Include="UIClasses\DatabaseSchema\NodeDbSchemaTable.cs" />
@@ -139,6 +101,9 @@
     <Compile Include="Views\DatabaseSchemaView.xaml.cs">
       <DependentUpon>DatabaseSchemaView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ExampleWindow.xaml.cs">
+      <DependentUpon>ExampleWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SprintsView.xaml.cs">
       <DependentUpon>SprintsView.xaml</DependentUpon>
     </Compile>
@@ -151,6 +116,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DatabaseSchemaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExampleWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -246,6 +215,9 @@
       <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="Prism.Autofac">
+      <Version>6.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.Wpf">
       <Version>6.3.0</Version>
     </PackageReference>
     <PackageReference Include="System.Windows.Interactivity.WPF">

@@ -1,5 +1,4 @@
-﻿using EscapeDBUsage.Confirmations;
-using EscapeDBUsage.InteractionRequests;
+﻿using EscapeDBUsage.InteractionRequests;
 using EscapeDBUsage.Notifications;
 using EscapeDBUsage.ViewModels;
 using Prism.Commands;
@@ -55,6 +54,10 @@ namespace EscapeDBUsage.UIClasses
                                         newDBTable.Nodes.Add(newCol);
                                     }
                                 }
+                            }
+                            if (this.Nodes==null)
+                            {
+                                this.Nodes = new ObservableCollection<NodeDbTable>();
                             }
                             this.Nodes.Add(newDBTable);
                         }

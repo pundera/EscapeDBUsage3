@@ -85,7 +85,7 @@
                     <ribbon:Button Header="Connect" Command="{Binding Connect}" LargeIcon="{StaticResource i-connect}" Icon="{StaticResource i-connect}">
                         <i:Interaction.Triggers>
                         <prism:InteractionRequestTrigger SourceObject="{Binding ConnectRequest}">
-                                <prism:PopupWindowAction IsModal="True" WindowStyle="{StaticResource ConnectWindow}" >
+                                <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="False" WindowStartupLocation="CenterScreen" WindowStyle="{StaticResource ConnectWindow}" >
                                 <prism:PopupWindowAction.WindowContent>
                                     <views:ConnectView />
                                 </prism:PopupWindowAction.WindowContent>

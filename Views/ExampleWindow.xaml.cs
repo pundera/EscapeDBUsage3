@@ -10,24 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace EscapeDBUsage.Views
 {
     /// <summary>
-    /// Interaction logic for MainView.xaml
+    /// Interaction logic for ExampleWindow.xaml
     /// </summary>
-    public partial class MainView : UserControl
+    public partial class ExampleWindow : Window
     {
-        public MainView()
+        public ExampleWindow()
         {
             InitializeComponent();
-        }
-
-        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

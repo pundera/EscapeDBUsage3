@@ -15,6 +15,15 @@ namespace EscapeDBUsage.ViewModels
 {
     public class AddTablesAndColumnsViewModel : BindableBase, IInteractionRequestAware
     {
+        /// <summary>
+        /// just for design..
+        /// </summary>
+        public AddTablesAndColumnsViewModel()
+        {
+            Ok = new DelegateCommand(() => DoOk());
+            Cancel = new DelegateCommand(() => DoCancel());
+        }
+
         public AddTablesAndColumnsViewModel(DatabaseSchemaViewModel vm)
         {
 

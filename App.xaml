@@ -40,14 +40,6 @@
             <Style TargetType="{x:Type Window}" x:Key="ModalWindow">
                 <Setter Property="ResizeMode" Value="NoResize" />
                 <Setter Property="WindowStyle" Value="ToolWindow" />
-                <!--<Style.Triggers>
-                    <DataTrigger Binding="{Binding CloseSignal}" Value="True">
-                        <Setter Property="behaviours:WindowCloseBehaviour.Close" Value="True" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding ShowSignal}" Value="True">
-                        <Setter Property="behaviours:WindowShowBehaviour.Show" Value="True" />
-                    </DataTrigger>
-                </Style.Triggers>-->
             </Style>
 
             <Style BasedOn="{StaticResource ModalWindow}" TargetType="{x:Type Window}" x:Key="ConnectWindow">
@@ -60,6 +52,7 @@
                 <Setter Property="Width" Value="1024" />
                 <Setter Property="Height" Value="720" />
                 <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+                <Setter Property="WindowStyle" Value="SingleBorderWindow" />
             </Style>
 
         </ResourceDictionary>

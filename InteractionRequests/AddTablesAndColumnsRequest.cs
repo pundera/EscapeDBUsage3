@@ -1,5 +1,4 @@
-﻿using EscapeDBUsage.Confirmations;
-using EscapeDBUsage.Notifications;
+﻿using EscapeDBUsage.Notifications;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
 using System;

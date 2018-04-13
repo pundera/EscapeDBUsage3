@@ -6,9 +6,9 @@ using Prism.Autofac;
 using Prism.Regions;
 using Prism.Mvvm;
 using EscapeDBUsage.ViewModels;
-using EscapeDBUsage.Confirmations;
 using Prism.Events;
 using EscapeDBUsage.UIClasses;
+using EscapeDBUsage.Notifications;
 
 namespace EscapeDBUsage
 {
@@ -29,18 +29,18 @@ namespace EscapeDBUsage
             builder.RegisterInstance<UISprints>(new UISprints()).As<UISprints>().SingleInstance();
             
             // just one instance as well 
-            // well, works as hell .. :-)  
-            var confirmation = new ConnectConfirmation()
+            // well... works as hell! :-) 
+            // .. bell?? no.. try to study..
+            // bez ostudy.. :-)
+            var notification = new ConnectNotification()
             {
-                DatabaseConnection = new Classes.DbConnection()
+                DbConnection = new Classes.DbConnection()
                 {
                     IsConnected = false
                 },
-                Title = "Connect to Database",
-                Request = new InteractionRequests.ConnectRequest(eventAggregator) 
+                Title = "Connect to Database"
             };
-            confirmation.Request.Notification = confirmation;
-            builder.RegisterInstance<ConnectConfirmation>(confirmation).As<ConnectConfirmation>().SingleInstance();
+            builder.RegisterInstance(notification).As<ConnectNotification>().SingleInstance();
         }
 
         protected override DependencyObject CreateShell()

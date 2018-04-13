@@ -1,8 +1,8 @@
 ﻿using EscapeDBUsage.Classes;
-using EscapeDBUsage.Confirmations;
 using EscapeDBUsage.Events;
 using EscapeDBUsage.Helpers;
 using EscapeDBUsage.InteractionRequests;
+using EscapeDBUsage.Notifications;
 using EscapeDBUsage.UIClasses;
 using Prism.Commands;
 using Prism.Events;
@@ -16,7 +16,7 @@ namespace EscapeDBUsage.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private IEventAggregator eventAgg;
-        private ConnectConfirmation connectConfirmation;
+        private ConnectNotification connectNotification;
 
         private DbConnection dbConnection;
 
@@ -40,20 +40,17 @@ namespace EscapeDBUsage.ViewModels
             }
         }
 
-        public MainWindowViewModel(MainViewModel mainViewModel, DatabaseSchemaViewModel databaseSchemaViewModel, IEventAggregator evAgg, ConnectConfirmation connectConfirmation)
+        public MainWindowViewModel(MainViewModel mainViewModel, DatabaseSchemaViewModel databaseSchemaViewModel, IEventAggregator evAgg, ConnectNotification connectNotification)
         {
             eventAgg = evAgg;
 
-            eventAgg.GetEvent<ConnectEvent>().Subscribe((x) => {
-                IsConnected = x.IsConnected;
-                if (IsConnected) dbConnection = x;
-            }); 
+            ConnectRequest = new ConnectRequest();
 
-            this.connectConfirmation = connectConfirmation;
+            this.connectNotification = connectNotification;
             MainViewModel = mainViewModel;
             DatabaseSchemaViewModel = databaseSchemaViewModel;
 
-            ConnectRequest = new ConnectRequest(evAgg);
+            //ConnectRequest = new ConnectRequest(evAgg);
             Connect = new DelegateCommand(() => {
                 DoConnect();
             });
@@ -79,15 +76,17 @@ namespace EscapeDBUsage.ViewModels
         private void DoConnect()
         {
             //this.DatabaseConnection = new DbConnection() { IsConnected = false };
-            connectConfirmation.Title = "Connect to Database";
-            ConnectRequest.Notification = connectConfirmation;
+            //connectNotification.Title = "Connect to Database";
+            //ConnectRequest.Notification = connectConfirmation;
             //connectConfirmation.ShowSignal = true;
 
-            ConnectRequest.Raise(connectConfirmation, (result) =>
+            ConnectRequest.Raise(connectNotification, (result) =>
             {
-                if (result != null && result.DatabaseConnection != null && result.DatabaseConnection.IsConnected)
+                if (result != null && result.Confirmed && result.DbConnection != null && result.DbConnection.IsConnected)
                 {
-                    eventAgg.GetEvent<ConnectEvent>().Publish(result.DatabaseConnection);
+                    //eventAgg.GetEvent<ConnectEvent>().Publish(result.DbConnection);
+                    IsConnected = true;
+                    dbConnection = result.DbConnection;
                 }
             });            
         }

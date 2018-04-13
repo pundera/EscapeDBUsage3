@@ -1,8 +1,9 @@
 ﻿using EscapeDBUsage.Classes;
-using EscapeDBUsage.Confirmations;
 using EscapeDBUsage.Helpers;
+using EscapeDBUsage.Notifications;
 using EscapeDBUsage.UIClasses.Dialogs;
 using Prism.Commands;
+using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -19,20 +20,15 @@ using System.Windows.Threading;
 
 namespace EscapeDBUsage.ViewModels
 {
-    public class ConnectViewModel: BindableBase
+    public class ConnectViewModel: BindableBase, IInteractionRequestAware
     {
-        private ConnectConfirmation connectConfirmation;
-        public ConnectViewModel(ConnectConfirmation connectConfirmation)
+        public ConnectViewModel()
         {
-            this.connectConfirmation = connectConfirmation;
-
-            var db = this.connectConfirmation.DatabaseConnection;
-
             DbConnection = new DbConnectionUI()
             {
                 IsConnected = false,
-                ServerName = db.ServerName ?? @"localhost\SQLEXPRESS",
-                Login = db.Login ?? "pundera"
+                ServerName = @"localhost\SQLEXPRESS",
+                Login = "pundera"
             };
 
             Connect = new DelegateCommand(() => DoConnect());
@@ -43,25 +39,25 @@ namespace EscapeDBUsage.ViewModels
 
         private void DoCancel()
         {
-            connectConfirmation.Request.FinishInteraction();
-            connectConfirmation.CloseSignal = true;
+            if (notification != null)
+                ((ConnectNotification)notification).Confirmed = false;
+            FinishInteraction();
         }
 
         private void DoOk()
         {
-            if (DbConnection.IsConnected)
+            if (notification != null)
             {
-                // always should be... :-) (this.IsConnected => true..)
-                connectConfirmation.DatabaseConnection = new Classes.DbConnection() { 
-                    IsConnected = true, 
-                    ServerName = DbConnection.ServerName, 
-                    Login =  DbConnection.Login, 
-                    Password = DbConnection.Password, 
-                    Database = DbConnection.Database = SelectedDatabase.Name
+                ((ConnectNotification)notification).Confirmed = true;
+                ((ConnectNotification)notification).DbConnection = new DbConnection() {
+                    Database = DbConnection.Database,
+                    IsConnected = DbConnection.IsConnected,
+                    Login = DbConnection.Login,
+                    Password = DbConnection.Password,
+                    ServerName = DbConnection.ServerName
                 };
-                connectConfirmation.Request.FinishInteraction();
-                connectConfirmation.CloseSignal = true;
             }
+            FinishInteraction();
         }
 
         private void DoPasswordChange(PasswordBox p)
@@ -179,5 +175,11 @@ namespace EscapeDBUsage.ViewModels
 
         private bool isConnected = false;
         public bool IsConnected { get { return isConnected; } set { SetProperty(ref isConnected, value); } }
+
+        private INotification notification;
+        public INotification Notification { get { return notification; } set { SetProperty(ref notification, value); } }
+
+        private Action finishInteraction;
+        public Action FinishInteraction { get { return finishInteraction; } set { SetProperty(ref finishInteraction, value); } }
     }
 }
