@@ -71,25 +71,25 @@ namespace EscapeDBUsage.Helpers
                         if (s.Excels == null) continue;
                         foreach (var r in s.Excels)
                         {
-                            var ne = new NodeExcel(evAgg, nodeRoot, viewModel) { Name = r.Name, Description = r.Description };
+                            var ne = new NodeExcel(evAgg, nodeRoot, viewModel) { Guid = r.Guid, Name = r.Name, Description = r.Description };
                             result.Add(ne);
                             ne.Nodes = new ObservableCollection<NodeTab>();
                             if (r.Nodes == null) continue;
                             foreach (var t in r.Nodes)
                             {
-                                var nt = new NodeTab(evAgg, ne, viewModel) { Name = t.Name, Description = t.Description };
+                                var nt = new NodeTab(evAgg, ne, viewModel) { Guid = t.Guid, Name = t.Name, Description = t.Description };
                                 ne.Nodes.Add(nt);
                                 nt.Nodes = new ObservableCollection<NodeDbTable>();
                                 if (t.Nodes == null) continue;
                                 foreach (var table in t.Nodes)
                                 {
-                                    var ntable = new NodeDbTable(evAgg, nt, viewModel) { Name = table.Name, Description = table.Description };
+                                    var ntable = new NodeDbTable(evAgg, nt, viewModel) { Guid = table.Guid, Name = table.Name, Description = table.Description };
                                     nt.Nodes.Add(ntable);
                                     ntable.Nodes = new ObservableCollection<NodeDbColumn>();
                                     if (table.Nodes == null) continue;
                                     foreach (var c in table.Nodes)
                                     {
-                                        var nc = new NodeDbColumn(evAgg, ntable, viewModel) { Name = c.Name, Description = c.Description };
+                                        var nc = new NodeDbColumn(evAgg, ntable, viewModel) { Guid = c.Guid, Name = c.Name, Description = c.Description };
                                         ntable.Nodes.Add(nc);
                                     }
                                 }

@@ -22,28 +22,28 @@ namespace EscapeDBUsage.Helpers
 
             foreach (var e in rootList)
             {
-                var ex = new Excel() { Name = e.Name, Description = e.Description };
+                var ex = new Excel() { Guid = e.Guid, Name = e.Name, Description = e.Description };
                 ex.Nodes = new List<Tab>();
                 list.Add(ex);
 
                 if (e.Nodes == null) continue;
                 foreach (var t in e.Nodes)
                 {
-                    var tab = new Tab() { Name = t.Name, Description = t.Description };
+                    var tab = new Tab() { Guid = e.Guid, Name = t.Name, Description = t.Description };
                     tab.Nodes = new List<DbTable>();
                     ex.Nodes.Add(tab);
 
                     if (t.Nodes == null) continue;
                     foreach (var table in t.Nodes)
                     {
-                        var dbTable = new DbTable() { Name = table.Name, Description = table.Description };
+                        var dbTable = new DbTable() { Guid = e.Guid, Name = table.Name, Description = table.Description };
                         dbTable.Nodes = new List<DbColumn>();
                         tab.Nodes.Add(dbTable);
 
                         if (table.Nodes == null) continue;
                         foreach (var column in table.Nodes)
                         {
-                            var dbColumn = new DbColumn() { Name = column.Name, Description = column.Description };
+                            var dbColumn = new DbColumn() { Guid = e.Guid, Name = column.Name, Description = column.Description };
                             dbTable.Nodes.Add(dbColumn);
                         }
 
@@ -85,21 +85,25 @@ namespace EscapeDBUsage.Helpers
                     Excels = x.Root.Nodes != null ? x.Root.Nodes.Select(e =>
                           new Excel()
                           {
+                              Guid = e.Guid.Equals(Guid.Empty) ? Guid.NewGuid() : e.Guid,
                               Name = e.Name,
                               Description = e.Description,
                               Nodes = e.Nodes != null ? e.Nodes.Select(tab =>
                                   new Tab()
                                   {
+                                      Guid = tab.Guid.Equals(Guid.Empty) ? Guid.NewGuid() : tab.Guid,
                                       Name = tab.Name,
                                       Description = tab.Description,
                                       Nodes = tab.Nodes != null ? tab.Nodes.Select(table =>
                                           new DbTable()
                                           {
+                                              Guid = table.Guid.Equals(Guid.Empty) ? Guid.NewGuid() : table.Guid,
                                               Name = table.Name,
                                               Description = table.Description,
                                               Nodes = table.Nodes != null ? table.Nodes.Select(column =>
                                               new DbColumn()
                                               {
+                                                  Guid = column.Guid.Equals(Guid.Empty) ? Guid.NewGuid() : column.Guid,
                                                   Name = column.Name,
                                                   Description = column.Description
                                               }

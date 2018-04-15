@@ -20,8 +20,9 @@ namespace EscapeDBUsage
 
             var eventAggregator = new EventAggregator();
             builder.RegisterInstance<IEventAggregator>(eventAggregator).As<IEventAggregator>().SingleInstance();
-            
+
             // just one instance in all application - combos etc..
+            builder.RegisterType<PathViewModel>().As<PathViewModel>().SingleInstance();
             builder.RegisterType<DatabaseSchemaViewModel>().As<DatabaseSchemaViewModel>().SingleInstance(); 
             builder.RegisterType<MainViewModel>().As<MainViewModel>().SingleInstance();
 
@@ -50,13 +51,14 @@ namespace EscapeDBUsage
 
         protected override void InitializeShell()
         {
-            Application.Current.MainWindow.Show();
-
             // View discovery
             var regionManager = Container.Resolve<IRegionManager>();
             regionManager.RegisterViewWithRegion("ContentRegion", () => Container.Resolve<MainView>());
+            regionManager.RegisterViewWithRegion("PathRegion", () => Container.Resolve<PathView>());
             regionManager.RegisterViewWithRegion("Sprints", () => Container.Resolve<SprintsView>());
             regionManager.RegisterViewWithRegion("DatabaseSchemaView", () => Container.Resolve<DatabaseSchemaView>());
+
+            Application.Current.MainWindow.Show();
         }
 
         protected override void ConfigureModuleCatalog()

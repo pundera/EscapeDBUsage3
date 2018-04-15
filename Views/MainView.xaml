@@ -14,7 +14,7 @@
              
              prism:ViewModelLocator.AutoWireViewModel="True"
                           
-             mc:Ignorable="d">
+             mc:Ignorable="d" d:DesignWidth="1072">
 
     <UserControl.Resources>
 
@@ -160,7 +160,7 @@
         </Style>
 
         <Style x:Key="RoundedLabelStyle" TargetType="{x:Type Label}">
-            <Setter Property="Background" Value="#A0FAEBD7"/>
+            <Setter Property="Background" Value="#19E8A040"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Label}">
@@ -189,7 +189,7 @@
                     <Style.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="8" />
-                            <Setter Property="Margin" Value="8"/>
+                            <Setter Property="Margin" Value="0"/>
                         </Style>
                     </Style.Resources>
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -249,7 +249,7 @@
                             <Style.Resources>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="CornerRadius" Value="8" />
-                                    <Setter Property="Margin" Value="8"/>
+                                    <Setter Property="Margin" Value="0"/>
                                 </Style>
                             </Style.Resources>
                             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -330,7 +330,7 @@
                                     <Style.Resources>
                                         <Style TargetType="{x:Type Border}">
                                             <Setter Property="CornerRadius" Value="8" />
-                                            <Setter Property="Margin" Value="8"/>
+                                            <Setter Property="Margin" Value="0"/>
                                         </Style>
                                     </Style.Resources>
                                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -410,7 +410,7 @@
                                             <Style.Resources>
                                                 <Style TargetType="{x:Type Border}">
                                                     <Setter Property="CornerRadius" Value="8" />
-                                                    <Setter Property="Margin" Value="8"/>
+                                                    <Setter Property="Margin" Value="0"/>
                                                 </Style>
                                             </Style.Resources>
                                         </Style>
@@ -666,13 +666,16 @@
                             <ColumnDefinition Width="4*" MinWidth="500" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="32" />
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Margin="0,5,8,5">
+                        <ContentControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" prism:RegionManager.RegionName="PathRegion">
+                        </ContentControl>
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Margin="0,5,8,5">
                             <TreeView Background="Transparent" ItemTemplate="{StaticResource ResourceKey=TreeTemplateExcel}" ItemsSource="{Binding NodesExcel}" Margin="0,0,2,0" Width="Auto" >
                                 <TreeView.Resources>
                                     <Style TargetType="{x:Type Border}">
@@ -682,17 +685,17 @@
                             </TreeView>
                         </ScrollViewer>
 
-                        <GridSplitter Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Margin="0,5,-6,5" Width="8" Background="#20006400"/>
+                        <GridSplitter Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Margin="0,5,-6,5" Width="8" Background="#20006400"/>
 
                         <!-- NODE EDIT -->
 
-                            <Grid Grid.Column="1" Grid.Row="0" Margin="10,0,0,0" Height="Auto" Visibility="{Binding ExcelVisible, Converter={StaticResource ResourceKey=VisibilityConverter}}">
+                            <Grid Grid.Column="1" Grid.Row="1" Margin="20,0,0,0" Height="Auto" Visibility="{Binding ExcelVisible, Converter={StaticResource ResourceKey=VisibilityConverter}}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                    <Label Margin="0,2" Style="{StaticResource ResourceKey=RoundedLabelStyle}" >
+                                    <Label Width="110" Margin="0,2" Style="{StaticResource ResourceKey=RoundedLabelStyle}" >
                                         <Label.Content>
                                             <StackPanel Orientation="Horizontal">
                                                 <Image Height="24" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/excel.png"/>
@@ -700,8 +703,8 @@
                                             </StackPanel>
                                         </Label.Content>
                                     </Label>
-                                    <TextBox FontWeight="Bold" Padding="8,4" Height="26" Margin="5,8,5,6" Text="{Binding SelectedExcel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    <Button Margin="10,2" Width="42" Command="{Binding SelectedExcel.AddTab}" Background="Transparent">
+                                    <TextBox Width="340" FontWeight="Bold" Padding="8,4" Height="26" Margin="5,8,5,6" Text="{Binding SelectedExcel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Button Margin="10,2" Width="40" Command="{Binding SelectedExcel.AddTab}" Background="Transparent">
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -712,7 +715,7 @@
                                         </Button.ToolTip>
                                         <Image Width="24" Source="/EscapeDBUsage;component/Images/add-tab.png"/>
                                     </Button>
-                                    <Button Command="{Binding SelectedExcel.Up}" Padding="0" Margin="1,10" Background="Transparent" >
+                                    <Button Width="20" Command="{Binding SelectedExcel.Up}" Padding="0" Margin="1,10" Background="Transparent" >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -723,7 +726,7 @@
                                         </Button.ToolTip>
                                         <Image HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/up.png"/>
                                     </Button>
-                                    <Button Command="{Binding SelectedExcel.Down}" Padding="0" Margin="1,10" Background="Transparent" >
+                                <Button Width="20" Command="{Binding SelectedExcel.Down}" Padding="0" Margin="1,10" Background="Transparent" >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -734,7 +737,7 @@
                                         </Button.ToolTip>
                                         <Image Height="16" Source="/EscapeDBUsage;component/Images/down.png"/>
                                     </Button>
-                                    <Button Command="{Binding SelectedExcel.Remove}" Width="42" Background="Transparent" Margin="10,2" >
+                                    <Button Command="{Binding SelectedExcel.Remove}" Width="40" Background="Transparent" Margin="10,2" >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -755,14 +758,14 @@
                                     <TextBox Grid.Column="1" Visibility="{Binding SelectedExcel.AreDescsShown, Converter={StaticResource VisibilityConverter}}" TextWrapping="Wrap" Padding="8,4" Margin="5,5,5,6" Text="{Binding SelectedExcel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
                             </Grid>
-                            <Grid Grid.Column="1" Grid.Row="1" Margin="10,0,0,0" Height="Auto" Visibility="{Binding TabVisible, Converter={StaticResource ResourceKey=VisibilityConverter}}">
+                            <Grid Grid.Column="1" Grid.Row="2" Margin="20,0,0,0" Height="Auto" Visibility="{Binding TabVisible, Converter={StaticResource ResourceKey=VisibilityConverter}}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                    <Label Margin="0,2" Style="{StaticResource ResourceKey=RoundedLabelStyle}" >
+                                    <Label Width="110" Margin="0,2" Style="{StaticResource ResourceKey=RoundedLabelStyle}" >
                                         <Label.Content>
                                             <StackPanel Orientation="Horizontal">
                                                 <Image Height="24" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/tab.png"/>
@@ -770,8 +773,8 @@
                                             </StackPanel>
                                         </Label.Content>
                                     </Label>
-                                    <TextBox FontWeight="Bold" Padding="8,4" Height="26" Margin="5,8,5,6" Text="{Binding SelectedTab.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    <Button Margin="10,2" Width="42" Command="{Binding SelectedTab.AddTables}" Background="Transparent">
+                                    <TextBox Width="340" FontWeight="Bold" Padding="8,4" Height="26" Margin="5,8,5,6" Text="{Binding SelectedTab.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Button Margin="10,2" Width="40" Command="{Binding SelectedTab.AddTables}" Background="Transparent">
                                         <i:Interaction.Triggers>
                                         <prism:InteractionRequestTrigger SourceObject="{Binding SelectedTab.Request}">
                                                 <prism:PopupWindowAction IsModal="True" WindowStartupLocation="CenterScreen" CenterOverAssociatedObject="False" WindowStyle="{StaticResource AddTablesAndColumnsWindow}" >
@@ -784,14 +787,14 @@
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
-                                                    <TextBlock FontWeight="Bold">Add Sheet</TextBlock>
-                                                    <TextBlock>To this excel adds a new spread sheet</TextBlock>
+                                                    <TextBlock FontWeight="Bold">Add DB Tabeles and Columns</TextBlock>
+                                                    <TextBlock>To this sheet adds new DB tables and columns</TextBlock>
                                                 </StackPanel>
                                             </ToolTip>
                                         </Button.ToolTip>
                                         <Image Width="24" Source="/EscapeDBUsage;component/Images/add-tables.png"/>
                                     </Button>
-                                    <Button Command="{Binding SelectedTab.Up}" Padding="0" Margin="1,10" Background="Transparent" >
+                                    <Button Width="20" Command="{Binding SelectedTab.Up}" Padding="0" Margin="1,10" Background="Transparent" >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -802,7 +805,7 @@
                                         </Button.ToolTip>
                                         <Image HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/up.png"/>
                                     </Button>
-                                    <Button Command="{Binding SelectedTab.Down}" Padding="0" Margin="1,10" Background="Transparent" >
+                                <Button Width="20" Command="{Binding SelectedTab.Down}" Padding="0" Margin="1,10" Background="Transparent" >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -813,7 +816,7 @@
                                         </Button.ToolTip>
                                         <Image Height="16" Source="/EscapeDBUsage;component/Images/down.png"/>
                                     </Button>
-                                    <Button Command="{Binding SelectedTab.Remove}" Width="42" Background="Transparent" Margin="10,2" >
+                                    <Button Command="{Binding SelectedTab.Remove}" Width="40" Background="Transparent" Margin="10,2" >
                                         <Button.ToolTip>
                                             <ToolTip>
                                                 <StackPanel>
@@ -835,83 +838,147 @@
                                 </Grid>
 
                             </Grid>
-                            <Grid Grid.Column="1" Grid.Row="2" Margin="0,0,10,0" Height="115" VerticalAlignment="Top" Visibility="{Binding TableVisible, Converter={StaticResource ResourceKey=VisibilityConverter}}">
-                                <Image HorizontalAlignment="Left" Height="32" Margin="10,10,0,0" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/table.png"/>
-                                <Button Command="{Binding SelectedDbTable.Up}" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Background="Transparent" >
+                            <Grid Grid.Column="1" Grid.Row="3" Margin="20,0,0,0" VerticalAlignment="Top" Visibility="{Binding TableVisible, Converter={StaticResource ResourceKey=VisibilityConverter}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <Label Width="110" Margin="0,2" Style="{StaticResource ResourceKey=RoundedLabelStyle}" >
+                                    <Label.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Height="24" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/table.png"/>
+                                            <Label Content="DB Table:"/>
+                                        </StackPanel>
+                                    </Label.Content>
+                                </Label>
+                                <TextBox Width="340" FontWeight="Bold" Padding="8,4" Height="26" Margin="5,8,5,6" Text="{Binding SelectedDbTable.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <Button Margin="10,2" Width="40" Command="{Binding SelectedDbTable.AddColumns}" Background="Transparent">
+                                    <i:Interaction.Triggers>
+                                        <prism:InteractionRequestTrigger SourceObject="{Binding SelectedDbTable.Request}">
+                                            <prism:PopupWindowAction IsModal="True" WindowStartupLocation="CenterScreen" CenterOverAssociatedObject="False" WindowStyle="{StaticResource AddTablesAndColumnsWindow}" >
+                                                <prism:PopupWindowAction.WindowContent>
+                                                    <views:AddTablesAndColumnsView />
+                                                </prism:PopupWindowAction.WindowContent>
+                                            </prism:PopupWindowAction>
+                                        </prism:InteractionRequestTrigger>
+                                    </i:Interaction.Triggers>
                                     <Button.ToolTip>
                                         <ToolTip>
                                             <StackPanel>
-                                                <TextBlock FontWeight="Bold">Move DB Table Up</TextBlock>
+                                                <TextBlock FontWeight="Bold">Add DB Columns</TextBlock>
+                                                <TextBlock>To this DB table adds new DB columns</TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                    <Image Width="24" Source="/EscapeDBUsage;component/Images/add-columns.png"/>
+                                </Button>
+                                <Button Width="20" Command="{Binding SelectedDbTable.Up}" Padding="0" Margin="1,10" Background="Transparent" >
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold">Move Up</TextBlock>
                                                 <TextBlock>Move DB table up in the tree structure</TextBlock>
                                             </StackPanel>
                                         </ToolTip>
                                     </Button.ToolTip>
                                     <Image HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/up.png"/>
                                 </Button>
-                                <Button Command="{Binding SelectedDbTable.Down}" HorizontalAlignment="Left" Margin="33,50,0,0" VerticalAlignment="Top" Background="Transparent" >
+                                <Button Width="20" Command="{Binding SelectedDbTable.Down}" Padding="0" Margin="1,10" Background="Transparent" >
                                     <Button.ToolTip>
                                         <ToolTip>
                                             <StackPanel>
-                                                <TextBlock FontWeight="Bold">Move Sheet Down</TextBlock>
-                                                <TextBlock>Move sheet down in the tree structure</TextBlock>
+                                                <TextBlock FontWeight="Bold">Move Down</TextBlock>
+                                                <TextBlock>Move DB table down in the tree structure</TextBlock>
                                             </StackPanel>
                                         </ToolTip>
                                     </Button.ToolTip>
-                                    <Image HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/down.png"/>
+                                    <Image Height="16" Source="/EscapeDBUsage;component/Images/down.png"/>
                                 </Button>
-                                <Button Margin="56,41,0,0" Padding="2" Width="32" Height="32" Command="{Binding SelectedDbTable.Remove}" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <Button Command="{Binding SelectedDbTable.Remove}" Width="40" Background="Transparent" Margin="10,2" >
                                     <Button.ToolTip>
                                         <ToolTip>
                                             <StackPanel>
-                                                <TextBlock FontWeight="Bold">Remove DB Table</TextBlock>
-                                                <TextBlock>Removes this DB table</TextBlock>
+                                                <TextBlock FontWeight="Bold"><Run Text="Remove DB Table"/></TextBlock>
+                                                <TextBlock><Run Text="Removes this DB table"/></TextBlock>
                                             </StackPanel>
                                         </ToolTip>
                                     </Button.ToolTip>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Margin="2" Width="24" Source="/EscapeDBUsage;component/Images/remove.png"/>
-                                    </StackPanel>
+                                    <Image Width="24" Source="/EscapeDBUsage;component/Images/remove.png"/>
                                 </Button>
-
-                                <StackPanel Margin="10,83,0,0" Orientation="Horizontal" HorizontalAlignment="Left" Width="151" Height="32" VerticalAlignment="Top">
-                                    <Button Margin="0,2,2,2" Padding="2" Command="{Binding SelectedDbTable.AddColumn}" Background="Transparent">
-                                        <Button.ToolTip>
-                                            <ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock FontWeight="Bold">Add DB Column</TextBlock>
-                                                    <TextBlock>To this DB table adds a new DB column</TextBlock>
-                                                </StackPanel>
-                                            </ToolTip>
-                                        </Button.ToolTip>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Margin="2" Width="24" Source="/EscapeDBUsage;component/Images/add-column.png"/>
-                                        </StackPanel>
-                                    </Button>
-
-                                    <Button Margin="2" Padding="2" Command="{Binding SelectedDbTable.AddColumns}" Background="Transparent">
-                                        <Button.ToolTip>
-                                            <ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock FontWeight="Bold">Add DB Column(s)</TextBlock>
-                                                    <TextBlock>To this DB table adds a new DB column(s)</TextBlock>
-                                                    <TextBlock>DB Schema - tables and columns are stored offline!</TextBlock>
-                                                </StackPanel>
-                                            </ToolTip>
-                                        </Button.ToolTip>
-                                        <Image Margin="2" Width="24" Source="/EscapeDBUsage;component/Images/add-columns.png"/>
-                                    </Button>
-
-
-                                </StackPanel>
-
-
-                                <Label Style="{StaticResource ResourceKey=RoundedLabelStyle}" Content="Table Name" HorizontalAlignment="Left" Margin="61,10,0,0" VerticalAlignment="Top"/>
-                                <TextBox IsEnabled="False" FontWeight="Bold" HorizontalContentAlignment="Left" Padding="8,4" Height="26" Margin="138,10,0,0" TextWrapping="Wrap" Text="{Binding SelectedDbTable.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                                <Label Visibility="{Binding SelectedDbTable.AreDescsShown, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource ResourceKey=RoundedLabelStyle}" Content="Description" HorizontalAlignment="Left" Margin="91,41,0,0" VerticalAlignment="Top" Width="70"/>
-                                <TextBox Visibility="{Binding SelectedDbTable.AreDescsShown, Converter={StaticResource VisibilityConverter}}" HorizontalContentAlignment="Left" TextWrapping="Wrap" Padding="2" Margin="166,41,10,10" Text="{Binding SelectedDbTable.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <Grid Grid.Row="1" Height="Auto">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Visibility="{Binding SelectedDbTable.AreDescsShown, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource ResourceKey=RoundedLabelStyle}" Content="Description:" Margin="10,10,0,10" />
+                                <TextBox Grid.Column="1" Visibility="{Binding SelectedDbTable.AreDescsShown, Converter={StaticResource VisibilityConverter}}" TextWrapping="Wrap" Padding="8,4" Margin="5,5,5,6" Text="{Binding SelectedDbTable.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </Grid>
-                        <Grid Grid.Column="1" Grid.Row="3" Margin="0,0,10,0" Visibility="{Binding ColumnVisible, Converter={StaticResource ResourceKey=VisibilityConverter}}">
-                            <Image HorizontalAlignment="Left" Height="32" Margin="10,10,0,0" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/column.png"/>
+                        </Grid>
+                        <Grid Grid.Column="1" Grid.Row="4" Margin="20,0,0,0" Visibility="{Binding ColumnVisible, Converter={StaticResource ResourceKey=VisibilityConverter}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <Label Width="110" Margin="0,2" Style="{StaticResource ResourceKey=RoundedLabelStyle}" >
+                                    <Label.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Height="24" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/column.png"/>
+                                            <Label Content="DB Column:"/>
+                                        </StackPanel>
+                                    </Label.Content>
+                                </Label>
+                                <TextBox Width="340" FontWeight="Bold" Padding="8,4" Height="26" Margin="5,8,5,6" Text="{Binding SelectedDbColumn.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                
+                                <Button Width="20" Command="{Binding SelectedDbColumn.Up}" Padding="0" Margin="62,10,0,10" Background="Transparent" >
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold">Move Up</TextBlock>
+                                                <TextBlock>Move DB column up in the tree structure</TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                    <Image HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/up.png"/>
+                                </Button>
+                                <Button Width="20" Command="{Binding SelectedDbColumn.Down}" Padding="0" Margin="1,10" Background="Transparent" >
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold">Move Down</TextBlock>
+                                                <TextBlock>Move DB column down in the tree structure</TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                    <Image Height="16" Source="/EscapeDBUsage;component/Images/down.png"/>
+                                </Button>
+                                <Button Command="{Binding SelectedDbColumn.Remove}" Width="40" Background="Transparent" Margin="10,2" >
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold"><Run Text="Remove DB Column"/></TextBlock>
+                                                <TextBlock><Run Text="Removes this DB column"/></TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                    <Image Width="24" Source="/EscapeDBUsage;component/Images/remove.png"/>
+                                </Button>
+                            </StackPanel>
+                            <Grid Grid.Row="1" Height="Auto">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Visibility="{Binding SelectedDbColumn.AreDescsShown, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource ResourceKey=RoundedLabelStyle}" Content="Description:" Margin="10,10,0,10" />
+                                <TextBox Grid.Column="1" Visibility="{Binding SelectedDbColumn.AreDescsShown, Converter={StaticResource VisibilityConverter}}" TextWrapping="Wrap" Padding="8,4" Margin="5,5,5,6" Text="{Binding SelectedDbColumn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+
+
+                            <!--<Image HorizontalAlignment="Left" Height="32" Margin="10,10,0,0" VerticalAlignment="Top" Source="/EscapeDBUsage;component/Images/column.png"/>
                             <Button Command="{Binding SelectedDbColumn.Up}" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Background="Transparent" >
                                 <Button.ToolTip>
                                     <ToolTip>
@@ -952,7 +1019,7 @@
                             <Label Style="{StaticResource ResourceKey=RoundedLabelStyle}" Content="Column Name" HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top"/>
                             <TextBox IsEnabled="False" FontWeight="Bold" HorizontalContentAlignment="Left" Padding="8,4" Height="26" Margin="138,10,0,0" TextWrapping="Wrap" Text="{Binding SelectedDbColumn.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" HorizontalAlignment="Left" />
                             <Label Visibility="{Binding SelectedDbColumn.AreDescsShown, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource ResourceKey=RoundedLabelStyle}" Content="Description" HorizontalAlignment="Left" Margin="91,53,0,0" VerticalAlignment="Top" Width="71"/>
-                            <TextBox Visibility="{Binding SelectedDbColumn.AreDescsShown, Converter={StaticResource VisibilityConverter}}" HorizontalContentAlignment="Left" TextWrapping="Wrap" Padding="2" Margin="167,53,9,28" Text="{Binding SelectedDbColumn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Visibility="{Binding SelectedDbColumn.AreDescsShown, Converter={StaticResource VisibilityConverter}}" HorizontalContentAlignment="Left" TextWrapping="Wrap" Padding="2" Margin="167,53,9,28" Text="{Binding SelectedDbColumn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
                         </Grid>
 
                     </Grid>

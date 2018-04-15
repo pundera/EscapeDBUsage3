@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="EscapeDBUsage.Views.PathView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EscapeDBUsage.Views"
+             
+             xmlns:prism="http://prismlibrary.com/"
+             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             
+             mc:Ignorable="d" 
+             Height="32" Width="Auto">
+    <StackPanel Orientation="Horizontal">
+        <local:SelectedNodePathView DataContext="{Binding Root}" />
+        <local:SelectedNodePathView DataContext="{Binding Excel}" />
+        <local:SelectedNodePathView DataContext="{Binding Tab}" />
+        <local:SelectedNodePathView DataContext="{Binding Table}" />
+        <local:SelectedNodePathView DataContext="{Binding Column}" />
+    </StackPanel>
+</UserControl>

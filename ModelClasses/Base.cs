@@ -9,6 +9,9 @@ namespace EscapeDBUsage.ModelClasses
 {
     public class Base
     {
+        [JsonProperty(Order = 0)]
+        public Guid Guid { get; set; }
+
         [JsonProperty(Order = 1)]
         public string Name
         {

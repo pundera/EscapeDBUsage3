@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EscapeDBUsage.Events
 {
-    public class EventSelectedChanged: PubSubEvent<NodeBase>
+    public class SelectedInMainChangedEvent : PubSubEvent<NodeBase>
     {
     }
 }

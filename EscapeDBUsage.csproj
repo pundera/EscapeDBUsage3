@@ -69,8 +69,15 @@
     <Compile Include="Converters\ErrorToColorConverter.cs" />
     <Compile Include="Converters\ImageSourceConverter.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
+    <Compile Include="Converters\StringImageConverter.cs" />
+    <Compile Include="Enums\NodeType.cs" />
     <Compile Include="Events\ConnectEvent.cs" />
+    <Compile Include="Events\PathViewAddedEvent.cs" />
+    <Compile Include="Events\SelectedInMainChangedEvent.cs" />
+    <Compile Include="Events\SelectedInPathChangedEvent.cs" />
     <Compile Include="Events\SelectedSprintChanged.cs" />
+    <Compile Include="Events\SelectionChangedEvent.cs" />
+    <Compile Include="FlowStructures\SelectionStructure.cs" />
     <Compile Include="Helpers\ConnectionHelper.cs" />
     <Compile Include="Helpers\DbSchemaHelper.cs" />
     <Compile Include="Helpers\FoldersHelper.cs" />
@@ -87,11 +94,14 @@
     <Compile Include="UIClasses\DatabaseSchema\NodeDbSchemaColumn.cs" />
     <Compile Include="UIClasses\DatabaseSchema\NodeDbSchemaTable.cs" />
     <Compile Include="UIClasses\Dialogs\DbConnectionUI.cs" />
+    <Compile Include="UIClasses\Path\PathItem.cs" />
     <Compile Include="UIClasses\UISprints.cs" />
     <Compile Include="UIControlGetters\VisualChildrenHelper.cs" />
     <Compile Include="ViewModels\AddTablesAndColumnsViewModel.cs" />
     <Compile Include="ViewModels\ConnectViewModel.cs" />
     <Compile Include="ViewModels\DatabaseSchemaViewModel.cs" />
+    <Compile Include="ViewModels\PathViewModel.cs" />
+    <Compile Include="ViewModels\SelectedNodePathViewModel.cs" />
     <Compile Include="Views\AddTablesAndColumnsView.xaml.cs">
       <DependentUpon>AddTablesAndColumnsView.xaml</DependentUpon>
     </Compile>
@@ -103,6 +113,12 @@
     </Compile>
     <Compile Include="Views\ExampleWindow.xaml.cs">
       <DependentUpon>ExampleWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PathView.xaml.cs">
+      <DependentUpon>PathView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectedNodePathView.xaml.cs">
+      <DependentUpon>SelectedNodePathView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SprintsView.xaml.cs">
       <DependentUpon>SprintsView.xaml</DependentUpon>
@@ -170,6 +186,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PathView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SelectedNodePathView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SprintsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -369,6 +393,9 @@
   <ItemGroup>
     <Resource Include="Images\zoom-in.png" />
     <Resource Include="Images\zoom-out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\root.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

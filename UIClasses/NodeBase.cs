@@ -1,4 +1,5 @@
 ﻿using EscapeDBUsage.Events;
+using EscapeDBUsage.FlowStructures;
 using EscapeDBUsage.UIClasses.OtherViews;
 using Prism.Commands;
 using Prism.Events;
@@ -25,6 +26,9 @@ namespace EscapeDBUsage.UIClasses
             Down = new DelegateCommand(DoDown);
         }
 
+        public Guid Guid { get; set; }
+
+        public bool IsAlreadySelected { get; set; }
 
         private bool areDescsShown = false;
         public bool AreDescsShown
@@ -74,7 +78,7 @@ namespace EscapeDBUsage.UIClasses
                 nodes.Insert(ix + 1, this as NodeDbColumn);
             }
 
-            SelectedNode = this;
+            //SelectedNode = this;
 
         }
 
@@ -113,7 +117,7 @@ namespace EscapeDBUsage.UIClasses
                 nodes.Insert(ix - 1, this as NodeDbColumn);
             }
 
-            SelectedNode = this;
+            //SelectedNode = this;
         }
 
         public IEventAggregator EventAggregator { get; private set; }
@@ -132,16 +136,19 @@ namespace EscapeDBUsage.UIClasses
         }
 
 
-        private NodeBase selectedNode;
-        public NodeBase SelectedNode
-        {
-            get { return selectedNode; }
-            set
-            {
-                selectedNode = value;
-                EventAggregator.GetEvent<EventSelectedChanged>().Publish(value);
-            }
-        }
+        //private NodeBase selectedNode;
+        //public NodeBase SelectedNode
+        //{
+        //    get { return selectedNode; }
+        //    set
+        //    {
+        //        selectedNode = value;
+
+        //        //if (value!=null) EventAggregator.GetEvent<SelectionStructureChangedEvent>().Publish(value);
+
+
+        //    }
+        //}
 
         private string name;
         public string Name
@@ -169,10 +176,40 @@ namespace EscapeDBUsage.UIClasses
         {
             get { return isSelected; }
             set
-            {
+            {              
+                if (value)
+                {
+                    var parent = this.GetParent();
+                    if (parent == null) return;
+                    foreach (var n in parent.GetNodes())
+                    {
+                        n.IsSelected = false;
+                    }
+                }
+
                 SetProperty(ref isSelected, value);
-                SelectedNode = this;
+
+                if (value)
+                {
+                    //SelectedNode = this;
+                    EventAggregator.GetEvent<SelectionChangedEvent>().Publish(this);
+                    EventAggregator.GetEvent<SelectedInMainChangedEvent>().Publish(this);
+                }
+
             }
+        }
+
+        public NodeBase GetParent()
+        {
+            if (this is NodeRoot) return null;
+            if (this is NodeDbTableRoot) return null;
+            if (this is NodeDbTableToExcel) return null;
+
+            if (this is NodeExcel) return (this as NodeExcel).Root;
+            if (this is NodeTab) return (this as NodeTab).NodeExcel;
+            if (this is NodeDbTable) return (this as NodeDbTable).NodeTab;
+            if (this is NodeDbColumn) return (this as NodeDbColumn).NodeDbTable;
+            return null;
         }
 
         private bool isVisible = true;

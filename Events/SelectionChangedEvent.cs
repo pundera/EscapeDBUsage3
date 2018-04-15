@@ -1,4 +1,5 @@
-﻿using EscapeDBUsage.UIClasses;
+﻿using EscapeDBUsage.FlowStructures;
+using EscapeDBUsage.UIClasses;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EscapeDBUsage.Events
 {
-    public class EventSelectedChanged: PubSubEvent<NodeBase>
+    public class SelectionChangedEvent: PubSubEvent<NodeBase>
     {
     }
 }

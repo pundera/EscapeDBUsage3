@@ -1,4 +1,5 @@
 ﻿using EscapeDBUsage.Events;
+using EscapeDBUsage.FlowStructures;
 using EscapeDBUsage.Helpers;
 using EscapeDBUsage.InteractionRequests;
 using EscapeDBUsage.UIClasses;
@@ -37,52 +38,17 @@ namespace EscapeDBUsage.ViewModels
                 Nodes = new ObservableCollection<NodeDbTableToExcel>()
             };
 
-            evAgg.GetEvent<EventSelectedChanged>().Subscribe((n) => {
-
-
-                SelectedExcel = null;
-                SelectedTab = null;
-                SelectedDbTable = null;
-                SelectedDbColumn = null;
-
-                ExcelVisible = false;
-                TabVisible = false;
-                TableVisible = false;
-                ColumnVisible = false;
-
-                if (n is NodeExcel)
+            eventAgg.GetEvent<PathViewAddedEvent>().Subscribe(() => {
+                Task.Run(() =>
                 {
-                    SelectedExcel = n as NodeExcel;
-                    ExcelVisible = true;
-                }
-                if (n is NodeTab)
-                {
-                    SelectedTab = n as NodeTab;
-                    SelectedExcel = (n as NodeTab).NodeExcel;
-                    ExcelVisible = true;
-                    TabVisible = true;
-                }
-                if (n is NodeDbTable)
-                {
-                    SelectedDbTable = n as NodeDbTable;
-                    SelectedTab = (n as NodeDbTable).NodeTab;
-                    SelectedExcel = (n as NodeDbTable).NodeTab.NodeExcel;
-                    ExcelVisible = true;
-                    TabVisible = true;
-                    TableVisible = true;
-                }
-                if (n is NodeDbColumn)
-                {
-                    SelectedDbColumn = n as NodeDbColumn;
-                    SelectedDbTable = (n as NodeDbColumn).NodeDbTable;
-                    SelectedTab = (n as NodeDbColumn).NodeDbTable.NodeTab;
-                    SelectedExcel = (n as NodeDbColumn).NodeDbTable.NodeTab.NodeExcel;
-                    ExcelVisible = true;
-                    TabVisible = true;
-                    TableVisible = true;
-                    ColumnVisible = true;
-                }
+                    DoLoad();
+                });
             });
+
+            evAgg.GetEvent<SelectionChangedEvent>().Subscribe(SelectionChanged());
+            evAgg.GetEvent<SelectedInPathChangedEvent>().Subscribe(SelectionChanged());
+
+
             Import = new DelegateCommand(() => DoImport());
             Save = new DelegateCommand(() => DoSave());
             Load = new DelegateCommand(() => DoLoad());
@@ -126,11 +92,77 @@ namespace EscapeDBUsage.ViewModels
 
             AddTables = new DelegateCommand(() => DoAddTables());
 
-            Task.Run(() =>
-            {
-                DoLoad();
-            });
+        }
 
+        public Action<NodeBase> SelectionChanged()
+        {
+            return node =>
+            {
+
+                try
+                {
+
+                    eventAgg.GetEvent<SelectionChangedEvent>().Unsubscribe(SelectionChanged());
+                    eventAgg.GetEvent<SelectedInPathChangedEvent>().Unsubscribe(SelectionChanged());
+
+
+
+                    SelectedExcel = null;
+                    SelectedTab = null;
+                    SelectedDbTable = null;
+                    SelectedDbColumn = null;
+
+                    ExcelVisible = false;
+                    TabVisible = false;
+                    TableVisible = false;
+                    ColumnVisible = false;
+
+                    if (node is NodeRoot)
+                    {
+                        Root = node as NodeRoot;
+                    }
+
+                    if (node is NodeExcel)
+                    {
+                        SelectedExcel = node as NodeExcel;
+                        ExcelVisible = true;
+                    }
+                    if (node is NodeTab)
+                    {
+                        SelectedTab = node as NodeTab;
+                        SelectedExcel = (node as NodeTab).NodeExcel;
+                        ExcelVisible = true;
+                        TabVisible = true;
+                    }
+                    if (node is NodeDbTable)
+                    {
+                        SelectedDbTable = node as NodeDbTable;
+                        SelectedTab = (node as NodeDbTable).NodeTab;
+                        SelectedExcel = (node as NodeDbTable).NodeTab.NodeExcel;
+                        ExcelVisible = true;
+                        TabVisible = true;
+                        TableVisible = true;
+                    }
+                    if (node is NodeDbColumn)
+                    {
+                        SelectedDbColumn = node as NodeDbColumn;
+                        SelectedDbTable = (node as NodeDbColumn).NodeDbTable;
+                        SelectedTab = (node as NodeDbColumn).NodeDbTable.NodeTab;
+                        SelectedExcel = (node as NodeDbColumn).NodeDbTable.NodeTab.NodeExcel;
+                        ExcelVisible = true;
+                        TabVisible = true;
+                        TableVisible = true;
+                        ColumnVisible = true;
+                    }
+
+                }
+                finally
+                {
+                    eventAgg.GetEvent<SelectionChangedEvent>().Subscribe(SelectionChanged());
+                    eventAgg.GetEvent<SelectedInPathChangedEvent>().Subscribe(SelectionChanged());
+                }
+
+            };
         }
 
         public DatabaseSchemaViewModel DataViewModel
@@ -169,6 +201,25 @@ namespace EscapeDBUsage.ViewModels
 
         private NodeDbTableRoot rootTables;
         private NodeRoot root;
+        public NodeRoot Root
+        {
+            get { return root; }
+            set
+            {
+                SetProperty(ref root, value);
+                if (value != null)
+                {
+                    try
+                    {
+                        //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
+                    }
+                    finally
+                    {
+                        
+                    }
+                }
+            }
+        }
 
         private void DoRefresh()
         {
@@ -313,32 +364,88 @@ namespace EscapeDBUsage.ViewModels
 
         private IEventAggregator eventAgg;
 
-        private NodeExcel selecedExcel;
+        private NodeExcel selectedExcel;
         public NodeExcel SelectedExcel
         {
-            get { return selecedExcel; }
-            set { SetProperty(ref selecedExcel, value); }
+            get { return selectedExcel; }
+            set
+            {
+                SetProperty(ref selectedExcel, value);
+
+                if (value == null)
+                {
+                    return;
+                }
+
+                try
+                {
+                    
+                    //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
+                } finally
+                {
+                    
+                }
+
+                //if (value.IsAlreadySelected) return;
+                //value.IsAlreadySelected = false;
+                //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
+            }
         }
 
         private NodeTab selecedTab;
         public NodeTab SelectedTab
         {
             get { return selecedTab; }
-            set { SetProperty(ref selecedTab, value); }
+            set {
+                SetProperty(ref selecedTab, value);
+
+                if (value == null)
+                {
+                    return;
+                }
+
+                (value as NodeTab).NodeExcel.IsExpanded = true;
+
+                //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
+            }
         }
 
         private NodeDbTable selecedDbTable;
         public NodeDbTable SelectedDbTable
         {
             get { return selecedDbTable; }
-            set { SetProperty(ref selecedDbTable, value); }
+            set
+            {
+                SetProperty(ref selecedDbTable, value);
+
+                if (value == null)
+                {
+                    return;
+                }
+
+                value.NodeTab.IsExpanded = true;
+
+                //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
+            }
         }
 
         private NodeDbColumn selecedDbColumn;
         public NodeDbColumn SelectedDbColumn
         {
             get { return selecedDbColumn; }
-            set { SetProperty(ref selecedDbColumn, value); }
+            set
+            {
+                SetProperty(ref selecedDbColumn, value);
+
+                if (value == null)
+                {
+                    return;
+                }
+
+                value.NodeDbTable.IsExpanded = true;
+
+                //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
+            }
         }
 
         private void DoCollapseAll()
@@ -701,14 +808,25 @@ namespace EscapeDBUsage.ViewModels
                 SetProperty(ref selectedSprint, value);
                 if (selectedSprint != null)
                 {
-                    root = selectedSprint.Root;
+                    Root = selectedSprint.Root;
                     NodesExcel = selectedSprint.Root.Nodes;
-                    if (NodesExcel != null && NodesExcel.Count > 0) SelectedExcel = NodesExcel.First();
+                    //if (NodesExcel != null && NodesExcel.Count > 0) SelectedExcel = NodesExcel.First();
 
                     SetDescShown(AreDescsShown);
+
+                    eventAgg.GetEvent<SelectedSprintChanged>().Publish(value);
+
+                    try
+                    {
+                        //eventAgg.GetEvent<SelectionStructureChangedEvent>().Unsubscribe(StructureChanged());
+                        //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value.Root);
+                    }
+                    finally
+                    {
+                        //eventAgg.GetEvent<SelectionStructureChangedEvent>().Unsubscribe(StructureChanged());
+                    }
                 }
 
-                eventAgg.GetEvent<SelectedSprintChanged>().Publish(value);
             }
         }
 

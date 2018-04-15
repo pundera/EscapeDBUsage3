@@ -18,6 +18,7 @@
             <converters:XxxImageSourceConverter x:Key="ImageFromSourceConverter" />
             <converters:ErrorToColorConverter x:Key="ErrorToColor" />
             <converters:PercentageConverter x:Key="PercentageConverter" />
+            <converters:StringImageConverter x:Key="StringImageConverter" />
 
             <!--Icons-->
             <BitmapImage UriSource="/Images/sprints.png" x:Key="i-sprint" />
