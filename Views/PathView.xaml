@@ -11,7 +11,7 @@
              
              mc:Ignorable="d" 
              Height="32" Width="Auto">
-    <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Horizontal" Visibility="{Binding IsVisible, Converter={StaticResource VisibilityConverter}}">
         <local:SelectedNodePathView DataContext="{Binding Root}" />
         <local:SelectedNodePathView DataContext="{Binding Excel}" />
         <local:SelectedNodePathView DataContext="{Binding Tab}" />

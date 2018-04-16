@@ -27,6 +27,8 @@ namespace EscapeDBUsage.ViewModels
             NodeType = nodeType;
             pathViewModel = viewModel;
             this.mainViewModel = mainViewModel;
+
+            IsVisible = false;
         }
 
         public NodeType NodeType { get; private set; }
@@ -98,21 +100,13 @@ namespace EscapeDBUsage.ViewModels
 
                     try
                     {
-
-                        //Dispatcher.CurrentDispatcher.Invoke(() =>
-
-                        //evAgg.GetEvent<SelectionStructureChangedEvent>().Unsubscribe(pathViewModel.PathChangedSubscribtion());
-
                         var n = Node.GetNodes().First(x => x.Guid.Equals(value.Guid));
-                        evAgg.GetEvent<SelectedInPathChangedEvent>().Publish(n);
+                        //evAgg.GetEvent<SelectedInPathChangedEvent>().Publish(n);
 
-                        //evAgg.GetEvent<SelectionChangedEvent>().Unsubscribe(mainViewModel.SelectionChanged());
                         n.IsSelected = true;
-                        //evAgg.GetEvent<SelectionChangedEvent>().Subscribe(mainViewModel.SelectionChanged());
                     }
                     finally
                     {
-                        //evAgg.GetEvent<Se/lectionStructureChangedEvent>().Subscribe(pathViewModel.PathChangedSubscribtion());
                     }
 
 

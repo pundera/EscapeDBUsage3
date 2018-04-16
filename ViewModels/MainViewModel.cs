@@ -211,7 +211,7 @@ namespace EscapeDBUsage.ViewModels
                 {
                     try
                     {
-                        //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
+                        eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
                     }
                     finally
                     {

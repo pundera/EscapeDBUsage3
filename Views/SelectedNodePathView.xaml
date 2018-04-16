@@ -19,7 +19,7 @@
                 <Label Content="{Binding Name}" />
             </StackPanel>
         </Label>
-        <ComboBox Margin="5,0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+        <ComboBox Visibility="{Binding IsVisible, Converter={StaticResource VisibilityConverter}}" Margin="5,0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
