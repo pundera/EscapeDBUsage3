@@ -20,7 +20,12 @@ namespace EscapeDBUsage.ViewModels
 {
     public class SelectedNodePathViewModel: BindableBase
     {
-        public SelectedNodePathViewModel(IEventAggregator eventAggregator, NodeBase node, PathViewModel viewModel, MainViewModel mainViewModel, NodeType nodeType = NodeType.Undefined)
+        public SelectedNodePathViewModel(
+            IEventAggregator eventAggregator, 
+            NodeBase node, 
+            PathViewModel viewModel, 
+            MainViewModel mainViewModel,
+            NodeType nodeType = NodeType.Undefined)
         {
             evAgg = eventAggregator;
             Node = node;
@@ -30,6 +35,9 @@ namespace EscapeDBUsage.ViewModels
 
             IsVisible = false;
         }
+
+        public SubscriptionToken Token { get; set; }
+        public Action<NodeBase> SubscriptionAction { get; set; }
 
         public NodeType NodeType { get; private set; }
 
@@ -103,7 +111,9 @@ namespace EscapeDBUsage.ViewModels
                         var n = Node.GetNodes().First(x => x.Guid.Equals(value.Guid));
                         //evAgg.GetEvent<SelectedInPathChangedEvent>().Publish(n);
 
+                        //evAgg.GetEvent<SelectedInMainChangedEvent>().Unsubscribe(Token);
                         n.IsSelected = true;
+                        //Token = evAgg.GetEvent<SelectedInMainChangedEvent>().Subscribe(SubscriptionAction);
                     }
                     finally
                     {

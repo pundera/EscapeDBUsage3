@@ -46,7 +46,7 @@ namespace EscapeDBUsage.ViewModels
             });
 
             evAgg.GetEvent<SelectionChangedEvent>().Subscribe(SelectionChanged());
-            evAgg.GetEvent<SelectedInPathChangedEvent>().Subscribe(SelectionChanged());
+            //evAgg.GetEvent<SelectedInPathChangedEvent>().Subscribe(SelectionChanged());
 
 
             Import = new DelegateCommand(() => DoImport());
@@ -103,14 +103,6 @@ namespace EscapeDBUsage.ViewModels
                 {
 
                     eventAgg.GetEvent<SelectionChangedEvent>().Unsubscribe(SelectionChanged());
-                    eventAgg.GetEvent<SelectedInPathChangedEvent>().Unsubscribe(SelectionChanged());
-
-
-
-                    SelectedExcel = null;
-                    SelectedTab = null;
-                    SelectedDbTable = null;
-                    SelectedDbColumn = null;
 
                     ExcelVisible = false;
                     TabVisible = false;
@@ -159,7 +151,6 @@ namespace EscapeDBUsage.ViewModels
                 finally
                 {
                     eventAgg.GetEvent<SelectionChangedEvent>().Subscribe(SelectionChanged());
-                    eventAgg.GetEvent<SelectedInPathChangedEvent>().Subscribe(SelectionChanged());
                 }
 
             };

@@ -14,14 +14,14 @@ using System.Windows.Input;
 
 namespace EscapeDBUsage.UIClasses
 {
-    public class NodeBase: BindableBase
+    public class NodeBase : BindableBase
     {
         public NodeBase(IEventAggregator evAgg)
         {
             EventAggregator = evAgg;
 
             Remove = new DelegateCommand(DoRemove);
-        
+
             Up = new DelegateCommand(DoUp);
             Down = new DelegateCommand(DoDown);
         }
@@ -57,7 +57,7 @@ namespace EscapeDBUsage.UIClasses
             {
                 var nodes = (this as NodeTab).NodeExcel.Nodes;
                 var ix = nodes.IndexOf(this as NodeTab);
-                if (ix == nodes.Count-1) return;
+                if (ix == nodes.Count - 1) return;
                 nodes.Remove(this as NodeTab);
                 nodes.Insert(ix + 1, this as NodeTab);
             }
@@ -65,7 +65,7 @@ namespace EscapeDBUsage.UIClasses
             {
                 var nodes = (this as NodeDbTable).NodeTab.Nodes;
                 var ix = nodes.IndexOf(this as NodeDbTable);
-                if (ix == nodes.Count-1) return;
+                if (ix == nodes.Count - 1) return;
                 nodes.Remove(this as NodeDbTable);
                 nodes.Insert(ix + 1, this as NodeDbTable);
             }
@@ -73,7 +73,7 @@ namespace EscapeDBUsage.UIClasses
             {
                 var nodes = (this as NodeDbColumn).NodeDbTable.Nodes;
                 var ix = nodes.IndexOf(this as NodeDbColumn);
-                if (ix == nodes.Count-1) return;
+                if (ix == nodes.Count - 1) return;
                 nodes.Remove(this as NodeDbColumn);
                 nodes.Insert(ix + 1, this as NodeDbColumn);
             }
@@ -171,6 +171,31 @@ namespace EscapeDBUsage.UIClasses
             set { SetProperty(ref isExpanded, value); }
         }
 
+        private NodeBase GetAbsoluteRoot(NodeBase node)
+        {
+            var parent = node.GetParent();
+            if (parent!=null)
+            {
+                return GetAbsoluteRoot(parent);
+            } else
+            {
+                return node;
+            }
+        }
+
+        private void SetIsNotSelectedEverywhere(NodeBase node)
+        {
+            node.IsSelected = false;
+            var nodes = node.GetNodes();
+            if (nodes!=null)
+            {
+                foreach (var n in nodes)
+                {
+                    SetIsNotSelectedEverywhere(n);
+                }
+            }
+        }
+
         private bool isSelected;
         public bool IsSelected
         {
@@ -181,10 +206,9 @@ namespace EscapeDBUsage.UIClasses
                 {
                     var parent = this.GetParent();
                     if (parent == null) return;
-                    foreach (var n in parent.GetNodes())
-                    {
-                        n.IsSelected = false;
-                    }
+
+                    var absoluteRoot = GetAbsoluteRoot(this);
+                    SetIsNotSelectedEverywhere(absoluteRoot);
                 }
 
                 SetProperty(ref isSelected, value);

@@ -14,6 +14,7 @@ namespace EscapeDBUsage
 {
     class Bootstrapper : AutofacBootstrapper
     {
+
         protected override void ConfigureContainerBuilder(ContainerBuilder builder)
         {
             base.ConfigureContainerBuilder(builder);
@@ -21,27 +22,17 @@ namespace EscapeDBUsage
             var eventAggregator = new EventAggregator();
             builder.RegisterInstance<IEventAggregator>(eventAggregator).As<IEventAggregator>().SingleInstance();
 
-            // just one instance in all application - combos etc..
-            builder.RegisterType<PathViewModel>().As<PathViewModel>().SingleInstance();
-            builder.RegisterType<DatabaseSchemaViewModel>().As<DatabaseSchemaViewModel>().SingleInstance(); 
-            builder.RegisterType<MainViewModel>().As<MainViewModel>().SingleInstance();
+            var uiSprints = new UISprints();
+            var databaseViewModel = new DatabaseSchemaViewModel(eventAggregator);
+            var mainViewModel = new MainViewModel(eventAggregator, uiSprints, databaseViewModel);
+            var pathViewModel = new PathViewModel(eventAggregator, mainViewModel);
 
-            // one instance --> use in multiple viewmodels
-            builder.RegisterInstance<UISprints>(new UISprints()).As<UISprints>().SingleInstance();
+            // just one instance in all application - combos etc..
+            builder.RegisterInstance<UISprints>(uiSprints).As<UISprints>().SingleInstance();
+            builder.RegisterInstance<DatabaseSchemaViewModel>(databaseViewModel).As<DatabaseSchemaViewModel>().SingleInstance();
+            builder.RegisterInstance<MainViewModel>(mainViewModel).As<MainViewModel>().SingleInstance();
+            builder.RegisterInstance<PathViewModel>(pathViewModel).As<PathViewModel>().SingleInstance();
             
-            // just one instance as well 
-            // well... works as hell! :-) 
-            // .. bell?? no.. try to study..
-            // bez ostudy.. :-)
-            var notification = new ConnectNotification()
-            {
-                DbConnection = new Classes.DbConnection()
-                {
-                    IsConnected = false
-                },
-                Title = "Connect to Database"
-            };
-            builder.RegisterInstance(notification).As<ConnectNotification>().SingleInstance();
         }
 
         protected override DependencyObject CreateShell()
