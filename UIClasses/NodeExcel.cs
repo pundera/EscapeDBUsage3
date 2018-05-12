@@ -35,7 +35,7 @@ namespace EscapeDBUsage.UIClasses
             tab.IsSelected = true;
         }
 
-        private ObservableCollection<NodeTab> nodes;
+        private ObservableCollection<NodeTab> nodes = new ObservableCollection<NodeTab>();
         public ObservableCollection<NodeTab> Nodes
         {
             get { return nodes; }

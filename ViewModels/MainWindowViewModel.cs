@@ -76,9 +76,11 @@ namespace EscapeDBUsage.ViewModels
         private void DoConnect()
         {
             //this.DatabaseConnection = new DbConnection() { IsConnected = false };
-            //connectNotification.Title = "Connect to Database";
+
             //ConnectRequest.Notification = connectConfirmation;
             //connectConfirmation.ShowSignal = true;
+
+            connectNotification.Title = "Connect to Database";
 
             ConnectRequest.Raise(connectNotification, (result) =>
             {

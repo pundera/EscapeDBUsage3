@@ -1,5 +1,6 @@
 ﻿using EscapeDBUsage.Classes;
 using EscapeDBUsage.Events;
+using EscapeDBUsage.Helpers;
 using EscapeDBUsage.UIClasses;
 using EscapeDBUsage.UIClasses.DatabaseSchema;
 using EscapeDBUsage.UIControlGetters;
@@ -41,9 +42,9 @@ namespace EscapeDBUsage.ViewModels
                         var tableUncheck = new Action(() =>
                         {
                             t.IsChecked = false;
-                            if (t.Columns != null)
+                            if (t.Nodes != null)
                             {
-                                foreach (var c in t.Columns)
+                                foreach (var c in t.Nodes)
                                 {
                                     c.IsChecked = false;
                                 }
@@ -63,9 +64,9 @@ namespace EscapeDBUsage.ViewModels
                         var tableCheck = new Action(() =>
                         {
                             t.IsChecked = true;
-                            if (t.Columns != null)
+                            if (t.Nodes != null)
                             {
-                                foreach (var c in t.Columns)
+                                foreach (var c in t.Nodes)
                                 {
                                     c.IsChecked = true;
                                 }
@@ -228,79 +229,18 @@ namespace EscapeDBUsage.ViewModels
 
         private void DoFulltext()
         {
-            foreach (var t in SelectedSprint.DbSchemaTables)
-            {
+            // getting (and setting) params for fulltext ->  
+            string[] includes = new string[0];
+            string[] excludes = new string[0];
+            FulltextHelper.CreateIncludesAndExcludes(out includes, out excludes, SchemaTableFulltext, SchemaTableFulltextExclude);
+            var listsTable = FulltextHelper.CreateFulltextValueLists(includes, excludes, 0);
+            FulltextHelper.CreateIncludesAndExcludes(out includes, out excludes, SchemaColumnFulltext, SchemaColumnFulltextExclude);
+            var listsColumn = FulltextHelper.CreateFulltextValueLists(includes, excludes, 1);
+            var includesList = listsTable[0].Concat(listsColumn[0]).ToList();
+            var excludesList = listsTable[1].Concat(listsColumn[1]).ToList();
 
-
-                var inValue = SchemaTableFulltext;
-                var exValue = SchemaTableFulltextExclude;
-
-                var includes = new string[] {};
-                var excludes = new string[] {};
-                CreateIncludesAndExcludes(out includes, out excludes, inValue, exValue);
-                var list = CreateFulltextValueList(includes, excludes);
-
-                var tableName = t.Name.ToUpperInvariant();
-
-                var shouldBeVisible = ShouldBeVisible(list, tableName);
-
-                t.IsVisible = shouldBeVisible;
-
-
-                if (shouldBeVisible && t.Columns != null)
-                {
-                    var inValueC = SchemaColumnFulltext;
-                    var exValueC = SchemaColumnFulltextExclude;
-                    var includesC = new string[] {};
-                    var excludesC = new string[] {};
-                    CreateIncludesAndExcludes(out includesC, out excludesC, inValueC, exValueC);
-                    var listC = CreateFulltextValueList(includesC, excludesC);
-
-                    foreach (var c in t.Columns)
-                    {
-                        var columnName = c.Name.ToUpperInvariant();
-
-                        var shouldBeVisibleC = ShouldBeVisible(listC, columnName);
-                        c.IsVisible = shouldBeVisibleC;
-                    }
-                }
-
-            }
-        }
-
-        private static bool ShouldBeVisible(List<FulltextValue> list,string text)
-        {
-            var shouldBeVisible = false;
-            if (list.Count == 0) shouldBeVisible = true;
-
-            foreach (var v in list)
-            {
-                if (!string.IsNullOrEmpty(v.Value) && v.IsInclude && text.Contains(v.Value)) shouldBeVisible = true;
-            }
-
-            if (shouldBeVisible)
-            {
-                foreach (var v in list)
-                {
-                    if (!string.IsNullOrEmpty(v.Value) && !v.IsInclude && text.Contains(v.Value)) shouldBeVisible = false;
-                }
-            }
-
-            return shouldBeVisible;
-        }
-
-        private void CreateIncludesAndExcludes(out string[] includes, out string[] excludes, string inValue, string exValue)
-        {
-            includes = inValue != null ? inValue.ToUpperInvariant().Split(' ') : new string[] { };
-            excludes = exValue != null ? exValue.ToUpperInvariant().Split(' ') : new string[] { };
-        }
-
-        private static List<FulltextValue> CreateFulltextValueList(string[] includes, string[] excludes)
-        {
-            var valueListIncludes = includes.Select((x) => new FulltextValue() { IsInclude = true, Value = x }).ToList();
-            var valueListExcludes = excludes.Select((x) => new FulltextValue() { IsInclude = false, Value = x }).ToList();
-            var list = valueListIncludes.Concat(valueListExcludes).ToList();
-            return list;
+            // own fulltext action -> 
+            FulltextHelper.DoFulltext(SelectedSprint.DbSchemaTables, includesList, excludesList);
         }
 
         private void EraseFulltext()

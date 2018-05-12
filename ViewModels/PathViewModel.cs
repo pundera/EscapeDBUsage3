@@ -26,7 +26,7 @@ namespace EscapeDBUsage.ViewModels
 
             Root = new SelectedNodePathViewModel(evAgg, mainViewModel.Root, this, mainViewModel, NodeType.Root) { Token = SubscriptionTokenPathChanged, SubscriptionAction = PathChangedSubscription() };
             Excel = new SelectedNodePathViewModel(evAgg, null, this, mainViewModel, NodeType.Excel) { Parent = root, Token = SubscriptionTokenPathChanged, SubscriptionAction = PathChangedSubscription() };
-            Tab = new SelectedNodePathViewModel(evAgg, null, this, mainViewModel, NodeType.Tab) { Parent = excel, Token = SubscriptionTokenPathChanged, SubscriptionAction = PathChangedSubscription() };
+            Tab = new SelectedNodePathViewModel(evAgg, null, this, mainViewModel, NodeType.Sheet) { Parent = excel, Token = SubscriptionTokenPathChanged, SubscriptionAction = PathChangedSubscription() };
             Table = new SelectedNodePathViewModel(evAgg, null, this, mainViewModel, NodeType.Table) { Parent = tab, Token = SubscriptionTokenPathChanged, SubscriptionAction = PathChangedSubscription() };
             Column = new SelectedNodePathViewModel(evAgg, null, this, mainViewModel, NodeType.Column) { Parent = table, Token = SubscriptionTokenPathChanged, SubscriptionAction = PathChangedSubscription() };
 
@@ -43,13 +43,13 @@ namespace EscapeDBUsage.ViewModels
 
         private int countOfCycles = 0;
 
-       public Action<NodeBase> PathChangedSubscription()
+        public Action<NodeBase> PathChangedSubscription()
         {
             return (node) =>
             {
                 countOfCycles++;
 
-                if (countOfCycles>1)
+                if (countOfCycles > 1)
                 {
                     countOfCycles = 0;
                     return;
@@ -59,7 +59,6 @@ namespace EscapeDBUsage.ViewModels
                 {
 
                     evAgg.GetEvent<SelectedInMainChangedEvent>().Unsubscribe(SubscriptionTokenPathChanged);
-                    //evAgg.GetEvent<SelectedInPathChangedEvent>().Unsubscribe(PathChangedInPathSubscribtion());
 
 
                     var guid = node.Guid;
@@ -67,18 +66,14 @@ namespace EscapeDBUsage.ViewModels
                     if (node is NodeRoot)
                     {
                         Root.Node = node;
-                        //Root = new SelectedNodePathViewModel(evAgg, node, this, mainViewModel, NodeType.Root) { Parent = null };
                         SetSelectedNodeProperty(node, Root, NodeType.Root, NodeType.Excel, guid);
                     }
 
                     if (node is NodeExcel)
                     {
                         Root.Node = node.GetParent();
-                        Excel.Node = node.GetParent();
-                        //Root = new SelectedNodePathViewModel(evAgg, node.GetParent(), this, mainViewModel, NodeType.Root) { Parent = null };
-                        //Excel = new SelectedNodePathViewModel(evAgg, node, this, mainViewModel, NodeType.Excel) { Parent = Root };
-
-                        SetSelectedNodeProperty(node, Excel, NodeType.Excel, NodeType.Tab, guid);
+                        Excel.Node = node;
+                        SetSelectedNodeProperty(node, Excel, NodeType.Excel, NodeType.Sheet, guid);
                     }
 
                     if (node is NodeTab)
@@ -86,21 +81,12 @@ namespace EscapeDBUsage.ViewModels
                         Root.Node = node.GetParent().GetParent();
                         Excel.Node = node.GetParent();
                         Tab.Node = node; 
-                        //Root = new SelectedNodePathViewModel(evAgg, node.GetParent().GetParent(), this, mainViewModel, NodeType.Root) { Parent = null };
-                        //Excel = new SelectedNodePathViewModel(evAgg, node.GetParent(), this, mainViewModel, NodeType.Excel) { Parent = Root };
-                        //Tab = new SelectedNodePathViewModel(evAgg, node, this, mainViewModel, NodeType.Tab) { Parent = Excel };
-
-                        SetSelectedNodeProperty(node, Tab, NodeType.Tab, NodeType.Table, guid);
+                        SetSelectedNodeProperty(node, Tab, NodeType.Sheet, NodeType.Table, guid);
                     }
 
 
                     if (node is NodeDbTable)
                     {
-                        //Root = new SelectedNodePathViewModel(evAgg, node.GetParent().GetParent().GetParent(), this, mainViewModel, NodeType.Root) { Parent = null };
-                        //Excel = new SelectedNodePathViewModel(evAgg, node.GetParent().GetParent(), this, mainViewModel, NodeType.Excel) { Parent = Root };
-                        //Tab = new SelectedNodePathViewModel(evAgg, node.GetParent(), this, mainViewModel, NodeType.Tab) { Parent = Excel };
-                        //Table = new SelectedNodePathViewModel(evAgg, node, this, mainViewModel, NodeType.Table) { Parent = Tab };
-
                         Root.Node = node.GetParent().GetParent().GetParent();
                         Excel.Node = node.GetParent().GetParent();
                         Tab.Node = node.GetParent();
@@ -124,7 +110,6 @@ namespace EscapeDBUsage.ViewModels
                 finally
                 {
                     SubscriptionTokenPathChanged = evAgg.GetEvent<SelectedInMainChangedEvent>().Subscribe(PathChangedSubscription());
-                    //evAgg.GetEvent<SelectedInPathChangedEvent>().Subscribe(PathChangedInPathSubscribtion());
 
                     countOfCycles = 0;
                     IsVisible = true;
@@ -136,8 +121,16 @@ namespace EscapeDBUsage.ViewModels
         {
             selectedNode.Node = node;
             var img = "root";
-            var imgItems = "excel";
-            selectedNode.ImageSource = string.Format(@"pack://application:,,,/Resources/{0}.png", img);
+            var imgItems = "excel|tab|table|column".Split('|');
+            switch (nodeType)
+            {
+                case NodeType.Root: img = "excel"; break;
+                case NodeType.Excel: img = "tab"; break;
+                case NodeType.Sheet: img = "table"; break;
+                case NodeType.Table: img = "column"; break;
+                //case NodeType.Column: img = "column"; break;
+            }
+            selectedNode.ImageSource = string.Format(@"pack://application:,,,/Images/{0}.png", img);
             selectedNode.Name = node.Name;        
 
             SetSelectedItem(Root.Node as NodeRoot, node, selectedNode, nodeType, nodeItemsType, guid, isFromPath);
@@ -165,9 +158,6 @@ namespace EscapeDBUsage.ViewModels
             selectedNode.IsVisible = true;
             Column.IsVisible = false;
 
-            //selectedNode.Node.EventAggregator.GetEvent<SelectionStructureChangedEvent>().Unsubscribe(PathChangedSubscribtion());
-            //selectedNode.Node.IsSelected = true;
-            //selectedNode.Node.EventAggregator.GetEvent<SelectionStructureChangedEvent>().Subscribe(PathChangedSubscribtion());
         }
 
         private void SetSelectedItem(NodeRoot root, NodeBase node, SelectedNodePathViewModel pathItem, NodeType nodeType, NodeType nodeItemsType, Guid guid, bool isFromPath)
@@ -222,17 +212,20 @@ namespace EscapeDBUsage.ViewModels
             if (nodeType == NodeType.Root)
             {
                 //Root
-                //pathItem.SelectedItem = pathItem.Items.FirstOrDefault();
+                var excel = pathItem.Items.FirstOrDefault();
+                pathItem.SelectedItem = excel;
+                //var nodes = pathItem.Node.GetNodes();
+                //var excelNode = nodes.First(e => e.Guid.Equals(excel.Guid));
+                //countOfCycles = 0;
+                //PathChangedSubscription().Invoke(excelNode);
             }
 
             if (nodeType == NodeType.Excel)
             {
-                // Root -> 
-                //pathItem.Parent.Node = mainViewModel.Root;
                 pathItem.Parent.SelectedItem = pathItem.Parent.Items.FirstOrDefault(x => x.Guid.Equals(guid));
             }
 
-            if (nodeType == NodeType.Tab)
+            if (nodeType == NodeType.Sheet)
             {
                 // Root -> 
                 pathItem.Parent.Parent.SelectedItem = pathItem.Parent.Parent.Items.FirstOrDefault(x => x.Guid.Equals(node.GetParent().Guid));

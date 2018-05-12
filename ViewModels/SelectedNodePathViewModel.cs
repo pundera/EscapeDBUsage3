@@ -34,7 +34,28 @@ namespace EscapeDBUsage.ViewModels
             this.mainViewModel = mainViewModel;
 
             IsVisible = false;
+
+            switch (nodeType)
+            {
+                case NodeType.Root:
+                    LabelName = "Excel:";
+                    break;
+                case NodeType.Excel:
+                    LabelName = "Sheet:";
+                    break;
+                case NodeType.Sheet:
+                    LabelName = "DB Table:";
+                    break;
+                case NodeType.Table:
+                    LabelName = "DB Column:";
+                    break;
+                case NodeType.Column:
+                    LabelName = " undefined ";
+                    break;
+            }
         }
+
+        public string LabelName { get; private set; }
 
         public SubscriptionToken Token { get; set; }
         public Action<NodeBase> SubscriptionAction { get; set; }
@@ -48,13 +69,6 @@ namespace EscapeDBUsage.ViewModels
 
         public NodeBase Node { get; set; }
         private IEventAggregator evAgg;
-
-        private void DoSelect()
-        {
-            //if (Node.IsAlreadySelected) return;
-            //Node.IsAlreadySelected = false;
-            //evAgg.GetEvent<SelectedInPathChangedEvent>().Publish(Node);
-        }
 
         private bool isRoot = false;
         public bool IsRoot
@@ -96,11 +110,6 @@ namespace EscapeDBUsage.ViewModels
             get { return selectedItem; }
             set
             {
-                //if (oldSelectedItem!=null) oldSelectedItem.Node.IsSelected = false;
-
-                
-
-                //oldSelectedItem = value;
                 if (value != null)
                 {
 
@@ -109,11 +118,7 @@ namespace EscapeDBUsage.ViewModels
                     try
                     {
                         var n = Node.GetNodes().First(x => x.Guid.Equals(value.Guid));
-                        //evAgg.GetEvent<SelectedInPathChangedEvent>().Publish(n);
-
-                        //evAgg.GetEvent<SelectedInMainChangedEvent>().Unsubscribe(Token);
                         n.IsSelected = true;
-                        //Token = evAgg.GetEvent<SelectedInMainChangedEvent>().Subscribe(SubscriptionAction);
                     }
                     finally
                     {
@@ -123,8 +128,6 @@ namespace EscapeDBUsage.ViewModels
                 }
             }
         }
-
-        //private SelectedNodePathViewModel oldSelectedItem;
 
         public ICommand Select { get; private set; }
     }

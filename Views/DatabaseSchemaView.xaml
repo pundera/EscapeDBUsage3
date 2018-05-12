@@ -15,7 +15,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <!-- DB SCHEMA -->
-        <HierarchicalDataTemplate x:Key="TreeTemplateDatabaseSchema" DataType="{x:Type nodes:NodeDbSchemaTable}" ItemsSource="{Binding Columns}">
+        <HierarchicalDataTemplate x:Key="TreeTemplateDatabaseSchema" DataType="{x:Type nodes:NodeDbSchemaTable}" ItemsSource="{Binding Nodes}">
             <HierarchicalDataTemplate.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />

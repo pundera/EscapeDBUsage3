@@ -12,17 +12,17 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
                      
                      
-        Title="{Binding Title}" Height="700" Width="900" Icon="/EscapeDBUsage;component/Images/hearts.ico" TitleForeground="#FF033A19" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="{Binding Title}" Height="700" Width="900" Icon="/EscapeDBUsage;component/Images/homer.png" TitleForeground="#FF033A19" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/EscapeDBUsage;component/Images/xxl-background2.png" Stretch="None"/>
-        </Grid.Background>
+        <!--<Grid.Background>
+            <ImageBrush ImageSource="/EscapeDBUsage;component/Images/background.png" Stretch="UniformToFill"/>
+        </Grid.Background>-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ribbon:Ribbon Grid.Row="0">
-            <ribbon:RibbonTabItem Header="Data">
+            <ribbon:RibbonTabItem Header="Data and Log">
                 <ribbon:RibbonGroupBox Header="Sprints">
                     <ribbon:Button Margin="4,0" Header="Load" Icon="{StaticResource i-load}" LargeIcon="{StaticResource i-load}"  Command="{Binding MainViewModel.Load}">
                     </ribbon:Button>
@@ -60,25 +60,48 @@
                     <ribbon:Button Header="Show Data Folder" Icon="{StaticResource i-folder}" LargeIcon="{StaticResource i-folder}" Command="{Binding MainViewModel.ShowDataFolder}"/>
                 </ribbon:RibbonGroupBox>
             </ribbon:RibbonTabItem>
-            <ribbon:RibbonTabItem Header="Tree View">
-                <ribbon:RibbonGroupBox Header="Nodes Manipulation">
-                    <ribbon:Button Header="Expand All" Command="{Binding MainViewModel.ExpandAll}" LargeIcon="{StaticResource i-expand}" Icon="{StaticResource i-expand}"/>
-                    <ribbon:Button Header="Collapse All" Command="{Binding MainViewModel.CollapseAll}" LargeIcon="{StaticResource i-collapse}" Icon="{StaticResource i-collapse}"/>
-                </ribbon:RibbonGroupBox>
+            <ribbon:RibbonTabItem Header="Tree Views Manipulation">
                 <ribbon:RibbonGroupBox Header="Adding">
                     <ribbon:Button Header="Add Excel" Command="{Binding MainViewModel.AddExcel}" LargeIcon="{StaticResource i-excel}" Icon="{StaticResource i-excel}" />
                 </ribbon:RibbonGroupBox>
-                <ribbon:RibbonGroupBox Header="Fulltext">
-                    <ribbon:TextBox Margin="6" Header="Column Name:" Text="{Binding MainViewModel.FullTextColumnName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220"/>
-                    <ribbon:TextBox Margin="6" Header="Column Description:" Text="{Binding MainViewModel.FullTextColumnDescription, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220"/>
-                    <ribbon:Button  Margin="4,0" Header="Reset filter!" LargeIcon="{StaticResource i-erase}" Icon="{StaticResource i-erase}" Command="{Binding MainViewModel.EraseFulltext}" />
-                </ribbon:RibbonGroupBox>
-                <ribbon:RibbonGroupBox Header="Descriptions in Tree Views">
-                    <ribbon:CheckBox Header="Show descriptions" Height="Auto" Width="Auto" IsChecked="{Binding MainViewModel.AreDescsShown, Mode=TwoWay}"/>
+                <ribbon:RibbonGroupBox Header="Manipulation">
+                    <ribbon:Button Header="Expand All" Command="{Binding MainViewModel.ExpandAll}" LargeIcon="{StaticResource i-expand}" Icon="{StaticResource i-expand}"/>
+                    <ribbon:Button Header="Collapse All" Command="{Binding MainViewModel.CollapseAll}" LargeIcon="{StaticResource i-collapse}" Icon="{StaticResource i-collapse}"/>
                 </ribbon:RibbonGroupBox>
                 <ribbon:RibbonGroupBox Header="Specific (other) Tree Views">
                     <ribbon:Button Header="Create specific tree views..." Height="Auto" Width="Auto" Command="{Binding MainViewModel.Refresh}" Icon="{StaticResource i-refresh}" LargeIcon="{StaticResource i-refresh}"/>
-                </ribbon:RibbonGroupBox>            
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Descriptions">
+                    <ribbon:CheckBox Header="Show descriptions" Height="Auto" Width="Auto" IsChecked="{Binding MainViewModel.AreDescsShown, Mode=TwoWay}"/>
+                </ribbon:RibbonGroupBox>
+            </ribbon:RibbonTabItem>
+            <ribbon:RibbonTabItem Header="Filtering">
+                <!--<ribbon:RibbonGroupBox Header="Fulltext">
+                    <ribbon:TextBox Margin="6" Header="Column Name:" Text="{Binding MainViewModel.FullTextColumnName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220"/>
+                    <ribbon:TextBox Margin="6" Header="Column Description:" Text="{Binding MainViewModel.FullTextColumnDescription, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220"/>
+                    <ribbon:Button  Margin="4,0" Header="Reset filter!" LargeIcon="{StaticResource i-erase}" Icon="{StaticResource i-erase}" Command="{Binding MainViewModel.EraseFulltext}" />
+                </ribbon:RibbonGroupBox>-->
+                <ribbon:RibbonGroupBox Header="Fulltext [INCLUDE]">
+                    <ribbon:TextBox Margin="6" Header="Excel:" Width="180" Text="{Binding MainViewModel.SchemaExcelFulltext, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:TextBox Margin="6"  Header="Sheet:" Width="180" Text="{Binding MainViewModel.SchemaSheetFulltext, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:TextBox Margin="6" Header="Table:" Width="180" Text="{Binding MainViewModel.SchemaTableFulltext, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:TextBox Margin="6"  Header="Column:" Width="180" Text="{Binding MainViewModel.SchemaColumnFulltext, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:Button Margin="4,0"  Header="Erase" Command="{Binding MainViewModel.EraseSchemaFulltext}" LargeIcon="{StaticResource i-erase}" Icon="{StaticResource i-erase}" />
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Fulltext [EXCLUDE]">
+                    <ribbon:TextBox Margin="6" Header="Excel:" Width="180" Text="{Binding MainViewModel.SchemaExcelFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:TextBox Margin="6"  Header="Sheet:" Width="180" Text="{Binding MainViewModel.SchemaSheetFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:TextBox Margin="6" Header="Table:" Width="180" Text="{Binding MainViewModel.SchemaTableFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:TextBox Margin="6"  Header="Column:" Width="180" Text="{Binding MainViewModel.SchemaColumnFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <ribbon:Button Margin="4,0"  Header="Erase" Command="{Binding MainViewModel.EraseSchemaFulltextExclude}" LargeIcon="{StaticResource i-erase}" Icon="{StaticResource i-erase}" />
+                </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Filters">
+                    <ribbon:CheckBox Header="use column filters!"/>
+                    <ribbon:CheckBox Margin="10,10,0,0" Header="is Primary Key" />
+                    <ribbon:CheckBox Margin="10,0,0,0" Header="is Nullable" />
+                    <ribbon:CheckBox Margin="10,28,10,0" Header="is Computed" />
+                    <ribbon:CheckBox Margin="10,0,10,0" Header="has Default" />
+                </ribbon:RibbonGroupBox>
             </ribbon:RibbonTabItem>
             <ribbon:RibbonTabItem Header="DB Structure" Visibility="{Binding DatabaseSchemaViewModel.IsDbSchemaTabVisible, Converter={StaticResource VisibilityConverter}}">
                 <ribbon:RibbonGroupBox Header="Connect to DB">

@@ -16,15 +16,15 @@
             <StackPanel Orientation="Horizontal">
                 <Image Width="24" />
                 <!-- Source="{Binding ImageSource}"  -->
-                <Label Content="{Binding Name}" />
+               
             </StackPanel>
         </Label>
+        <Image Width="24" Source="{Binding ImageSource, Converter={StaticResource StringImageConverter}}" Margin="10,0,0,0"/>
+        <Label Content="{Binding LabelName}" Margin="0,4" />
         <ComboBox Visibility="{Binding IsVisible, Converter={StaticResource VisibilityConverter}}" Margin="5,0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image Width="24" />
-                        <!-- Source="{Binding ImageSource, Converter={StaticResource StringImageConverter}}"-->
                         <!-- Source="{Binding ImageSource}" -->
                         <Label Content="{Binding Name}" />
                     </StackPanel>

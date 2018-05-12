@@ -36,7 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Images\hearts.ico</ApplicationIcon>
+    <ApplicationIcon>homer.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -81,8 +81,10 @@
     <Compile Include="Helpers\ConnectionHelper.cs" />
     <Compile Include="Helpers\DbSchemaHelper.cs" />
     <Compile Include="Helpers\FoldersHelper.cs" />
+    <Compile Include="Helpers\FulltextHelper.cs" />
     <Compile Include="InteractionRequests\AddTablesAndColumnsRequest.cs" />
     <Compile Include="InteractionRequests\ConnectRequest.cs" />
+    <Compile Include="Interfaces\IFulltext.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="ModelClasses\DbSchema\SchemaDb.cs" />
     <Compile Include="ModelClasses\DbSchema\SchemaBaseClass.cs" />
@@ -396,6 +398,24 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\root.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="sun.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\sun.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\homer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="homer.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -18,7 +18,7 @@ namespace EscapeDBUsage.UIClasses
 
         private MainViewModel viewModel; 
 
-        private ObservableCollection<NodeExcel> nodes;
+        private ObservableCollection<NodeExcel> nodes = new ObservableCollection<NodeExcel>();
         public ObservableCollection<NodeExcel> Nodes
         {
             get { return nodes; }

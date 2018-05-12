@@ -8,6 +8,7 @@ namespace EscapeDBUsage.Classes
 {
     public class FulltextValue
     {
+        public int Level { get; set; }
         public bool IsInclude { get; set; }
         public string Value { get; set; }
     }

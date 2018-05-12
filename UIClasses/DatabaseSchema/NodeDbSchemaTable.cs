@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EscapeDBUsage.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace EscapeDBUsage.UIClasses.DatabaseSchema
 {
-    public class NodeDbSchemaTable: NodeDbSchemaBase
+    public class NodeDbSchemaTable: NodeDbSchemaBase, IFulltext
     {
-        private ObservableCollection<NodeDbSchemaColumn> columns;
-        public ObservableCollection<NodeDbSchemaColumn> Columns { get { return columns; } set { SetProperty(ref columns, value); } }
+        private ObservableCollection<IFulltext> nodes;
+        public ObservableCollection<IFulltext> Nodes { get { return nodes; } set { SetProperty(ref nodes, value); } }
     }
 }

@@ -41,10 +41,10 @@ namespace EscapeDBUsage.UIClasses
                             var newDBTable = new NodeDbTable(EventAggregator, this, viewModel) { 
                                 Name = t.Name
                             };
-                            if (t.Columns != null)
+                            if (t.Nodes != null)
                             {
                                 newDBTable.Nodes = new ObservableCollection<NodeDbColumn>();
-                                foreach (var c in t.Columns)
+                                foreach (var c in t.Nodes)
                                 {
                                     if (c.IsChecked && c.IsVisible)
                                     {
@@ -87,7 +87,7 @@ namespace EscapeDBUsage.UIClasses
             set { SetProperty(ref nodeExcel, value); }
         }
 
-        private ObservableCollection<NodeDbTable> nodes;
+        private ObservableCollection<NodeDbTable> nodes = new ObservableCollection<NodeDbTable>();
         public ObservableCollection<NodeDbTable> Nodes
         {
             get { return nodes; }

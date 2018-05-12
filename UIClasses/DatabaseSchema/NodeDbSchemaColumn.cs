@@ -1,12 +1,14 @@
-﻿using System;
+﻿using EscapeDBUsage.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EscapeDBUsage.UIClasses.DatabaseSchema
 {
-    public class NodeDbSchemaColumn: NodeDbSchemaBase
+    public class NodeDbSchemaColumn: NodeDbSchemaBase, IFulltext
     {
         public string DataType { get; set; }
         public bool IsComputed { get; set; }
@@ -17,6 +19,7 @@ namespace EscapeDBUsage.UIClasses.DatabaseSchema
         public string TableName { get; set; }
         public int? Length { get; set; }
 
-        public object DefaultValue { get; set; } 
+        public object DefaultValue { get; set; }
+        public ObservableCollection<IFulltext> Nodes { get; set; }
     }
 }

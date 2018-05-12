@@ -11,7 +11,7 @@ namespace EscapeDBUsage.Enums
         Undefined,
         Root,
         Excel,
-        Tab,
+        Sheet,
         Table,
         Column
     }

@@ -42,7 +42,7 @@ namespace EscapeDBUsage.UIClasses
             set { SetProperty(ref nodeTab, value); }
         }
 
-        private ObservableCollection<NodeDbColumn> nodes;
+        private ObservableCollection<NodeDbColumn> nodes = new ObservableCollection<NodeDbColumn>();
         public ObservableCollection<NodeDbColumn> Nodes
         {
             get { return nodes; }

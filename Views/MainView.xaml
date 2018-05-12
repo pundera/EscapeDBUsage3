@@ -107,7 +107,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid x:Name="grid">
-                            <Border x:Name="border" CornerRadius="8" BorderBrush="DarkGreen" BorderThickness="1">
+                            <Border x:Name="border" CornerRadius="8" BorderBrush="#335CC55C" BorderThickness="1">
                                 <Border.Background>
                                     <RadialGradientBrush GradientOrigin="0.496,1.052">
                                         <RadialGradientBrush.RelativeTransform>
@@ -118,7 +118,7 @@
                                             </TransformGroup>
                                         </RadialGradientBrush.RelativeTransform>
                                         <GradientStop Offset="1" Color="#00000000"/>
-                                        <GradientStop Offset="0.3" Color="#A08BE870"/>
+                                        <GradientStop Offset="0.3" Color="#208BE870"/>
                                     </RadialGradientBrush>
                                 </Border.Background>
                                 <ContentPresenter HorizontalAlignment="Center"
@@ -160,7 +160,7 @@
         </Style>
 
         <Style x:Key="RoundedLabelStyle" TargetType="{x:Type Label}">
-            <Setter Property="Background" Value="#19E8A040"/>
+            <Setter Property="Background" Value="#09E8A040"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Label}">
@@ -186,6 +186,18 @@
         <HierarchicalDataTemplate x:Key="TreeTemplateExcel" DataType="{x:Type uiclasses:NodeExcel}" ItemsSource="{Binding Nodes}">
             <HierarchicalDataTemplate.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#6618549E"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                                <Condition Property="IsSelectionActive" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </MultiTrigger>
+                    </Style.Triggers>
                     <Style.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="8" />
@@ -208,22 +220,22 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Grid.Column="0"  Width="24" Source="/EscapeDBUsage;component/Images/excel.png"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" Width="278"/>
-                    <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
-                        <Button Margin="2" Padding="2" Command="{Binding AddTab}" Background="Transparent">
-                            <Button.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <TextBlock FontWeight="Bold">Add Sheet</TextBlock>
-                                        <TextBlock>To this excel adds a new spread sheet</TextBlock>
-                                    </StackPanel>
-                                </ToolTip>
-                            </Button.ToolTip>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Margin="2" Width="24" Source="/EscapeDBUsage;component/Images/add-tab.png"/>
-                            </StackPanel>
-                        </Button>
+                    <Image Grid.Row="0" Grid.Column="0" Width="24" Source="/EscapeDBUsage;component/Images/excel.png"/>
+                    <Button Grid.Column="1" Margin="2" Padding="2" Command="{Binding AddTab}" Background="Transparent">
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <StackPanel>
+                                    <TextBlock FontWeight="Bold">Add Sheet</TextBlock>
+                                    <TextBlock>To this excel adds a new spread sheet</TextBlock>
+                                </StackPanel>
+                            </ToolTip>
+                        </Button.ToolTip>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Margin="4,0" Width="14" Source="/EscapeDBUsage;component/Images/add-tab.png"/>
+                        </StackPanel>
+                    </Button>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" />
+                    <!--<StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
                         <Button Margin="2" Padding="2" Command="{Binding Remove}" Background="Transparent">
                             <Button.ToolTip>
                                 <ToolTip>
@@ -234,10 +246,10 @@
                                 </ToolTip>
                             </Button.ToolTip>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="2" Source="\Images\remove.png" Width="24"/>
+                                <Image Margin="4,0" Source="\Images\remove.png" Width="14"/>
                             </StackPanel>
                         </Button>
-                    </StackPanel>
+                    </StackPanel>-->
                     <TextBlock Visibility="{Binding AreDescsShown, Converter={StaticResource ResourceKey=VisibilityConverter}}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="2" Text="{Binding Path=Description}" TextWrapping="Wrap" Width="330" FontWeight="Light"/>
                 </Grid>
             </StackPanel>
@@ -246,6 +258,18 @@
                 <HierarchicalDataTemplate DataType="{x:Type uiclasses:NodeTab}" ItemsSource="{Binding Nodes}">
                     <HierarchicalDataTemplate.ItemContainerStyle>
                         <Style TargetType="{x:Type TreeViewItem}">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#6618549E"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="True"/>
+                                        <Condition Property="IsSelectionActive" Value="False"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </MultiTrigger>
+                            </Style.Triggers>
                             <Style.Resources>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="CornerRadius" Value="8" />
@@ -269,8 +293,29 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Image Grid.Row="0" Grid.Column="0" Source="\Images\tab.png" Width="24"/>
-                            <TextBlock Grid.Row="0" Grid.Column="1" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" Width="252"/>
-                            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+                            <Button Grid.Column="1" Margin="2" Padding="2" Command="{Binding AddTables}" Background="Transparent">
+                                <Button.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold">Add DB Table(s)</TextBlock>
+                                            <TextBlock>To this spread sheet adds new database table(s).</TextBlock>
+                                            <TextBlock>Offline copy of DB structure will be used!</TextBlock>
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Button.ToolTip>
+                                <i:Interaction.Triggers>
+                                    <prism:InteractionRequestTrigger SourceObject="{Binding Request}">
+                                        <prism:PopupWindowAction IsModal="True" WindowStartupLocation="CenterScreen" CenterOverAssociatedObject="False" WindowStyle="{StaticResource AddTablesAndColumnsWindow}" >
+                                            <prism:PopupWindowAction.WindowContent>
+                                                <views:AddTablesAndColumnsView />
+                                            </prism:PopupWindowAction.WindowContent>
+                                        </prism:PopupWindowAction>
+                                    </prism:InteractionRequestTrigger>
+                                </i:Interaction.Triggers>
+                                <Image Margin="4,0" Source="\Images\add-tables.png" Width="14"/>
+                            </Button>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" />
+                            <!--<StackPanel Visibility="Collapsed" Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
                                 <Button Visibility="Collapsed" Margin="2" Padding="2" Command="{Binding AddTable}" Background="Transparent">
                                     <Button.ToolTip>
                                         <ToolTip>
@@ -284,28 +329,7 @@
                                         <Image Margin="2" Source="\Images\add-table.png" Width="24"/>
                                     </StackPanel>
                                 </Button>
-                                <Button Margin="2" Padding="2" Command="{Binding AddTables}" Background="Transparent">
-                                    <Button.ToolTip>
-                                        <ToolTip>
-                                            <StackPanel>
-                                                <TextBlock FontWeight="Bold">Add DB Table(s)</TextBlock>
-                                                <TextBlock>To this spread sheet adds new database table(s).</TextBlock>
-                                                <TextBlock>Offline copy of DB structure will be used!</TextBlock>
-                                            </StackPanel>
-                                        </ToolTip>
-                                    </Button.ToolTip>
-                                    <i:Interaction.Triggers>
-                                        <prism:InteractionRequestTrigger SourceObject="{Binding Request}">
-                                            <prism:PopupWindowAction IsModal="True" WindowStartupLocation="CenterScreen" CenterOverAssociatedObject="False" WindowStyle="{StaticResource AddTablesAndColumnsWindow}" >
-                                                <prism:PopupWindowAction.WindowContent>
-                                                    <views:AddTablesAndColumnsView />
-                                                </prism:PopupWindowAction.WindowContent>
-                                            </prism:PopupWindowAction>
-                                        </prism:InteractionRequestTrigger>
-                                    </i:Interaction.Triggers>
-                                    <Image Margin="2" Source="\Images\add-tables.png" Width="24"/>
-                                </Button>
-                                <Button Margin="2" Padding="2" Command="{Binding Remove}" Background="Transparent">
+                                <Button Visibility="Collapsed" Margin="2" Padding="2" Command="{Binding Remove}" Background="Transparent">
                                     <Button.ToolTip>
                                         <ToolTip>
                                             <StackPanel>
@@ -315,10 +339,10 @@
                                         </ToolTip>
                                     </Button.ToolTip>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Margin="2" Source="\Images\remove.png" Width="24"/>
+                                        <Image Margin="4,0" Source="\Images\remove.png" Width="14"/>
                                     </StackPanel>
                                 </Button>
-                            </StackPanel>
+                            </StackPanel>-->
                             <TextBlock Visibility="{Binding AreDescsShown, Converter={StaticResource ResourceKey=VisibilityConverter}}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="2" Text="{Binding Path=Description}" TextWrapping="Wrap" Width="330" FontWeight="Light"/>
                         </Grid>
                     </StackPanel>
@@ -327,6 +351,18 @@
                         <HierarchicalDataTemplate DataType="{x:Type uiclasses:NodeDbTable}" ItemsSource="{Binding Nodes}">
                             <HierarchicalDataTemplate.ItemContainerStyle>
                                 <Style TargetType="{x:Type TreeViewItem}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#6618549E"/>
+                                        </Trigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True"/>
+                                                <Condition Property="IsSelectionActive" Value="False"/>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </MultiTrigger>
+                                    </Style.Triggers>
                                     <Style.Resources>
                                         <Style TargetType="{x:Type Border}">
                                             <Setter Property="CornerRadius" Value="8" />
@@ -350,8 +386,20 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Image Grid.Row="0" Grid.Column="0" Source="\Images\table.png" Width="24"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" Width="232"/>
-                                    <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+                                    <Button Grid.Column="1" Margin="2" Padding="2" Command="{Binding AddColumns}" Background="Transparent">
+                                        <Button.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold">Add DB Column(s)</TextBlock>
+                                                    <TextBlock>To this DB table adds a new DB column(s)</TextBlock>
+                                                    <TextBlock>DB Schema - tables and columns are stored offline!</TextBlock>
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </Button.ToolTip>
+                                        <Image Margin="4,0" Source="\Images\add-columns.png" Width="14"/>
+                                    </Button>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" />
+                                    <!--<StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
                                         <Button Visibility="Collapsed" Margin="2" Padding="2" Command="{Binding AddColumn}" Background="Transparent">
                                             <Button.ToolTip>
                                                 <ToolTip>
@@ -362,20 +410,8 @@
                                                 </ToolTip>
                                             </Button.ToolTip>
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Margin="2" Source="\Images\add-column.png" Width="24"/>
+                                                <Image Margin="4,0" Source="\Images\add-column.png" Width="14"/>
                                             </StackPanel>
-                                        </Button>
-                                        <Button Margin="2" Padding="2" Command="{Binding AddColumns}" Background="Transparent">
-                                            <Button.ToolTip>
-                                                <ToolTip>
-                                                    <StackPanel>
-                                                        <TextBlock FontWeight="Bold">Add DB Column(s)</TextBlock>
-                                                        <TextBlock>To this DB table adds a new DB column(s)</TextBlock>
-                                                        <TextBlock>DB Schema - tables and columns are stored offline!</TextBlock>
-                                                    </StackPanel>
-                                                </ToolTip>
-                                            </Button.ToolTip>
-                                            <Image Margin="2" Source="\Images\add-columns.png" Width="24"/>
                                         </Button>
                                         <Button Margin="2" Padding="2" Command="{Binding Remove}" Background="Transparent">
                                             <Button.ToolTip>
@@ -387,10 +423,10 @@
                                                 </ToolTip>
                                             </Button.ToolTip>
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Margin="2" Source="\Images\remove.png" Width="24"/>
+                                                <Image Margin="4,0" Source="\Images\remove.png" Width="14"/>
                                             </StackPanel>
                                         </Button>
-                                    </StackPanel>
+                                    </StackPanel>-->
                                     <TextBlock Visibility="{Binding AreDescsShown, Converter={StaticResource ResourceKey=VisibilityConverter}}" 
                                                Grid.Row="1" 
                                                Grid.Column="0" 
@@ -427,8 +463,8 @@
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Grid.Column="0" Source="\Images\column.png" Width="24"/>
-                                            <TextBlock Grid.Row="0" Grid.Column="1" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" Width="248"/>
-                                            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+                                            <TextBlock Grid.Row="0" Grid.Column="1" Margin="6" Text="{Binding Path=Name}" FontWeight="Bold" />
+                                            <!--<StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
                                                 <Button Margin="2" Padding="2" Command="{Binding Remove}" Background="Transparent">
                                                     <Button.ToolTip>
                                                         <ToolTip>
@@ -439,10 +475,10 @@
                                                         </ToolTip>
                                                     </Button.ToolTip>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Image Margin="2" Source="\Images\remove.png" Width="24"/>
+                                                        <Image Margin="4,0" Source="\Images\remove.png" Width="14"/>
                                                     </StackPanel>
                                                 </Button>
-                                            </StackPanel>
+                                            </StackPanel>-->
                                             <TextBlock Visibility="{Binding AreDescsShown, Converter={StaticResource ResourceKey=VisibilityConverter}}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="2" Text="{Binding Path=Description}" TextWrapping="Wrap" Width="320" FontWeight="Light"/>
                                         </Grid>
                                     </StackPanel>
@@ -612,21 +648,21 @@
             </Style.Triggers>
         </Style>
 
-        <Style TargetType="{x:Type TreeViewItem}">
+        <Style x:Key="CustomTreeItemStyle" TargetType="{x:Type TreeViewItem}">
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
             <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
             <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" />
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#adc6e5"/>
+                    <Setter Property="Background" Value="#F0adc6e5"/>
                 </Trigger>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsSelected" Value="True"/>
                         <Condition Property="IsSelectionActive" Value="False"/>
                     </MultiTrigger.Conditions>
-                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Background" Value="#80adF6e5"/>
                 </MultiTrigger>
             </Style.Triggers>
             <Style.Resources>
@@ -651,9 +687,14 @@
                     <Label>
                         <Label.Content>
                             <StackPanel Orientation="Horizontal">
-                                <Image Height="24" Source="\Images\excel.png"/>
-                                <TextBlock FontWeight="Bold" Text="Excel Tab Table Column" >
-                                </TextBlock>
+                                <Image Margin="4,0" Height="16" Source="/EscapeDBUsage;component/Images/excel.png"/>
+                                <TextBlock FontWeight="Bold" Text="Excel" />
+                                <Image Margin="4,0" Height="16" Source="/EscapeDBUsage;component/Images/tab.png"/>
+                                <TextBlock FontWeight="Bold" Text="Sheet" />
+                                <Image Margin="4,0" Height="16" Source="/EscapeDBUsage;component/Images/table.png"/>
+                                <TextBlock FontWeight="Bold" Text="Table" />
+                                <Image Margin="4,0" Height="16" Source="/EscapeDBUsage;component/Images/column.png"/>
+                                <TextBlock FontWeight="Bold" Text="Column" />
                             </StackPanel>
                         </Label.Content>
                     </Label>
@@ -662,7 +703,7 @@
 
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*" MinWidth="220" />
+                            <ColumnDefinition Width="3*" MinWidth="220" />
                             <ColumnDefinition Width="4*" MinWidth="500" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -682,6 +723,19 @@
                                         <Setter Property="CornerRadius" Value="8" />
                                     </Style>
                                 </TreeView.Resources>
+                                <TreeView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type TreeViewItem}">
+                                        <Style.Resources>
+                                            <Style TargetType="{x:Type Border}">
+                                                <Setter Property="CornerRadius" Value="8" />
+                                                <Setter Property="Margin" Value="0"/>
+                                            </Style>
+                                        </Style.Resources>
+                                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                        <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" />
+                                    </Style>
+                                </TreeView.ItemContainerStyle>
                             </TreeView>
                         </ScrollViewer>
 
@@ -1035,8 +1089,12 @@
                     <Label>
                         <Label.Content>
                             <StackPanel Orientation="Horizontal">
-                                <Image Height="24" Source="\Images\table.png"/>
-                                <TextBlock FontWeight="Bold" Text="Table Excel Tab" />
+                                <Image Margin="4,0" Height="16" Source="/EscapeDBUsage;component/Images/table.png"/>
+                                <TextBlock FontWeight="Bold" Text="Table" />
+                                <Image Margin="4,0" Height="16" Source="/EscapeDBUsage;component/Images/excel.png"/>
+                                <TextBlock FontWeight="Bold" Text="Excel" />
+                                <Image Margin="4,0" Height="16" Source="/EscapeDBUsage;component/Images/tab.png"/>
+                                <TextBlock FontWeight="Bold" Text="Sheet" />
                             </StackPanel>
                         </Label.Content>
                     </Label>
@@ -1053,6 +1111,7 @@
                                 <Style.Resources>
                                     <Style TargetType="{x:Type Border}">
                                         <Setter Property="CornerRadius" Value="8" />
+                                        <Setter Property="Margin" Value="0"/>
                                     </Style>
                                 </Style.Resources>
                                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -1073,8 +1132,12 @@
                     <Label>
                         <Label.Content>
                             <StackPanel Orientation="Horizontal">
-                                <Image Height="24" Source="\Images\column.png"/>
-                                <TextBlock FontWeight="Bold" Text="Column Excel Tab" />
+                                <Image Margin="4,0" Height="16" Source="/EscapeDBUsage;component/Images/column.png"/>
+                                <TextBlock FontWeight="Bold" Text="Column" />
+                                <Image Margin="4,0" Height="16" Source="/EscapeDBUsage;component/Images/excel.png"/>
+                                <TextBlock FontWeight="Bold" Text="Excel" />
+                                <Image Margin="4,0" Height="16" Source="/EscapeDBUsage;component/Images/tab.png"/>
+                                <TextBlock FontWeight="Bold" Text="Sheet" />
                             </StackPanel>
                         </Label.Content>
                     </Label>
@@ -1084,6 +1147,7 @@
                         <TreeView.Resources>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="CornerRadius" Value="8" />
+                                <Setter Property="Margin" Value="0"/>
                             </Style>
                         </TreeView.Resources>
                         <TreeView.ItemContainerStyle>
@@ -1091,8 +1155,15 @@
                                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                                 <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                 <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" />
+                                <Style.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="8" />
+                                        <Setter Property="Margin" Value="0"/>
+                                    </Style>
+                                </Style.Resources>
                             </Style>
                         </TreeView.ItemContainerStyle>
+                        
                     </TreeView>
                 </Grid>
             </TabItem>
@@ -1108,7 +1179,7 @@
                     <Label>
                         <Label.Content>
                             <StackPanel Orientation="Horizontal">
-                                <Image Height="24" Source="\Images\sprints.png"/>
+                                <Image Height="16" Source="/EscapeDBUsage;component/Images/sprints.png"/>
                                 <Label FontWeight="Bold" Content="Sprints" />
                             </StackPanel>
                         </Label.Content>
@@ -1131,7 +1202,7 @@
                     <Label>
                         <Label.Content>
                             <StackPanel Orientation="Horizontal">
-                                <Image Height="24" Source="\Images\db-structure.png"/>
+                                <Image Height="16" Source="/EscapeDBUsage;component/Images/db-structure.png"/>
                                 <Label FontWeight="Bold" Content="DB Structure" />
                             </StackPanel>
                         </Label.Content>

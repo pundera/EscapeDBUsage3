@@ -1,6 +1,8 @@
-﻿using Prism.Mvvm;
+﻿using EscapeDBUsage.Interfaces;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,7 +58,6 @@ namespace EscapeDBUsage.UIClasses.DatabaseSchema
             set
             {
                 selectedNode = value;
-                //EventAggregator.GetEvent<EventSelectedChanged>().Publish(value);
             }
         }
 
@@ -66,7 +67,5 @@ namespace EscapeDBUsage.UIClasses.DatabaseSchema
             get { return isVisible; }
             set { SetProperty(ref isVisible, value); }
         }
-
-
     }
 }

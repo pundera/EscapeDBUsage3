@@ -37,7 +37,8 @@
             <BitmapImage UriSource="/Images/db-structure-collapse-all.png" x:Key="i-schema-collapse" />
             <BitmapImage UriSource="/Images/zoom-in.png" x:Key="i-zoom-in" />
             <BitmapImage UriSource="/Images/zoom-out.png" x:Key="i-zoom-out" />
-            
+
+
             <Style TargetType="{x:Type Window}" x:Key="ModalWindow">
                 <Setter Property="ResizeMode" Value="NoResize" />
                 <Setter Property="WindowStyle" Value="ToolWindow" />

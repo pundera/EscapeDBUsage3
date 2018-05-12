@@ -1,4 +1,5 @@
 ﻿using EscapeDBUsage.Classes;
+using EscapeDBUsage.Interfaces;
 using EscapeDBUsage.ModelClasses.DbSchema;
 using EscapeDBUsage.UIClasses.DatabaseSchema;
 using System;
@@ -96,7 +97,7 @@ namespace EscapeDBUsage.Helpers
             {
                 Name = x.Name,
                 Description = x.Description,
-                Columns = new ObservableCollection<NodeDbSchemaColumn>(x.Columns.Select(c => new NodeDbSchemaColumn()
+                Nodes = new ObservableCollection<IFulltext>(x.Columns.Select(c => new NodeDbSchemaColumn()
                 {
                     Name = c.Name,
                     Description = c.Description,
@@ -122,19 +123,19 @@ namespace EscapeDBUsage.Helpers
             {
                 Name = x.Name,
                 Description = x.Description,
-                Columns = new List<SchemaDbColumn>(x.Columns.Select(c => new SchemaDbColumn()
+                Columns = new List<SchemaDbColumn>(((ObservableCollection<IFulltext>)x.Nodes).Select((c) => new SchemaDbColumn()
                 {
                     Name = c.Name,
-                    Description = c.Description,
-                    DataType = c.DataType,
-                    DefaultValue = c.DefaultValue,
-                    IsComputed = c.IsComputed,
-                    IsIdentity = c.IsIdentity,
-                    IsNullable = c.IsNullable,
-                    ObjectType = c.ObjectType,
-                    Position = c.Position,
-                    TableName = c.TableName,
-                    Length = c.Length
+                    Description = ((NodeDbSchemaColumn)c).Description,
+                    DataType = ((NodeDbSchemaColumn)c).DataType,
+                    DefaultValue = ((NodeDbSchemaColumn)c).DefaultValue,
+                    IsComputed = ((NodeDbSchemaColumn)c).IsComputed,
+                    IsIdentity = ((NodeDbSchemaColumn)c).IsIdentity,
+                    IsNullable = ((NodeDbSchemaColumn)c).IsNullable,
+                    ObjectType = ((NodeDbSchemaColumn)c).ObjectType,
+                    Position = ((NodeDbSchemaColumn)c).Position,
+                    TableName = ((NodeDbSchemaColumn)c).TableName,
+                    Length = ((NodeDbSchemaColumn)c).Length
                 }))
             }).ToList();
             return ret;
