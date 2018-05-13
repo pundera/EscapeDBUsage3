@@ -51,5 +51,9 @@ namespace EscapeDBUsage.UIClasses
         }
 
         public bool IsChecked { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public bool IsIncluded { get; set; }
+        public bool IsExcluded { get; set; }
+
     }
 }

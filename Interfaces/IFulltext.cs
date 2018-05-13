@@ -14,6 +14,9 @@ namespace EscapeDBUsage.Interfaces
         bool IsChecked { get; set; }
         bool IsExpanded { get; set; }
 
+        bool IsIncluded { get; set; }
+        bool IsExcluded { get; set; }
+
         ObservableCollection<IFulltext> Nodes { get; set; }
     }
 }

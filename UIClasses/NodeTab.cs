@@ -97,5 +97,9 @@ namespace EscapeDBUsage.UIClasses
 
         public AddTablesAndColumnsRequest Request { get; private set; }
         public bool IsChecked { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public bool IsIncluded { get; set; }
+        public bool IsExcluded { get; set; }
+
     }
 }

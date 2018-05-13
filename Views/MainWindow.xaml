@@ -95,6 +95,10 @@
                     <ribbon:TextBox Margin="6"  Header="Column:" Width="180" Text="{Binding MainViewModel.ColumnFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     <ribbon:Button Margin="4,0"  Header="Erase" Command="{Binding MainViewModel.EraseFulltextExclude}" LargeIcon="{StaticResource i-erase}" Icon="{StaticResource i-erase}" />
                 </ribbon:RibbonGroupBox>
+                <ribbon:RibbonGroupBox Header="Fulltext PRIORITY">
+                    <ribbon:RadioButton Header="Includes has bigger PRIORITY" IsChecked="{Binding MainViewModel.HasIncludesBiggerPriority}" />
+                    <ribbon:RadioButton Header="Excludes has bigger PRIORITY" IsChecked="{Binding MainViewModel.HasExcludesBiggerPriority}" />
+                </ribbon:RibbonGroupBox>                
                 <ribbon:RibbonGroupBox Header="Filters">
                     <ribbon:CheckBox Header="use column filters!"/>
                     <ribbon:CheckBox Margin="10,10,0,0" Header="is Primary Key" />

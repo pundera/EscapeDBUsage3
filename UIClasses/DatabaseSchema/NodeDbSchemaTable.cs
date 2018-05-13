@@ -12,5 +12,9 @@ namespace EscapeDBUsage.UIClasses.DatabaseSchema
     {
         private ObservableCollection<IFulltext> nodes;
         public ObservableCollection<IFulltext> Nodes { get { return nodes; } set { SetProperty(ref nodes, value); } }
+
+        public bool IsIncluded { get; set; }
+        public bool IsExcluded { get; set; }
+
     }
 }

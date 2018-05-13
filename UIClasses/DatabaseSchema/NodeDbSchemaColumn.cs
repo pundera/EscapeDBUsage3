@@ -21,5 +21,8 @@ namespace EscapeDBUsage.UIClasses.DatabaseSchema
 
         public object DefaultValue { get; set; }
         public ObservableCollection<IFulltext> Nodes { get; set; }
+
+        public bool IsIncluded { get; set; }
+        public bool IsExcluded { get; set; }
     }
 }

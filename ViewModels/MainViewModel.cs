@@ -95,6 +95,20 @@ namespace EscapeDBUsage.ViewModels
 
         }
 
+        private bool hasIncludesBiggerPriority = true;
+        public bool HasIncludesBiggerPriority
+        {
+            get { return hasIncludesBiggerPriority; }
+            set { SetProperty(ref hasIncludesBiggerPriority, value); hasExcludesBiggerPriority = !value; }
+        }
+
+        private bool hasExcludesBiggerPriority = false;
+        public bool HasExcludesBiggerPriority
+        {
+            get { return hasExcludesBiggerPriority; }
+            set { SetProperty(ref hasExcludesBiggerPriority, value); hasIncludesBiggerPriority = !value; }
+        }
+
         public Action<NodeBase> SelectionChanged()
         {
             return node =>
@@ -664,31 +678,11 @@ namespace EscapeDBUsage.ViewModels
             var includesList = listsExcel[0].Concat(listsSheet[0]).Concat(listsTable[0]).Concat(listsColumn[0]).ToList();
             var excludesList = listsExcel[1].Concat(listsSheet[1]).Concat(listsTable[1]).Concat(listsColumn[1]).ToList();
 
-            var startingVisibility = includesList.Count() == 0;
-            if (excludesList.Count() > 0) startingVisibility = true;
+            //var startingVisibility = includesList.Count() == 0;
+            //if (excludesList.Count() > 0) startingVisibility = true;
 
             // own fulltext action -> 
-            FulltextHelper.DoFulltext(NodesExcel, includesList, excludesList, 0, startingVisibility);
-        }
-
-        private void CommonErasingFilter()
-        {
-            foreach (var e in NodesExcel)
-            {
-                e.IsVisible = true;
-                if (e.Nodes != null) foreach (var tab in e.Nodes)
-                    {
-                        tab.IsVisible = true;
-                        if (tab.Nodes != null) foreach (var table in tab.Nodes)
-                            {
-                                table.IsVisible = true;
-                                if (table.Nodes != null) foreach (var c in table.Nodes)
-                                    {
-                                        c.IsVisible = true;
-                                    }
-                            }
-                    }
-            }
+            FulltextHelper.DoFulltext(HasIncludesBiggerPriority, NodesExcel, includesList, excludesList, 0);
         }
 
         private bool areDescsShown = false;

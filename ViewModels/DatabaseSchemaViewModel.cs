@@ -242,7 +242,7 @@ namespace EscapeDBUsage.ViewModels
             var startingVisibility = includesList.Count() == 0;
             if (startingVisibility && excludesList.Count() > 0) startingVisibility = false; 
             // own fulltext action -> 
-            FulltextHelper.DoFulltext(SelectedSprint.DbSchemaTables, includesList, excludesList, 0, startingVisibility);
+            FulltextHelper.DoFulltext(true, SelectedSprint.DbSchemaTables, includesList, excludesList, 0);
         }
 
         private void EraseFulltext()
