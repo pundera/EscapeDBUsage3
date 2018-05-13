@@ -1,4 +1,5 @@
-﻿using EscapeDBUsage.ViewModels;
+﻿using EscapeDBUsage.Interfaces;
+using EscapeDBUsage.ViewModels;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -12,7 +13,7 @@ using System.Windows.Input;
 
 namespace EscapeDBUsage.UIClasses
 {
-    public class NodeExcel: NodeBase
+    public class NodeExcel: NodeBase, IFulltext
     {
         public NodeExcel(IEventAggregator eventAggregator, NodeRoot root, MainViewModel viewModel): base(eventAggregator)
         {
@@ -28,19 +29,20 @@ namespace EscapeDBUsage.UIClasses
 
         private void DoAddTab()
         {
-            if (Nodes == null) Nodes = new ObservableCollection<NodeTab>();
+            if (Nodes == null) Nodes = new ObservableCollection<IFulltext>();
             var tab =  new NodeTab(EventAggregator, this, viewModel);
             Nodes.Insert(0, tab);
             viewModel.SelectedTab = tab;
             tab.IsSelected = true;
         }
 
-        private ObservableCollection<NodeTab> nodes = new ObservableCollection<NodeTab>();
-        public ObservableCollection<NodeTab> Nodes
+        private ObservableCollection<IFulltext> nodes = new ObservableCollection<IFulltext>();
+        public ObservableCollection<IFulltext> Nodes
         {
             get { return nodes; }
             set { SetProperty(ref nodes, value); }
         }
 
+        public bool IsChecked { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

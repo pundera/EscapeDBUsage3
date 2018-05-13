@@ -1,4 +1,5 @@
-﻿using EscapeDBUsage.ViewModels;
+﻿using EscapeDBUsage.Interfaces;
+using EscapeDBUsage.ViewModels;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -12,7 +13,7 @@ using System.Windows.Input;
 
 namespace EscapeDBUsage.UIClasses
 {
-    public class NodeDbTable : NodeBase
+    public class NodeDbTable : NodeBase, IFulltext
     {
         public NodeDbTable(IEventAggregator eventAggregator, NodeTab nodeTab, MainViewModel viewModel) : base(eventAggregator)
         {
@@ -27,7 +28,7 @@ namespace EscapeDBUsage.UIClasses
 
         private void DoAddColumn()
         {
-            if (Nodes == null) Nodes = new ObservableCollection<NodeDbColumn>();
+            if (Nodes == null) Nodes = new ObservableCollection<IFulltext>();
             var c = new NodeDbColumn(EventAggregator, this, viewModel);
             Nodes.Insert(0, c);
             viewModel.SelectedDbColumn = c;
@@ -42,12 +43,13 @@ namespace EscapeDBUsage.UIClasses
             set { SetProperty(ref nodeTab, value); }
         }
 
-        private ObservableCollection<NodeDbColumn> nodes = new ObservableCollection<NodeDbColumn>();
-        public ObservableCollection<NodeDbColumn> Nodes
+        private ObservableCollection<IFulltext> nodes = new ObservableCollection<IFulltext>();
+        public ObservableCollection<IFulltext> Nodes
         {
             get { return nodes; }
             set { SetProperty(ref nodes, value); }
         }
 
+        public bool IsChecked { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

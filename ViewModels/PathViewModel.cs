@@ -167,8 +167,8 @@ namespace EscapeDBUsage.ViewModels
             {
                 pathItem.Items = new ObservableCollection<PathItem>(node.GetNodes().Select(x => new PathItem()
                 {
-                    Guid = x.Guid,
-                    Name = x.Name
+                    Guid = (x as NodeBase).Guid,
+                    Name = (x as NodeBase).Name
                 }));
             }
 
@@ -176,8 +176,8 @@ namespace EscapeDBUsage.ViewModels
             {
                 pathItem.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetNodes().Select(x => new PathItem()
                 {
-                    Guid = x.Guid,
-                    Name = x.Name
+                    Guid = (x as NodeBase).Guid,
+                    Name = (x as NodeBase).Name
                 }));
             }
 
@@ -185,8 +185,8 @@ namespace EscapeDBUsage.ViewModels
             {
                 pathItem.Parent.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetParent().GetNodes().Select(x => new PathItem()
                 {
-                    Guid = x.Guid,
-                    Name = x.Name
+                    Guid = (x as NodeBase).Guid,
+                    Name = (x as NodeBase).Name
                 }));
             }
 
@@ -194,8 +194,8 @@ namespace EscapeDBUsage.ViewModels
             {
                 pathItem.Parent.Parent.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetParent().GetParent().GetNodes().Select(x => new PathItem()
                 {
-                    Guid = x.Guid,
-                    Name = x.Name
+                    Guid = (x as NodeBase).Guid,
+                    Name = (x as NodeBase).Name
                 }));
             }
 
@@ -203,8 +203,8 @@ namespace EscapeDBUsage.ViewModels
             {
                 pathItem.Parent.Parent.Parent.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetParent().GetParent().GetParent().GetNodes().Select(x => new PathItem()
                 {
-                    Guid = x.Guid,
-                    Name = x.Name
+                    Guid = (x as NodeBase).Guid,
+                    Name = (x as NodeBase).Name
                 }));
             }
 

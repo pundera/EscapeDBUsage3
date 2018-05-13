@@ -239,8 +239,10 @@ namespace EscapeDBUsage.ViewModels
             var includesList = listsTable[0].Concat(listsColumn[0]).ToList();
             var excludesList = listsTable[1].Concat(listsColumn[1]).ToList();
 
+            var startingVisibility = includesList.Count() == 0;
+            if (startingVisibility && excludesList.Count() > 0) startingVisibility = false; 
             // own fulltext action -> 
-            FulltextHelper.DoFulltext(SelectedSprint.DbSchemaTables, includesList, excludesList);
+            FulltextHelper.DoFulltext(SelectedSprint.DbSchemaTables, includesList, excludesList, 0, startingVisibility);
         }
 
         private void EraseFulltext()

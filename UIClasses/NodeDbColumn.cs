@@ -1,14 +1,16 @@
-﻿using EscapeDBUsage.ViewModels;
+﻿using EscapeDBUsage.Interfaces;
+using EscapeDBUsage.ViewModels;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EscapeDBUsage.UIClasses
 {
-    public class NodeDbColumn: NodeBase
+    public class NodeDbColumn: NodeBase, IFulltext
     {
         public NodeDbColumn(IEventAggregator eventAggregator, NodeDbTable dbTable, MainViewModel viewModel) : base(eventAggregator)
         {
@@ -25,5 +27,8 @@ namespace EscapeDBUsage.UIClasses
             set { SetProperty(ref nodeDbTable, value); }
         }
 
+        public ObservableCollection<IFulltext> Nodes { get { return null; } set { throw new NotImplementedException(); } }
+
+        public bool IsChecked { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

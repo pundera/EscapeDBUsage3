@@ -2,6 +2,7 @@
 using EscapeDBUsage.FlowStructures;
 using EscapeDBUsage.Helpers;
 using EscapeDBUsage.InteractionRequests;
+using EscapeDBUsage.Interfaces;
 using EscapeDBUsage.UIClasses;
 using EscapeDBUsage.UIClasses.OtherViews;
 using log4net;
@@ -170,9 +171,11 @@ namespace EscapeDBUsage.ViewModels
         public ICommand EraseFulltext { get { return (new DelegateCommand(() => DoEraseFulltext())); } }
         
         private void DoEraseFulltext() {
-            FullTextColumnName = null;
-            FullTextColumnDescription = null;
-            CommonErasingFilter();
+            ExcelFulltext = null;
+            SheetFulltext = null;
+            TableFulltext = null;
+            ColumnFulltext = null;
+            DoFilter();
         }
 
         private void DoAddExcel()
@@ -182,7 +185,7 @@ namespace EscapeDBUsage.ViewModels
 
             if (NodesExcel == null)
             {
-                NodesExcel = new ObservableCollection<NodeExcel>();
+                NodesExcel = new ObservableCollection<IFulltext>();
             }
             
             NodesExcel.Insert(0, newExcel);
@@ -488,11 +491,11 @@ namespace EscapeDBUsage.ViewModels
                         Name = "ROOT",
                         Description = "just help instance..."
                     };
-                    NodesExcel = new ObservableCollection<NodeExcel>();
+                    NodesExcel = new ObservableCollection<IFulltext>();
                     var masterDataNode = new NodeExcel(eventAgg, nodeRoot, this) { Name = "MasterData" };
-                    nodeRoot.Nodes = new ObservableCollection<NodeExcel>();
+                    nodeRoot.Nodes = new ObservableCollection<IFulltext>();
                     nodeRoot.Nodes.Add(masterDataNode);
-                    masterDataNode.Nodes = new ObservableCollection<NodeTab>();
+                    masterDataNode.Nodes = new ObservableCollection<IFulltext>();
                     NodesExcel.Add(masterDataNode);
 
                     NodeTab tab = null;
@@ -512,7 +515,7 @@ namespace EscapeDBUsage.ViewModels
                             // starting... -> 
                             tab = new NodeTab(eventAgg, masterDataNode, this) { Name = l.Substring(1, l.IndexOf('-') - 2), Description = l.Substring(l.IndexOf('-') + 2) };
                             dbTable = new NodeDbTable(eventAgg, tab, this) { Name = l.Substring(1, l.IndexOf('-') - 2).Replace(" ", "") };
-                            tab.Nodes = new ObservableCollection<NodeDbTable>
+                            tab.Nodes = new ObservableCollection<IFulltext>
                             {
                                 dbTable
                             };
@@ -523,7 +526,7 @@ namespace EscapeDBUsage.ViewModels
                             var column = new NodeDbColumn(eventAgg, dbTable, this) { Name = (l.Substring(0, l.IndexOf('-') - 1)), Description = l.Substring(l.IndexOf('-') + 2) };
                             if (tab.Nodes[0].Nodes == null)
                             {
-                                tab.Nodes[0].Nodes = new ObservableCollection<NodeDbColumn>();
+                                tab.Nodes[0].Nodes = new ObservableCollection<IFulltext>();
                             }
 
                             tab.Nodes[0].Nodes.Add(column);
@@ -577,49 +580,95 @@ namespace EscapeDBUsage.ViewModels
         }
 
 
-        private ObservableCollection<NodeExcel> nodesExcel;
-        public ObservableCollection<NodeExcel> NodesExcel
+        private ObservableCollection<IFulltext> nodesExcel;
+        public ObservableCollection<IFulltext> NodesExcel
         {
             get { return nodesExcel; }
             set { SetProperty(ref nodesExcel, value); }
         }
 
-        private string fullTextColumnName;
-        public string FullTextColumnName
+        private string excelFulltext;
+        public string ExcelFulltext
         {
-            get { return fullTextColumnName; }
-            set
-            {
-                SetProperty(ref fullTextColumnName, value);
-                DoFilter(FilterType.Name);
-            }
+            get { return excelFulltext; }
+            set { SetProperty(ref excelFulltext, value); DoFilter(); }
         }
 
-        private void DoFilter(FilterType name)
+        private string sheetFulltext;
+        public string SheetFulltext
         {
-            switch (name)
-            {
-                case FilterType.Name:
-                    if (string.IsNullOrEmpty(fullTextColumnName))
-                    {
-                        CommonErasingFilter();
-                    }
-                    else
-                    {
-                        CommonFiltering(FilterType.Name);
-                    }
-                    break;
-                case FilterType.Description:
-                    if (string.IsNullOrEmpty(fullTextColumnDescription))
-                    {
-                        CommonErasingFilter();
-                    }
-                    else
-                    {
-                        CommonFiltering(FilterType.Description);
-                    }
-                    break;
-            }
+            get { return sheetFulltext; }
+            set { SetProperty(ref sheetFulltext, value); DoFilter(); }
+        }
+
+        private string tableFulltext;
+        public string TableFulltext
+        {
+            get { return tableFulltext; }
+            set { SetProperty(ref tableFulltext, value); DoFilter(); }
+        }
+
+        private string columnFulltext;
+        public string ColumnFulltext
+        {
+            get { return columnFulltext; }
+            set { SetProperty(ref columnFulltext, value); DoFilter(); }
+        }
+
+        private string excelFulltextExclude;
+        public string ExcelFulltextExclude
+        {
+            get { return excelFulltextExclude; }
+            set { SetProperty(ref excelFulltextExclude, value); DoFilter(); }
+        }
+
+        private string sheetFulltextExclude;
+        public string SheetFulltextExclude
+        {
+            get { return sheetFulltextExclude; }
+            set { SetProperty(ref sheetFulltextExclude, value); DoFilter(); }
+        }
+
+        private string tableFulltextExclude;
+        public string TableFulltextExclude
+        {
+            get { return tableFulltextExclude; }
+            set { SetProperty(ref tableFulltextExclude, value); DoFilter(); }
+        }
+
+        private string columnFulltextExclude;
+        public string ColumnFulltextExclude
+        {
+            get { return columnFulltextExclude; }
+            set { SetProperty(ref columnFulltextExclude, value); DoFilter(); }
+        }
+
+        private void DoFilter()
+        {
+            // getting (and setting) params for fulltext ->  
+            string[] includes = new string[0];
+            string[] excludes = new string[0];
+
+            FulltextHelper.CreateIncludesAndExcludes(out includes, out excludes, ExcelFulltext, ExcelFulltextExclude);
+            var listsExcel = FulltextHelper.CreateFulltextValueLists(includes, excludes, 0);
+
+            FulltextHelper.CreateIncludesAndExcludes(out includes, out excludes, SheetFulltext, SheetFulltextExclude);
+            var listsSheet = FulltextHelper.CreateFulltextValueLists(includes, excludes, 1);
+
+            FulltextHelper.CreateIncludesAndExcludes(out includes, out excludes, TableFulltext, TableFulltextExclude);
+            var listsTable = FulltextHelper.CreateFulltextValueLists(includes, excludes, 2);
+
+            FulltextHelper.CreateIncludesAndExcludes(out includes, out excludes, ColumnFulltext, ColumnFulltextExclude);
+            var listsColumn = FulltextHelper.CreateFulltextValueLists(includes, excludes, 3);
+
+            var includesList = listsExcel[0].Concat(listsSheet[0]).Concat(listsTable[0]).Concat(listsColumn[0]).ToList();
+            var excludesList = listsExcel[1].Concat(listsSheet[1]).Concat(listsTable[1]).Concat(listsColumn[1]).ToList();
+
+            var startingVisibility = includesList.Count() == 0;
+            if (excludesList.Count() > 0) startingVisibility = true;
+
+            // own fulltext action -> 
+            FulltextHelper.DoFulltext(NodesExcel, includesList, excludesList, 0, startingVisibility);
         }
 
         private void CommonErasingFilter()
@@ -639,42 +688,6 @@ namespace EscapeDBUsage.ViewModels
                                     }
                             }
                     }
-            }
-        }
-
-        private void CommonFiltering(FilterType type)
-        {
-            foreach (var e in NodesExcel)
-            {
-                var bExcel = false;
-                if (e.Nodes != null) foreach (var tab in e.Nodes)
-                    {
-                        var bTab = false;
-                        if (tab.Nodes != null) foreach (var table in tab.Nodes)
-                            {
-                                var bTable = false;
-                                if (table.Nodes != null) foreach (var c in table.Nodes)
-                                    {
-                                        if ((type == FilterType.Name && c.Name.ToUpperInvariant().IndexOf(fullTextColumnName.ToUpperInvariant()) > -1)
-                                            ||
-                                            (type == FilterType.Description && c.Description.ToUpperInvariant().IndexOf(fullTextColumnDescription.ToUpperInvariant()) > -1))
-                                        {
-                                            c.IsVisible = true;
-                                            bExcel = true;
-                                            bTab = true;
-                                            bTable = true;
-                                        }
-                                        else
-                                        {
-                                            c.IsVisible = false;
-                                        }
-                                    }
-                                e.IsVisible = bExcel;
-                                tab.IsVisible = bTab;
-                                table.IsVisible = bTable;
-                        }
-
-                }
             }
         }
 
@@ -700,19 +713,19 @@ namespace EscapeDBUsage.ViewModels
             {
                 foreach (var n in NodesExcel)
                 {
-                    n.AreDescsShown = value;
+                    (n as NodeBase).AreDescsShown = value;
                     if (n.Nodes == null) continue;
                     foreach (var tab in n.Nodes)
                     {
-                        tab.AreDescsShown = value;
+                        (tab as NodeBase).AreDescsShown = value;
                         if (tab.Nodes == null) continue;
                         foreach (var table in tab.Nodes)
                         {
-                            table.AreDescsShown = value;
+                            (table as NodeBase).AreDescsShown = value;
                             if (table.Nodes == null) continue;
                             foreach (var c in table.Nodes)
                             {
-                                c.AreDescsShown = value;
+                                (c as NodeBase).AreDescsShown = value;
                             }
                         }
                     }
@@ -755,24 +768,13 @@ namespace EscapeDBUsage.ViewModels
                             if (n3.Nodes == null) continue;
                             foreach (var n4 in n3.Nodes)
                             {
-                                n4.AreDescsShown = value;
+                                (n4 as NodeBase).AreDescsShown = value;
                             }
                         }
                     }
                 }
             }
 
-        }
-
-        private string fullTextColumnDescription;
-        public string FullTextColumnDescription
-        {
-            get { return fullTextColumnDescription; }
-            set
-            {
-                SetProperty(ref fullTextColumnDescription, value);
-                DoFilter(FilterType.Description);
-            }
         }
 
         private ObservableCollection<NodeDbTableToExcel> nodesTable;

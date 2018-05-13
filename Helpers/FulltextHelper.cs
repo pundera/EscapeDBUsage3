@@ -11,57 +11,92 @@ namespace EscapeDBUsage.Helpers
 {
     public static class FulltextHelper
     {
-        public static bool DoFulltext<T>(ObservableCollection<T> nodes, IEnumerable<FulltextValue> inValues, IEnumerable<FulltextValue> exValues, int level = 0) where T: IFulltext
+        public static bool DoFulltext<T>(ObservableCollection<T> nodes, IEnumerable<FulltextValue> inValues, IEnumerable<FulltextValue> exValues, int level = 0, bool parentVisibility = false) where T: IFulltext
         {
-            var ret = true;
+            var ret = parentVisibility;
             if (nodes==null) {
                 return ret;
             }
+            //Console.WriteLine("------------------------------------------------------------");
             foreach (var n in nodes)
             {
                 var nodeName = n.Name.ToUpperInvariant();
 
-                var shouldBeVisible = ShouldBeVisible(inValues.Where(x => x.Level == level).Concat(exValues.Where(x => x.Level == level)), nodeName);
-
-                var isVisible = DoFulltext<IFulltext>(n.Nodes, inValues, exValues, level++);
-                shouldBeVisible &= isVisible;
-                ret = shouldBeVisible;
+                //Console.WriteLine($"nodeName => {nodeName}");
+                var shouldBeVisible = ShouldBeVisible(inValues.Where(x => x.Level == level).Concat(exValues.Where(x => x.Level == level)), nodeName, parentVisibility);
+                //Console.WriteLine($"shouldBeVisible => {shouldBeVisible}");
+                //Console.WriteLine($"DoFullText --> level: {level}");
+                var isSomeChildNodeVisible = DoFulltext<IFulltext>(n.Nodes, inValues, exValues, level + 1, shouldBeVisible);
+                //Console.WriteLine($"isSomeChildNodeVisible => {isSomeChildNodeVisible}");
+                if (isSomeChildNodeVisible)
+                {
+                    shouldBeVisible = true;
+                    ret = true;
+                } else
+                {
+                    //shouldBeVisible = false;
+                }
                 n.IsVisible = shouldBeVisible;
+                //Console.WriteLine($"n.IsVisible => {n.IsVisible}");
             }
             return ret;
         }
 
-        private static bool ShouldBeVisible(IEnumerable<FulltextValue> list, string text)
+        private static bool ShouldBeVisible(IEnumerable<FulltextValue> list, string text, bool parentVisibility)
         {
-            var shouldBeVisible = false;
-            if (list.Count() == 0) shouldBeVisible = true;
+            var visibility = parentVisibility;
+
+            var isOneConditionOk = false;
 
             foreach (var v in list)
             {
-                if (!string.IsNullOrEmpty(v.Value) && v.IsInclude && text.Contains(v.Value)) shouldBeVisible = true;
-            }
-
-            if (shouldBeVisible)
-            {
-                foreach (var v in list)
+                if (!string.IsNullOrEmpty(v.Value) && !string.IsNullOrWhiteSpace(v.Value) && v.IsInclude)
                 {
-                    if (!string.IsNullOrEmpty(v.Value) && !v.IsInclude && text.Contains(v.Value)) shouldBeVisible = false;
+                    if (text.Contains(v.Value))
+                    {
+                        visibility = true;
+                        isOneConditionOk = true;
+                    } else
+                    {
+                        visibility = isOneConditionOk;
+                    }
                 }
             }
 
-            return shouldBeVisible;
+            if (visibility)
+            {
+                foreach (var v in list)
+                {
+                    if (!string.IsNullOrEmpty(v.Value) && !string.IsNullOrWhiteSpace(v.Value) && !v.IsInclude)
+                    {
+                        if (text.Contains(v.Value)) visibility = false;
+                    }
+                }
+            }
+
+            return visibility;
+
+            //if (parentVisibility && visibility) return true;
+            //if (parentVisibility && !visibility) return false;
+            //if (!parentVisibility && visibility) return true;
+            //if (!parentVisibility && !visibility) return false;
+
+
         }
 
         public static void CreateIncludesAndExcludes(out string[] includes, out string[] excludes, string inValue, string exValue)
         {
+            if (string.IsNullOrEmpty(inValue)) inValue = null;
+            if (string.IsNullOrEmpty(exValue)) exValue = null;
+
             includes = inValue != null ? inValue.ToUpperInvariant().Split(' ') : new string[] { };
             excludes = exValue != null ? exValue.ToUpperInvariant().Split(' ') : new string[] { };
         }
 
         public static List<List<FulltextValue>> CreateFulltextValueLists(string[] includes, string[] excludes, int level = 0)
         {
-            var valueListIncludes = includes.Select((x) => new FulltextValue() { IsInclude = true, Value = x, Level = level }).ToList();
-            var valueListExcludes = excludes.Select((x) => new FulltextValue() { IsInclude = false, Value = x, Level = level }).ToList();
+            var valueListIncludes = includes.Select((x) => new FulltextValue() { IsInclude = true, Value = string.IsNullOrWhiteSpace(x) || string.IsNullOrEmpty(x) ? null : x, Level = level }).ToList();
+            var valueListExcludes = excludes.Select((x) => new FulltextValue() { IsInclude = false, Value = string.IsNullOrWhiteSpace(x) || string.IsNullOrEmpty(x) ? null : x, Level = level }).ToList();
             return new List<List<FulltextValue>>() { valueListIncludes, valueListExcludes };
         }
     }

@@ -117,8 +117,8 @@ namespace EscapeDBUsage.ViewModels
 
                     try
                     {
-                        var n = Node.GetNodes().First(x => x.Guid.Equals(value.Guid));
-                        n.IsSelected = true;
+                        var n = Node.GetNodes().First(x => (x as NodeBase).Guid.Equals(value.Guid));
+                        (n as NodeBase).IsSelected = true;
                     }
                     finally
                     {

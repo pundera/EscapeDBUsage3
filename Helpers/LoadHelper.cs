@@ -1,4 +1,5 @@
-﻿using EscapeDBUsage.ModelClasses;
+﻿using EscapeDBUsage.Interfaces;
+using EscapeDBUsage.ModelClasses;
 using EscapeDBUsage.UIClasses;
 using EscapeDBUsage.UIClasses.DatabaseSchema;
 using EscapeDBUsage.ViewModels;
@@ -66,26 +67,26 @@ namespace EscapeDBUsage.Helpers
                         sprint.DbSchemaTables = DbSchemaHelper.ConvertDbSchemaTables(s.DbSchemaTables);
                         sprints.Add(sprint);
 
-                        var result = new ObservableCollection<NodeExcel>();
+                        var result = new ObservableCollection<IFulltext>();
                         nodeRoot.Nodes = result;
                         if (s.Excels == null) continue;
                         foreach (var r in s.Excels)
                         {
                             var ne = new NodeExcel(evAgg, nodeRoot, viewModel) { Guid = r.Guid, Name = r.Name, Description = r.Description };
                             result.Add(ne);
-                            ne.Nodes = new ObservableCollection<NodeTab>();
+                            ne.Nodes = new ObservableCollection<IFulltext>();
                             if (r.Nodes == null) continue;
                             foreach (var t in r.Nodes)
                             {
                                 var nt = new NodeTab(evAgg, ne, viewModel) { Guid = t.Guid, Name = t.Name, Description = t.Description };
                                 ne.Nodes.Add(nt);
-                                nt.Nodes = new ObservableCollection<NodeDbTable>();
+                                nt.Nodes = new ObservableCollection<IFulltext>();
                                 if (t.Nodes == null) continue;
                                 foreach (var table in t.Nodes)
                                 {
                                     var ntable = new NodeDbTable(evAgg, nt, viewModel) { Guid = table.Guid, Name = table.Name, Description = table.Description };
                                     nt.Nodes.Add(ntable);
-                                    ntable.Nodes = new ObservableCollection<NodeDbColumn>();
+                                    ntable.Nodes = new ObservableCollection<IFulltext>();
                                     if (table.Nodes == null) continue;
                                     foreach (var c in table.Nodes)
                                     {

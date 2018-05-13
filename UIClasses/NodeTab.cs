@@ -1,4 +1,5 @@
 ﻿using EscapeDBUsage.InteractionRequests;
+using EscapeDBUsage.Interfaces;
 using EscapeDBUsage.Notifications;
 using EscapeDBUsage.ViewModels;
 using Prism.Commands;
@@ -14,7 +15,7 @@ using System.Windows.Input;
 
 namespace EscapeDBUsage.UIClasses
 {
-    public class NodeTab: NodeBase
+    public class NodeTab: NodeBase, IFulltext
     {
         public NodeTab(IEventAggregator eventAggregator, NodeExcel nodeExcel, MainViewModel viewModel) : base(eventAggregator)
         {
@@ -43,7 +44,7 @@ namespace EscapeDBUsage.UIClasses
                             };
                             if (t.Nodes != null)
                             {
-                                newDBTable.Nodes = new ObservableCollection<NodeDbColumn>();
+                                newDBTable.Nodes = new ObservableCollection<IFulltext>();
                                 foreach (var c in t.Nodes)
                                 {
                                     if (c.IsChecked && c.IsVisible)
@@ -57,7 +58,7 @@ namespace EscapeDBUsage.UIClasses
                             }
                             if (this.Nodes==null)
                             {
-                                this.Nodes = new ObservableCollection<NodeDbTable>();
+                                this.Nodes = new ObservableCollection<IFulltext>();
                             }
                             this.Nodes.Add(newDBTable);
                         }
@@ -73,7 +74,7 @@ namespace EscapeDBUsage.UIClasses
 
         private void DoAddTable()
         {
-            if (Nodes == null) Nodes = new ObservableCollection<NodeDbTable>();
+            if (Nodes == null) Nodes = new ObservableCollection<IFulltext>();
             var table = new NodeDbTable(EventAggregator, this, viewModel);
             Nodes.Insert(0, table);
             viewModel.SelectedDbTable = table;
@@ -87,13 +88,14 @@ namespace EscapeDBUsage.UIClasses
             set { SetProperty(ref nodeExcel, value); }
         }
 
-        private ObservableCollection<NodeDbTable> nodes = new ObservableCollection<NodeDbTable>();
-        public ObservableCollection<NodeDbTable> Nodes
+        private ObservableCollection<IFulltext> nodes = new ObservableCollection<IFulltext>();
+        public ObservableCollection<IFulltext> Nodes
         {
             get { return nodes; }
             set { SetProperty(ref nodes, value); }
         }
 
         public AddTablesAndColumnsRequest Request { get; private set; }
+        public bool IsChecked { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

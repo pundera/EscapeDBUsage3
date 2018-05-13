@@ -12,6 +12,8 @@ namespace EscapeDBUsage.Interfaces
         string Name { get; set; }
         bool IsVisible { get; set; }
         bool IsChecked { get; set; }
+        bool IsExpanded { get; set; }
+
         ObservableCollection<IFulltext> Nodes { get; set; }
     }
 }

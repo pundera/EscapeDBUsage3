@@ -29,21 +29,21 @@ namespace EscapeDBUsage.Helpers
                 if (e.Nodes == null) continue;
                 foreach (var t in e.Nodes)
                 {
-                    var tab = new Tab() { Guid = e.Guid, Name = t.Name, Description = t.Description };
+                    var tab = new Tab() { Guid = e.Guid, Name = t.Name, Description = (t as NodeBase).Description };
                     tab.Nodes = new List<DbTable>();
                     ex.Nodes.Add(tab);
 
                     if (t.Nodes == null) continue;
                     foreach (var table in t.Nodes)
                     {
-                        var dbTable = new DbTable() { Guid = e.Guid, Name = table.Name, Description = table.Description };
+                        var dbTable = new DbTable() { Guid = e.Guid, Name = table.Name, Description = (table as NodeBase).Description };
                         dbTable.Nodes = new List<DbColumn>();
                         tab.Nodes.Add(dbTable);
 
                         if (table.Nodes == null) continue;
                         foreach (var column in table.Nodes)
                         {
-                            var dbColumn = new DbColumn() { Guid = e.Guid, Name = column.Name, Description = column.Description };
+                            var dbColumn = new DbColumn() { Guid = e.Guid, Name = column.Name, Description = (column as NodeBase).Description };
                             dbTable.Nodes.Add(dbColumn);
                         }
 
@@ -85,27 +85,27 @@ namespace EscapeDBUsage.Helpers
                     Excels = x.Root.Nodes != null ? x.Root.Nodes.Select(e =>
                           new Excel()
                           {
-                              Guid = e.Guid.Equals(Guid.Empty) ? Guid.NewGuid() : e.Guid,
+                              Guid = (e as NodeBase).Guid.Equals(Guid.Empty) ? Guid.NewGuid() : (e as NodeBase).Guid,
                               Name = e.Name,
-                              Description = e.Description,
+                              Description = (e as NodeBase).Description,
                               Nodes = e.Nodes != null ? e.Nodes.Select(tab =>
                                   new Tab()
                                   {
-                                      Guid = tab.Guid.Equals(Guid.Empty) ? Guid.NewGuid() : tab.Guid,
-                                      Name = tab.Name,
-                                      Description = tab.Description,
+                                      Guid = (tab as NodeBase).Guid.Equals(Guid.Empty) ? Guid.NewGuid() : (tab as NodeBase).Guid,
+                                      Name = (tab as NodeBase).Name,
+                                      Description = (tab as NodeBase).Description,
                                       Nodes = tab.Nodes != null ? tab.Nodes.Select(table =>
                                           new DbTable()
                                           {
-                                              Guid = table.Guid.Equals(Guid.Empty) ? Guid.NewGuid() : table.Guid,
+                                              Guid = (table as NodeBase).Guid.Equals(Guid.Empty) ? Guid.NewGuid() : (table as NodeBase).Guid,
                                               Name = table.Name,
-                                              Description = table.Description,
+                                              Description = (table as NodeBase).Description,
                                               Nodes = table.Nodes != null ? table.Nodes.Select(column =>
                                               new DbColumn()
                                               {
-                                                  Guid = column.Guid.Equals(Guid.Empty) ? Guid.NewGuid() : column.Guid,
+                                                  Guid = (column as NodeBase).Guid.Equals(Guid.Empty) ? Guid.NewGuid() : (column as NodeBase).Guid,
                                                   Name = column.Name,
-                                                  Description = column.Description
+                                                  Description = (column as NodeBase).Description
                                               }
                                               ).ToList() : new List<DbColumn>()
                                           }

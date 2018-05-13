@@ -1,4 +1,5 @@
-﻿using EscapeDBUsage.ViewModels;
+﻿using EscapeDBUsage.Interfaces;
+using EscapeDBUsage.ViewModels;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,8 @@ namespace EscapeDBUsage.UIClasses
 
         private MainViewModel viewModel; 
 
-        private ObservableCollection<NodeExcel> nodes = new ObservableCollection<NodeExcel>();
-        public ObservableCollection<NodeExcel> Nodes
+        private ObservableCollection<IFulltext> nodes = new ObservableCollection<IFulltext>();
+        public ObservableCollection<IFulltext> Nodes
         {
             get { return nodes; }
             set { SetProperty(ref nodes, value); }
@@ -29,31 +30,31 @@ namespace EscapeDBUsage.UIClasses
         {
             var newRoot = new NodeRoot(EventAggregator, viewModel)
             {
-                Nodes = new ObservableCollection<NodeExcel>()
+                Nodes = new ObservableCollection<IFulltext>()
             };
 
 
-            newRoot.Nodes = new ObservableCollection<NodeExcel>(Nodes.Select(n => new NodeExcel(EventAggregator, newRoot, viewModel)
-            {
-                Name = n.Name,
-                Description = n.Description,
-                IsExpanded = true,
-                Nodes = new ObservableCollection<NodeTab>(n.Nodes.ToList().Select(t => new NodeTab(EventAggregator, n, viewModel)
-                {
-                    Name = t.Name,
-                    Description = t.Description,
-                    Nodes = new ObservableCollection<NodeDbTable>(t.Nodes.ToList().Select(table => new NodeDbTable(EventAggregator, t, viewModel)
-                    {
-                        Name = table.Name,
-                        Description = table.Description,
-                        Nodes = new ObservableCollection<NodeDbColumn>(table.Nodes.ToList().Select(c => new NodeDbColumn(EventAggregator, table, viewModel)
-                        {
-                            Name = c.Name,
-                            Description = c.Description
-                        }))
-                    }))
-                }))
-            }));
+            //newRoot.Nodes = new ObservableCollection<IFulltext>(Nodes.Select(n => new NodeExcel(EventAggregator, newRoot, viewModel)
+            //{
+            //    Name = n.Name,
+            //    Description = (n as NodeBase).Description,
+            //    IsExpanded = true,
+            //    Nodes = new ObservableCollection<NodeTab>(n.Nodes.ToList().Select(t => new NodeTab(EventAggregator, (NodeBase)n, viewModel)
+            //    {
+            //        Name = t.Name,
+            //        Description = (t as NodeBase).Description,
+            //        Nodes = new ObservableCollection<NodeDbTable>(t.Nodes.ToList().Select(table => new NodeDbTable(EventAggregator, t as NodeBase, viewModel)
+            //        {
+            //            Name = table.Name,
+            //            Description = (table as NodeBase).Description,
+            //            Nodes = new ObservableCollection<NodeDbColumn>(table.Nodes.ToList().Select(c => new NodeDbColumn(EventAggregator, table, viewModel)
+            //            {
+            //                Name = c.Name,
+            //                Description = (c as NodeBase).Description
+            //            }))
+            //        }))
+            //    }))
+            //}));
 
             return newRoot;
         }

@@ -1,5 +1,6 @@
 ﻿using EscapeDBUsage.Events;
 using EscapeDBUsage.FlowStructures;
+using EscapeDBUsage.Interfaces;
 using EscapeDBUsage.UIClasses.OtherViews;
 using Prism.Commands;
 using Prism.Events;
@@ -191,7 +192,7 @@ namespace EscapeDBUsage.UIClasses
             {
                 foreach (var n in nodes)
                 {
-                    SetIsNotSelectedEverywhere(n);
+                    SetIsNotSelectedEverywhere(n as NodeBase);
                 }
             }
         }
@@ -243,15 +244,15 @@ namespace EscapeDBUsage.UIClasses
             set { SetProperty(ref isVisible, value); }
         }
 
-        public List<NodeBase> GetNodes()
+        public List<IFulltext> GetNodes()
         {
-            if (this is NodeRoot) return (this as NodeRoot).Nodes.ToList<NodeBase>();
-            if (this is NodeDbTableRoot) return (this as NodeDbTableRoot).Nodes.ToList<NodeBase>();
-            if (this is NodeDbTableToExcel) return (this as NodeDbTableToExcel).Nodes.ToList<NodeBase>();
+            if (this is NodeRoot) return ((this as NodeRoot).Nodes).ToList();
+            //if (this is NodeDbTableRoot) return (this as NodeRoot).Nodes.ToList();
+            //if (this is NodeDbTableToExcel) return (this as NodeDbTableToExcel).Nodes.ToList();
 
-            if (this is NodeExcel) return (this as NodeExcel).Nodes.ToList<NodeBase>();
-            if (this is NodeTab) return (this as NodeTab).Nodes.ToList<NodeBase>();
-            if (this is NodeDbTable) return (this as NodeDbTable).Nodes.ToList<NodeBase>();
+            if (this is NodeExcel) return (this as NodeExcel).Nodes.ToList();
+            if (this is NodeTab) return (this as NodeTab).Nodes.ToList();
+            if (this is NodeDbTable) return (this as NodeDbTable).Nodes.ToList();
             if (this is NodeDbColumn) return null;
             return null;
         }
