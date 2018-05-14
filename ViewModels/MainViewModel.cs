@@ -47,8 +47,6 @@ namespace EscapeDBUsage.ViewModels
             });
 
             evAgg.GetEvent<SelectionChangedEvent>().Subscribe(SelectionChanged());
-            //evAgg.GetEvent<SelectedInPathChangedEvent>().Subscribe(SelectionChanged());
-
 
             Import = new DelegateCommand(() => DoImport());
             Save = new DelegateCommand(() => DoSave());
@@ -95,14 +93,14 @@ namespace EscapeDBUsage.ViewModels
 
         }
 
-        private bool hasIncludesBiggerPriority = true;
+        private bool hasIncludesBiggerPriority = false;
         public bool HasIncludesBiggerPriority
         {
             get { return hasIncludesBiggerPriority; }
             set { SetProperty(ref hasIncludesBiggerPriority, value); hasExcludesBiggerPriority = !value; }
         }
 
-        private bool hasExcludesBiggerPriority = false;
+        private bool hasExcludesBiggerPriority = true;
         public bool HasExcludesBiggerPriority
         {
             get { return hasExcludesBiggerPriority; }
@@ -123,6 +121,8 @@ namespace EscapeDBUsage.ViewModels
                     TabVisible = false;
                     TableVisible = false;
                     ColumnVisible = false;
+
+                    if (!node.IsSelected) node.IsSelected = true;
 
                     if (node is NodeRoot)
                     {
@@ -183,12 +183,22 @@ namespace EscapeDBUsage.ViewModels
         }
 
         public ICommand EraseFulltext { get { return (new DelegateCommand(() => DoEraseFulltext())); } }
-        
+        public ICommand EraseFulltextExclude { get { return (new DelegateCommand(() => DoEraseFulltextExclude())); } }
+
         private void DoEraseFulltext() {
             ExcelFulltext = null;
             SheetFulltext = null;
             TableFulltext = null;
             ColumnFulltext = null;
+            DoFilter();
+        }
+
+        private void DoEraseFulltextExclude()
+        {
+            ExcelFulltextExclude = null;
+            SheetFulltextExclude = null;
+            TableFulltextExclude = null;
+            ColumnFulltextExclude = null;
             DoFilter();
         }
 
@@ -384,19 +394,6 @@ namespace EscapeDBUsage.ViewModels
                 {
                     return;
                 }
-
-                try
-                {
-                    
-                    //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
-                } finally
-                {
-                    
-                }
-
-                //if (value.IsAlreadySelected) return;
-                //value.IsAlreadySelected = false;
-                //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
             }
         }
 
@@ -413,8 +410,6 @@ namespace EscapeDBUsage.ViewModels
                 }
 
                 (value as NodeTab).NodeExcel.IsExpanded = true;
-
-                //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
             }
         }
 
@@ -432,8 +427,6 @@ namespace EscapeDBUsage.ViewModels
                 }
 
                 value.NodeTab.IsExpanded = true;
-
-                //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
             }
         }
 
@@ -451,8 +444,6 @@ namespace EscapeDBUsage.ViewModels
                 }
 
                 value.NodeDbTable.IsExpanded = true;
-
-                //eventAgg.GetEvent<SelectedInMainChangedEvent>().Publish(value);
             }
         }
 
@@ -659,6 +650,17 @@ namespace EscapeDBUsage.ViewModels
 
         private void DoFilter()
         {
+            
+            SelectedExcel = null;
+            SelectedTab = null;
+            SelectedDbTable = null;
+            SelectedDbColumn = null;
+
+            ExcelVisible = false;
+            TabVisible = false;
+            TableVisible = false;
+            ColumnVisible = false;
+
             // getting (and setting) params for fulltext ->  
             string[] includes = new string[0];
             string[] excludes = new string[0];

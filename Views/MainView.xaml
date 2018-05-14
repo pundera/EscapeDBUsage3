@@ -703,8 +703,8 @@
 
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*" MinWidth="220" />
-                            <ColumnDefinition Width="4*" MinWidth="500" />
+                            <ColumnDefinition Width="1*" MinWidth="220" />
+                            <ColumnDefinition Width="6*" MinWidth="500" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="32" />
@@ -714,8 +714,20 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <ContentControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" prism:RegionManager.RegionName="PathRegion">
-                        </ContentControl>
+                        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Excel:" Margin="4,4"/>
+                                <local:SelectedNodePathViewExcel />
+                                <Label Content="Sheet:" Margin="4,4"/>
+                                <local:SelectedNodePathViewSheet />
+                                <Label Content="DB Table:" Margin="4,4"/>
+                                <local:SelectedNodePathViewTable />
+                                <Label Content="DB Column:" Margin="4,4"/>
+                                <local:SelectedNodePathViewColumn />
+                            </StackPanel>
+                        </Grid>
+                        <!--<ContentControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" prism:RegionManager.RegionName="PathRegion">
+                        </ContentControl>-->
                         <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="1" Grid.RowSpan="5" Margin="0,5,8,5">
                             <TreeView Background="Transparent" ItemTemplate="{StaticResource ResourceKey=TreeTemplateExcel}" ItemsSource="{Binding NodesExcel}" Margin="0,0,2,0" Width="Auto" >
                                 <TreeView.Resources>

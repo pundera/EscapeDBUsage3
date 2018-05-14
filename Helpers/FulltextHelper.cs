@@ -1,4 +1,5 @@
 ﻿using EscapeDBUsage.Classes;
+using EscapeDBUsage.Enums;
 using EscapeDBUsage.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,52 +12,93 @@ namespace EscapeDBUsage.Helpers
 {
     public static class FulltextHelper
     {
-        public static bool DoFulltext<T>(bool includesPriority, ObservableCollection<T> nodes, IEnumerable<FulltextValue> inValues, IEnumerable<FulltextValue> exValues, int level = 0, bool isParentInIncludes = false, bool isParentInExcludes = false) where T: IFulltext
+        public static FulltextResult DoFulltext<T>(bool includesPriority, ObservableCollection<T> nodes, IEnumerable<FulltextValue> inValues, IEnumerable<FulltextValue> exValues, int level = 0, bool isParentInIncludes = false, bool isParentInExcludes = false) where T : IFulltext
         {
-            var result = false;
+            var result = FulltextResult.Unvisible;
 
-            if (nodes==null)
+            if (nodes == null || nodes.Count==0)
             {
-                return result;
+                return FulltextResult.Leaf;
             }
 
             if (!includesPriority)
             {
-                if (isParentInExcludes) return false;
+                if (isParentInExcludes) return FulltextResult.Unvisible;
             }
+
+            var noIncludes = 0;
+
+            var inValuesForCurrentLevel = inValues.Where(x => x.Level == level);
+            var exValuesForCurrentLevel = exValues.Where(x => x.Level == level);
+            var inAndExValues = inValuesForCurrentLevel.Concat(exValuesForCurrentLevel);
 
             foreach (var n in nodes)
             {
                 var nodeName = n.Name.ToUpperInvariant();
 
-                //var shouldBeVisible = ShouldBeVisible(inValues.Where(x => x.Level == level).Concat(exValues.Where(x => x.Level == level)), nodeName, parentVisibility);
-                var includedAndExcluded = GetIncludedAndExcluded(inValues.Where(x => x.Level == level).Concat(exValues.Where(x => x.Level == level)), nodeName);
-                var included = includedAndExcluded.Item1 || isParentInIncludes;
-                var excluded = includedAndExcluded.Item2 || isParentInExcludes;
+                var includedAndExcluded = GetIncludedAndExcluded(inAndExValues, nodeName);
+                var included = includedAndExcluded.Item1;
+                var excluded = includedAndExcluded.Item2;
 
-                //n.IsIncluded = included;
-                //n.IsExcluded = excluded;
+                n.IsIncluded = included;
+                n.IsExcluded = excluded;
 
-                var isSomeChildNodeVisible = DoFulltext<IFulltext>(includesPriority, n.Nodes, inValues, exValues, level + 1, included, excluded);
+                var isSomeChildNodeVisible = FulltextResult.Unvisible;
 
-                var shouldBeVisible = false;
-
-                if (included || isSomeChildNodeVisible)
+                if (isParentInIncludes)
                 {
-                    shouldBeVisible = true;
-                    result = true;
-                }
-                if (includesPriority)
-                {
-                    if (excluded && !included && !isSomeChildNodeVisible) shouldBeVisible = false;
+                    isSomeChildNodeVisible = DoFulltext(includesPriority, n.Nodes, inValues, exValues, level + 1, true, excluded);
                 }
                 else
                 {
-                    if (excluded && !isSomeChildNodeVisible) shouldBeVisible = false;
+                    isSomeChildNodeVisible = DoFulltext(includesPriority, n.Nodes, inValues, exValues, level + 1, included, excluded);
                 }
 
-                n.IsVisible = shouldBeVisible;
+                if (isSomeChildNodeVisible == FulltextResult.Visible) n.IsIncluded = true;
+                if (isSomeChildNodeVisible == FulltextResult.Leaf && isParentInIncludes)
+                {
+                    noIncludes++;
+                }
             }
+
+            foreach (var n in nodes)
+                if (inValuesForCurrentLevel.Count() == 0)
+                {
+                    n.IsVisible = true;
+                }
+                else
+                {
+                    n.IsVisible = false;
+                }
+
+            if (noIncludes == nodes.Count())
+            {
+                foreach (var n in nodes)
+                {
+                    n.IsIncluded = true;
+                }
+            }
+
+            var includedNodes = nodes.Where(n => n.IsIncluded);
+            var excludedNodes = nodes.Where(n => n.IsExcluded);
+
+            foreach (var n in includedNodes)
+            {
+                n.IsVisible = true;
+                result = FulltextResult.Visible;
+            }
+
+            foreach (var n in excludedNodes)
+            {
+                if (n.IsIncluded)
+                {
+                    if (!includesPriority) n.IsVisible = false;
+                }
+                else
+                {
+                    n.IsVisible = false;
+                }
+            }        
 
             return result;
         }
@@ -65,12 +107,7 @@ namespace EscapeDBUsage.Helpers
         {
             var isOneConditionOk = false;
             var included = false; 
-            var excluded = false; 
-
-            //if (list.Count() == 0)
-            //{
-            //    included = true; // default --> visible!!! (node with NO conditions (no includes, no excludes)
-            //}
+            var excluded = false;
 
             foreach (var v in list)
             {

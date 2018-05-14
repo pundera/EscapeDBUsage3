@@ -12,21 +12,14 @@
              
              mc:Ignorable="d" Height="32" Width="Auto">
     <StackPanel Visibility="{Binding IsVisible, Converter={StaticResource VisibilityConverter}}" Orientation="Horizontal" Height="32">
-        <Label Padding="2" Visibility="{Binding IsRoot, Converter={StaticResource VisibilityConverter}}">
-            <StackPanel Orientation="Horizontal">
-                <Image Width="24" />
-                <!-- Source="{Binding ImageSource}"  -->
-               
-            </StackPanel>
-        </Label>
-        <Image Width="24" Source="{Binding ImageSource, Converter={StaticResource StringImageConverter}}" Margin="10,0,0,0"/>
+        <Image Visibility="Collapsed" x:Name="image" Width="24" Source="{Binding ImageSource, Converter={StaticResource StringImageConverter}}" Margin="10,0,0,0"/>
         <Label Content="{Binding LabelName}" Margin="0,4" />
         <ComboBox Visibility="{Binding IsVisible, Converter={StaticResource VisibilityConverter}}" Margin="5,0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <!-- Source="{Binding ImageSource}" -->
-                        <Label Content="{Binding Name}" />
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding UINode.IsVisible, Converter={StaticResource VisibilityConverter}}">
+                        <Image Width="24" Source="{Binding Path=Source,ElementName=image}" Margin="10,0,0,0" />
+                        <Label Content="{Binding UINode.Name}" />
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>

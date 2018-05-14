@@ -165,7 +165,7 @@ namespace EscapeDBUsage.ViewModels
 
             if (nodeType != NodeType.Column)
             {
-                pathItem.Items = new ObservableCollection<PathItem>(node.GetNodes().Select(x => new PathItem()
+                pathItem.Items = new ObservableCollection<PathItem>(node.GetNodes().Select(x => new PathItem(x)
                 {
                     Guid = (x as NodeBase).Guid,
                     Name = (x as NodeBase).Name
@@ -174,7 +174,7 @@ namespace EscapeDBUsage.ViewModels
 
             if (pathItem.Parent != null)
             {
-                pathItem.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetNodes().Select(x => new PathItem()
+                pathItem.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetNodes().Select(x => new PathItem(x)
                 {
                     Guid = (x as NodeBase).Guid,
                     Name = (x as NodeBase).Name
@@ -183,7 +183,7 @@ namespace EscapeDBUsage.ViewModels
 
             if (pathItem.Parent != null && pathItem.Parent.Parent != null)
             {
-                pathItem.Parent.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetParent().GetNodes().Select(x => new PathItem()
+                pathItem.Parent.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetParent().GetNodes().Select(x => new PathItem(x)
                 {
                     Guid = (x as NodeBase).Guid,
                     Name = (x as NodeBase).Name
@@ -192,7 +192,7 @@ namespace EscapeDBUsage.ViewModels
 
             if (pathItem.Parent != null && pathItem.Parent.Parent != null && pathItem.Parent.Parent.Parent != null)
             {
-                pathItem.Parent.Parent.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetParent().GetParent().GetNodes().Select(x => new PathItem()
+                pathItem.Parent.Parent.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetParent().GetParent().GetNodes().Select(x => new PathItem(x)
                 {
                     Guid = (x as NodeBase).Guid,
                     Name = (x as NodeBase).Name
@@ -201,7 +201,7 @@ namespace EscapeDBUsage.ViewModels
 
             if (pathItem.Parent != null && pathItem.Parent.Parent != null && pathItem.Parent.Parent.Parent != null && pathItem.Parent.Parent.Parent.Parent != null)
             {
-                pathItem.Parent.Parent.Parent.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetParent().GetParent().GetParent().GetNodes().Select(x => new PathItem()
+                pathItem.Parent.Parent.Parent.Parent.Items = new ObservableCollection<PathItem>(node.GetParent().GetParent().GetParent().GetParent().GetNodes().Select(x => new PathItem(x)
                 {
                     Guid = (x as NodeBase).Guid,
                     Name = (x as NodeBase).Name

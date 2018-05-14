@@ -70,8 +70,10 @@
     <Compile Include="Converters\ImageSourceConverter.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="Converters\StringImageConverter.cs" />
+    <Compile Include="Enums\FulltextResult.cs" />
     <Compile Include="Enums\NodeType.cs" />
     <Compile Include="Events\ConnectEvent.cs" />
+    <Compile Include="Events\NodeVisibilityChanged.cs" />
     <Compile Include="Events\PathViewAddedEvent.cs" />
     <Compile Include="Events\SelectedInMainChangedEvent.cs" />
     <Compile Include="Events\SelectedInPathChangedEvent.cs" />
@@ -118,6 +120,18 @@
     </Compile>
     <Compile Include="Views\PathView.xaml.cs">
       <DependentUpon>PathView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectedNodePathViewColumn.xaml.cs">
+      <DependentUpon>SelectedNodePathViewColumn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectedNodePathViewTable.xaml.cs">
+      <DependentUpon>SelectedNodePathViewTable.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectedNodePathViewSheet.xaml.cs">
+      <DependentUpon>SelectedNodePathViewSheet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectedNodePathViewExcel.xaml.cs">
+      <DependentUpon>SelectedNodePathViewExcel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SelectedNodePathView.xaml.cs">
       <DependentUpon>SelectedNodePathView.xaml</DependentUpon>
@@ -191,6 +205,22 @@
     <Page Include="Views\PathView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SelectedNodePathViewColumn.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SelectedNodePathViewTable.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SelectedNodePathViewSheet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SelectedNodePathViewExcel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SelectedNodePathView.xaml">
       <SubType>Designer</SubType>

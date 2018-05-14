@@ -88,7 +88,7 @@
                     <ribbon:TextBox Margin="6"  Header="Column:" Width="180" Text="{Binding MainViewModel.ColumnFulltext, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     <ribbon:Button Margin="4,0"  Header="Erase" Command="{Binding MainViewModel.EraseFulltext}" LargeIcon="{StaticResource i-erase}" Icon="{StaticResource i-erase}" />
                 </ribbon:RibbonGroupBox>
-                <ribbon:RibbonGroupBox Header="Fulltext [EXCLUDE -> all fill in (OR) EXCEPT INCLUDEs!]">
+                <ribbon:RibbonGroupBox Header="Fulltext [EXCLUDE -> all fill in (OR) according to the PRIORITY!]">
                     <ribbon:TextBox Margin="6" Header="Excel:" Width="180" Text="{Binding MainViewModel.ExcelFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     <ribbon:TextBox Margin="6"  Header="Sheet:" Width="180" Text="{Binding MainViewModel.SheetFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     <ribbon:TextBox Margin="6" Header="Table:" Width="180" Text="{Binding MainViewModel.TableFulltextExclude, Delay=300, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
@@ -96,8 +96,8 @@
                     <ribbon:Button Margin="4,0"  Header="Erase" Command="{Binding MainViewModel.EraseFulltextExclude}" LargeIcon="{StaticResource i-erase}" Icon="{StaticResource i-erase}" />
                 </ribbon:RibbonGroupBox>
                 <ribbon:RibbonGroupBox Header="Fulltext PRIORITY">
-                    <ribbon:RadioButton Header="Includes has bigger PRIORITY" IsChecked="{Binding MainViewModel.HasIncludesBiggerPriority}" />
-                    <ribbon:RadioButton Header="Excludes has bigger PRIORITY" IsChecked="{Binding MainViewModel.HasExcludesBiggerPriority}" />
+                    <ribbon:RadioButton Header="Includes have bigger PRIORITY" IsChecked="{Binding MainViewModel.HasIncludesBiggerPriority}" />
+                    <ribbon:RadioButton Header="Excludes have bigger PRIORITY" IsChecked="{Binding MainViewModel.HasExcludesBiggerPriority}" />
                 </ribbon:RibbonGroupBox>                
                 <ribbon:RibbonGroupBox Header="Filters">
                     <ribbon:CheckBox Header="use column filters!"/>

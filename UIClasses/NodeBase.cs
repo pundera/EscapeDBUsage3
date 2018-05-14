@@ -202,7 +202,7 @@ namespace EscapeDBUsage.UIClasses
         {
             get { return isSelected; }
             set
-            {              
+            {
                 if (value)
                 {
                     var parent = this.GetParent();
@@ -218,7 +218,7 @@ namespace EscapeDBUsage.UIClasses
                 {
                     //SelectedNode = this;
                     EventAggregator.GetEvent<SelectionChangedEvent>().Publish(this);
-                    EventAggregator.GetEvent<SelectedInMainChangedEvent>().Publish(this);
+                    //EventAggregator.GetEvent<SelectedInMainChangedEvent>().Publish(this);
                 }
 
             }
@@ -241,7 +241,11 @@ namespace EscapeDBUsage.UIClasses
         public bool IsVisible
         {
             get { return isVisible; }
-            set { SetProperty(ref isVisible, value); }
+            set
+            {
+                SetProperty(ref isVisible, value);
+                if (!value && IsSelected) IsSelected = false;
+            }
         }
 
         public List<IFulltext> GetNodes()
