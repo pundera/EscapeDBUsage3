@@ -11,14 +11,21 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              
              mc:Ignorable="d" Height="32" Width="Auto">
+    <UserControl.Resources>
+        <Style x:Key="CustomItemStyle" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+    </UserControl.Resources>
     <StackPanel Orientation="Horizontal" Height="32">
         <!--<Label Content="{Binding LabelName}" Margin="0,4" />-->
-        <ComboBox Margin="5,0" ItemsSource="{Binding NodesExcel}" SelectedItem="{Binding SelectedExcel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+        <ComboBox ItemContainerStyle="{StaticResource CustomItemStyle}" IsReadOnly="True" Margin="5,0" ItemsSource="{Binding NodesExcel}" SelectedItem="{Binding SelectedExcel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsVisible, Converter={StaticResource VisibilityConverter}}">
+                    <StackPanel Margin="0" Orientation="Horizontal" Visibility="{Binding IsVisible, Converter={StaticResource VisibilityConverter}}" >
                         <Image Width="24" Margin="10,0,0,0" Source="/EscapeDBUsage;component/Images/excel.png" />
-                        <Label Content="{Binding Name}" Margin="0,0,10,0" />
+                        <TextBlock Padding="2,4" Text="{Binding Name}" Margin="0,0,10,0" />
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>

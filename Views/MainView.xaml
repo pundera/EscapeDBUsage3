@@ -839,7 +839,7 @@
                                             </StackPanel>
                                         </Label.Content>
                                     </Label>
-                                    <TextBox Width="340" FontWeight="Bold" Padding="8,4" Height="26" Margin="5,8,5,6" Text="{Binding SelectedTab.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox IsReadOnly="True" Width="340" FontWeight="Bold" Padding="8,4" Height="26" Margin="5,8,5,6" Text="{Binding SelectedTab.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <Button Margin="10,2" Width="40" Command="{Binding SelectedTab.AddTables}" Background="Transparent">
                                         <i:Interaction.Triggers>
                                         <prism:InteractionRequestTrigger SourceObject="{Binding SelectedTab.Request}">
@@ -998,7 +998,7 @@
                                         </StackPanel>
                                     </Label.Content>
                                 </Label>
-                                <TextBox Width="340" FontWeight="Bold" Padding="8,4" Height="26" Margin="5,8,5,6" Text="{Binding SelectedDbColumn.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Width="340" IsReadOnly="True" FontWeight="Bold" Padding="8,4" Height="26" Margin="5,8,5,6" Text="{Binding SelectedDbColumn.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 
                                 <Button Width="20" Command="{Binding SelectedDbColumn.Up}" Padding="0" Margin="62,10,0,10" Background="Transparent" >
                                     <Button.ToolTip>
@@ -1036,11 +1036,20 @@
                             </StackPanel>
                             <Grid Grid.Row="1" Height="Auto">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Visibility="{Binding SelectedDbColumn.AreDescsShown, Converter={StaticResource VisibilityConverter}}" Style="{StaticResource ResourceKey=RoundedLabelStyle}" Content="Description:" Margin="10,10,0,10" />
-                                <TextBox Grid.Column="1" Visibility="{Binding SelectedDbColumn.AreDescsShown, Converter={StaticResource VisibilityConverter}}" TextWrapping="Wrap" Padding="8,4" Margin="5,5,5,6" Text="{Binding SelectedDbColumn.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Margin="2" TextAlignment="Left" Text="{Binding Path=ColumnInfo.Name}" TextWrapping="Wrap"/>
+                                    <Label Margin="2" Content="{Binding ColumnInfo.DataType}" />
+                                    <Label Margin="2" Content="{Binding ColumnInfo.Length}" />
+                                    <CheckBox IsEnabled="False" Width="90" Margin="2,6" IsChecked="{Binding ColumnInfo.IsIdentity}" Content="Primary key" />
+                                    <CheckBox IsEnabled="False" Width="80" Margin="2,6" IsChecked="{Binding ColumnInfo.IsNullable}" Content="Nullable" />
+                                    <CheckBox IsEnabled="False" Width="80" Margin="2,6" IsChecked="{Binding ColumnInfo.IsComputed}" Content="Computed" />
+                                    <Label Margin="2" Content="Default:" />
+                                    <Label Margin="2" Content="{Binding ColumnInfo.DefaultValue}" />
+                                </StackPanel>
                             </Grid>
 
 

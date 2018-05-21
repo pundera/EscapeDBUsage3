@@ -13,12 +13,12 @@
              mc:Ignorable="d" Height="32" Width="Auto">
     <StackPanel Orientation="Horizontal" Height="32">
         <!--<Label Content="{Binding LabelName}" Margin="0,4" />-->
-        <ComboBox Margin="5,0" ItemsSource="{Binding SelectedExcel.Nodes}" SelectedItem="{Binding SelectedTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+        <ComboBox IsReadOnly="True" Margin="5,0" ItemsSource="{Binding SelectedExcel.Nodes}" SelectedItem="{Binding SelectedTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding IsVisible, Converter={StaticResource VisibilityConverter}}">
                         <Image Width="24" Margin="10,0,0,0" Source="/EscapeDBUsage;component/Images/tab.png" />
-                        <Label Content="{Binding Name}" Margin="0,0,10,0"/>
+                        <TextBlock Padding="2,4" Text="{Binding Name}" Margin="0,0,10,0"/>
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>

@@ -1,4 +1,5 @@
 ﻿using EscapeDBUsage.Interfaces;
+using EscapeDBUsage.UIClasses.DatabaseSchema;
 using EscapeDBUsage.ViewModels;
 using Prism.Events;
 using System;
@@ -29,10 +30,12 @@ namespace EscapeDBUsage.UIClasses
 
         public ObservableCollection<IFulltext> Nodes { get { return null; } set { throw new NotImplementedException(); } }
 
-        public bool IsChecked { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsChecked { get; set; }
 
         public bool IsIncluded { get; set; }
         public bool IsExcluded { get; set; }
+
+        public NodeDbSchemaColumn ColumnInfo { get; set; }
 
     }
 }
